@@ -7,7 +7,7 @@
 /public/bundles/
 /var/
 /vendor/
-.vscode/
+/.vscode/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
