@@ -42,6 +42,7 @@
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
         "symfonycasts/reset-password-bundle": "^1.14",
+        "twbs/bootstrap": "5.2.1",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },

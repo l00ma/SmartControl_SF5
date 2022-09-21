@@ -30,6 +30,9 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    private ?MouvementPir $mouvementPir = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +125,23 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getMouvementPir(): ?MouvementPir
+    {
+        return $this->mouvementPir;
+    }
+
+    public function setMouvementPir(MouvementPir $mouvementPir): self
+    {
+        // set the owning side of the relation if necessary
+        if ($mouvementPir->getOwner() !== $this) {
+            $mouvementPir->setOwner($this);
+        }
+
+        $this->mouvementPir = $mouvementPir;
 
         return $this;
     }
