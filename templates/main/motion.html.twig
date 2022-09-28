@@ -6,111 +6,16 @@
 
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
-	<style>
-		#chartdiv {
-			width: 100%;
-			height: 500px;
-		}
-	</style>
-	<div class="container">
-		<div id="chartdiv"></div>
-	</div>
+
 
 	{% block javascript %}
-		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+		<script type="text/javascript" src="{{ asset('js/highstock.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/mouv.js') }}"></script>
+
 	{% endblock %}
-	<script>
-		am5.ready(function () {
 
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv");
-
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-root.setThemes([am5themes_Animated.new(root)]);
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-var chart = root.container.children.push(am5xy.XYChart.new(root, {
-panX: true,
-panY: true,
-wheelX: "panX",
-wheelY: "zoomX",
-pinchZoomX: true
-}));
-
-// Add cursor
-// https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {behavior: "none"}));
-cursor.lineY.set("visible", false);
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
-baseInterval: {
-timeUnit: "minute",
-count: 5
-},
-renderer: am5xy.AxisRendererX.new(root, {}),
-tooltip: am5.Tooltip.new(root, {})
-}));
-
-var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-renderer: am5xy.AxisRendererY.new(root, {})
-}));
-
-// Add series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-var series = chart.series.push(am5xy.LineSeries.new(root, {
-name: "Series",
-xAxis: xAxis,
-yAxis: yAxis,
-valueYField: "value",
-valueXField: "date",
-tooltip: am5.Tooltip.new(root, {labelText: "{valueY}"})
-}));
-
-
-// Add scrollbar
-// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-var scrollbar = chart.set("scrollbarX", am5xy.XYChartScrollbar.new(root, {
-orientation: "horizontal",
-height: 60
-}));
-
-var sbDateAxis = scrollbar.chart.xAxes.push(am5xy.DateAxis.new(root, {
-baseInterval: {
-timeUnit: "minute",
-count: 1
-},
-renderer: am5xy.AxisRendererX.new(root, {})
-}));
-
-var sbValueAxis = scrollbar.chart.yAxes.push(am5xy.ValueAxis.new(root, {
-renderer: am5xy.AxisRendererY.new(root, {})
-}));
-
-var sbSeries = scrollbar.chart.series.push(am5xy.LineSeries.new(root, {
-valueYField: "value",
-valueXField: "date",
-xAxis: sbDateAxis,
-yAxis: sbValueAxis
-}));
-
-
-series.data.setAll({{ motion_stat | raw }});
-sbSeries.data.setAll({{ motion_stat | raw }});
-
-// Make stuff animate on load
-// https://www.amcharts.com/docs/v5/concepts/animations/
-series.appear(1000);
-chart.appear(1000, 100);
-
-}); // end am5.ready()
-	</script>
-
+	<div class="d-flex flex-column justify-content-center align-items-center">
+		<div id="container" style="width: 80%; height: 400px;"></div>
+	</div>
 
 {% endblock %}
