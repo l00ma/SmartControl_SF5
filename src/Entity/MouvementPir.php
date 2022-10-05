@@ -13,7 +13,7 @@ class MouvementPir
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'mouvementPir', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Members::class, inversedBy: 'mouvementPir', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Members $owner = null;
 

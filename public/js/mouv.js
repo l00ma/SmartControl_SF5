@@ -1,55 +1,45 @@
 // fonctions
 
-var refresh_graph = 200, allow_cam, allow_alert, value_alert;
+var refresh_graph = 5, allow_cam = 0, allow_alert = 0;
 
 function loadValues() {
+
 	$.ajax({
-		type: 'get',
-		async: false,
-		url: 'includes/load_mouv.php',
+		type: 'post',
+		url: 'motion/load',
 		dataType: 'json',
 		success: function (result) {
-			if (result === 'redirectUser') {
-				window.location.href = '../index.php'
-			} else {
-				traiteEtAffiche(result);
-			}
+			traiteEtAffiche(result);
+		},
+		error: function () {
+			alert('erreur lors du chargement des paramètres.');
 		}
 	});
 }
 
 function traiteEtAffiche(data) {
-	//refresh_graph = data[0];
-	allow_cam = data[1];
-	allow_alert = data[2];
-	value_alert = data[3];
+	refresh_graph = data['refresh_graph'];
+	allow_cam = data['allow_cam'];
+	allow_alert = data['allow_alert'];
+	//$("#lieu").html('<span class=\'donnees_meteo\'>' + refresh_graph + ' ' + allow_cam + ' ' + allow_alert + '</span>');
 
-	//bouton retour home
-	$('#menu').button({ icons: { primary: " ui-icon-home grey", text: false } });
-	//bouton logout
-	$('#logout').button({ icons: { primary: " ui-icon-closethick grey", text: false } });
 	// valeur pour le rafraichissement du graph
 	$("#refresh").val(refresh_graph);
 	// valeur pour autoriser webcam
-	if (allow_cam === '1') {
+	if (allow_cam == '1') {
 		$('#myenr_switch').prop('checked', true);
-
 	}
 	else {
 		$('#myenr_switch').prop('checked', false);
-		$('.recam_select').hide();
 	}
 
 	//valeur pour autoriser alerte
-	if (allow_alert === '1') {
+	if (allow_alert == '1') {
 		$('#myalrt_switch').prop('checked', true);
 	}
 	else {
 		$('#myalrt_switch').prop('checked', false);
-		$('.alrt_select').hide();
 	}
-	//valeur pour declenchement alerte
-	$('#alert').val(value_alert);
 }
 //action au click sur valeur rafraichissement graph
 function changeRefreshValue() {
@@ -60,11 +50,9 @@ function changeRefreshValue() {
 function allowCam() {
 	if ($('#myenr_switch').is(':checked')) {
 		allow_cam = 1;
-		$('.recam_select').fadeIn('slow');
 	}
 	else {
 		allow_cam = 0;
-		$('.recam_select').fadeOut('slow');
 	}
 	saveValues();
 }
@@ -73,25 +61,20 @@ function allowCam() {
 function allowAlert() {
 	if ($('#myalrt_switch').is(':checked')) {
 		allow_alert = 1;
-		$('.alrt_select').fadeIn('slow');
 	}
 	else {
 		allow_alert = 0;
-		$('.alrt_select').fadeOut('slow');
 	}
 	saveValues();
 }
-//action au click sur valeur declenchement alerte
-function changeAlertValue() {
-	value_alert = $('#alert').val();
-	saveValues();
-}
+
 //fonction sauvegarde dans bdd
 function saveValues() {
 	$.ajax({
-		type: 'get',
-		url: 'includes/save_mouv.php',
-		data: { save: refresh_graph + ',' + allow_cam + ',' + allow_alert + ',' + value_alert },
+		type: 'post',
+		url: 'motion/save',
+		dataType: 'json',
+		data: { 'refresh': refresh_graph, 'cam': allow_cam, 'alert': allow_alert },
 		success: function (result) {
 			if (result === 'redirectUser') {
 				window.location.href = '../index.php'
@@ -103,8 +86,7 @@ function saveValues() {
 function graph() {
 	$.ajax({
 		type: 'get',
-		//async: false,
-		url: '/datas/pir_sensor.data.orig',
+		url: '/datas/pir_sensor.data',
 		dataType: 'json',
 		success: function (data) {
 			Highcharts.setOptions({
@@ -131,7 +113,7 @@ function graph() {
 				},
 				colors: ['#bb1142'],
 			});
-			$('#container').highcharts('StockChart', {
+			$('#container_chart').highcharts('StockChart', {
 				title: { text: 'Historique des détections sur le dernier mois' },
 				exporting: 'false',
 				xAxis: {
@@ -246,18 +228,9 @@ function graph() {
 
 // actions
 $(document).ready(function () {
-	//loadValues();
-	console.log("executer");
+	loadValues();
 	graph();
 	setInterval(function () { graph(); }, refresh_graph * 60000);
-
-	//boutons en haut à droite
-	$('#menu').click(function () {
-		location.href = 'welcome.php';
-	});
-	$('#logout').click(function () {
-		location.href = 'includes/logout.php';
-	});
 
 	//action au click sur valeur rafraichissement graph
 	$('#refresh').on('change', function () {
@@ -284,5 +257,4 @@ $(document).ready(function () {
 	$('.alrt_select').on('change', function () {
 		changeAlertValue();
 	});
-
 });
