@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Temperature sensors
+{% endblock %}
+
+
+{% block body %}
+	{% include 'main/_bar.html.twig' %}
+
+
+	{% block javascript %}
+		<script type="text/javascript" src="{{ asset('js/highstock.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/temp.js') }}"></script>
+
+	{% endblock %}
+	<div class="ms-2">
+		<h3>Suivi des températures</h3>
+		<p>Temperatures enregistrées:</p>
+	</div>
+	<div class="d-flex flex-column justify-content-center align-items-center">
+		<div id="container_chart" style="width: 80%; height: 475px;"></div>
+	</div>
+{% endblock %}
