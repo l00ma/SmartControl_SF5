@@ -33,6 +33,12 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: MouvementPir::class, mappedBy: 'owner', cascade: ['persist', 'remove'])]
     private ?MouvementPir $mouvementPir = null;
 
+    #[ORM\OneToOne(targetEntity: LedsStrip::class, mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    private ?LedsStrip $ledsStrip = null;
+
+    #[ORM\OneToOne(targetEntity: Meteo::class, mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    private ?Meteo $meteo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,6 +148,40 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->mouvementPir = $mouvementPir;
+
+        return $this;
+    }
+
+    public function getLedsStrip(): ?LedsStrip
+    {
+        return $this->ledsStrip;
+    }
+
+    public function setLedsStrip(LedsStrip $ledsStrip): self
+    {
+        // set the owning side of the relation if necessary
+        if ($ledsStrip->getOwner() !== $this) {
+            $ledsStrip->setOwner($this);
+        }
+
+        $this->ledsStrip = $ledsStrip;
+
+        return $this;
+    }
+
+    public function getMeteo(): ?Meteo
+    {
+        return $this->meteo;
+    }
+
+    public function setMeteo(Meteo $meteo): self
+    {
+        // set the owning side of the relation if necessary
+        if ($meteo->getOwner() !== $this) {
+            $meteo->setOwner($this);
+        }
+
+        $this->meteo = $meteo;
 
         return $this;
     }

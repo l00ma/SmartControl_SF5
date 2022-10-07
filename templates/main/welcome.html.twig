@@ -5,6 +5,13 @@
 
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
+	{% block stylesheet %}
+		<link rel="stylesheet" href="{{ asset('css/weather-icons.min.css') }}"/>
+	{% endblock %}
+	{% block javascript %}
+		<script type="text/javascript" src="{{ asset('js/welcome.js') }}"></script>
+
+	{% endblock %}
 	<div class="container mt-4 text-center">
 		<h2>Welcome
 			{{app.user.username}}</h2>
@@ -17,6 +24,22 @@
 				<a href="#" class="list-group-item list-group-item-action text-center">Ledstrip control</a>
 			</div>
 		</div>
+		<div id="historique">
+			<h4>détections récentes:</h4>
+			<p id="histo_liste"></p>
+		</div>
+
+		<div class="container mt-4 text-center">
+			<p id="heure"></p>
+			<p id="lieu"></p>
+			<p id="previsions"></p>
+			<div id="temp"></div>
+			<p id="etat_detection"></p>
+			<p id="temp">
+				<span id="etat_alerte"></span>
+			</p>
+			<p id="etat_leds"></p>
+		</div>
+
 	</div>
-	<script type="text/javascript" src="js/welcome.js"></script>
 {% endblock %}
