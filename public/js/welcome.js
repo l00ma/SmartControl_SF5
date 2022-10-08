@@ -19,7 +19,6 @@ function loadValues() {
 }
 
 function traiteEtAffiche(data) {
-	//alert(data.email);
 	histo_film[4] = data['0'];
 	histo_film[3] = data['1'];
 	histo_film[2] = data['2'];
@@ -35,18 +34,12 @@ function traiteEtAffiche(data) {
 
 	var nombre_film = 0; var nombre_mail = 0;
 	for (i = 0; i < histo_film.length; i++) {
-		if (/film/.test(histo_film[i]) === true) {
-			var res = histo_film[i].split(" ");
-			var res2 = res[1].split("-");
-			histo_film[i] = "à " + res[2] + " le " + res2[2] + "/" + res2[1] + "/" + res2[0];
+		if (histo_film[i] != '0') {
 			nombre_film++;
 		}
 		else { histo_film[i] = ""; }
 
-		if (/mail/.test(histo_mail[i]) === true) {
-			var res = histo_mail[i].split(" ");
-			var res2 = res[1].split("-");
-			histo_mail[i] = "à " + res[2] + " le " + res2[2] + "/" + res2[1] + "/" + res2[0];
+		if (histo_mail[i] != '0') {
 			nombre_mail++;
 		}
 		else { histo_mail[i] = ""; }
@@ -91,7 +84,7 @@ function traiteEtAffiche(data) {
 
 	$("#histo_liste").html('<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
 
-	setTimeout(loadValues, 10000)
+	//setTimeout(loadValues, 10000)
 }
 
 
