@@ -125,6 +125,19 @@ class MainController extends AbstractController
         return $this->render('main/motion.html.twig');
     }
 
+    #[Route('/leds', name: 'leds')]
+    public function leds(): Response
+    {
+        // if (file_exists($this->getParameter('data_directory') . '/pir_sensor.data')) {
+        //     $motion_stat = file_get_contents($this->getParameter('data_directory') . '/pir_sensor.data');
+
+        //     return $this->render('main/motion.html.twig', [
+        //         'motion_stat' => $motion_stat
+        //     ]);
+        // }
+        return $this->render('main/leds.html.twig');
+    }
+
     #[Route('/temp', name: 'temp')]
     public function temp(): Response
     {

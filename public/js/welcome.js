@@ -84,7 +84,7 @@ function traiteEtAffiche(data) {
 
 	$("#histo_liste").html('<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
 
-	//setTimeout(loadValues, 10000)
+	setTimeout(loadValues, 10000)
 }
 
 

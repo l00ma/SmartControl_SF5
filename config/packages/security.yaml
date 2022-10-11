@@ -38,6 +38,7 @@ security:
         - { path: ^/welcome, roles: ROLE_USER }
         - { path: ^/motion, roles: ROLE_USER }
         - { path: ^/temp, roles: ROLE_USER }
+        - { path: ^/leds, roles: ROLE_USER }
 
 when@test:
     security:
