@@ -109,20 +109,23 @@ class MainController extends AbstractController
         return $this->json(['refresh_graph' => $refresh, 'allow_cam' => $cam, 'allow_alert' => $alert]);
     }
 
-    #[Route('/motion/save', name: 'motion_save', methods: 'GET|POST')]
-    public function m_save(Request $request)
+    #[Route('/motion/save', name: 'motion_save', methods: 'POST')]
+    public function m_save(Request $request): JsonResponse
     {
-        $member = $this->getUser();
+        if ($request->isXmlHttpRequest()) {
+            $member = $this->getUser();
+            $datas = $member->getMouvementPir();
+            $datas->setGraphRafraich((int) $request->get('refresh'));
+            $datas->setEnreg($request->get('cam'));
+            $datas->setAlert($request->get('alert'));
 
-        $datas = $member->getMouvementPir();
-        $datas->setGraphRafraich((int) $request->get('refresh'));
-        $datas->setEnreg($request->get('cam'));
-        $datas->setAlert($request->get('alert'));
+            $member->setMouvementPir($datas);
+            $this->em->flush();
 
-        $member->setMouvementPir($datas);
-        $this->em->flush();
-
-        return $this->render('main/motion.html.twig');
+            return $this->json(['status' => 'success', 'message' => 'success message']);
+        } else {
+            return $this->json(['status' => 'error', 'message' => 'not valid json']);
+        }
     }
 
     #[Route('/leds', name: 'leds')]
@@ -136,6 +139,39 @@ class MainController extends AbstractController
         //     ]);
         // }
         return $this->render('main/leds.html.twig');
+    }
+
+    #[Route('/leds/load', name: 'leds_load')]
+    public function l_load(): JsonResponse
+    {
+        $rgb = $this->getUser()->getLedsStrip()->getRgb();
+        $etat = $this->getUser()->getLedsStrip()->getEtat();
+        $debut_time = $this->getUser()->getLedsStrip()->getHOn();
+        $fin_time = $this->getUser()->getLedsStrip()->getHOff();
+        $email = $this->getUser()->getLedsStrip()->getEmail();
+        $effet = $this->getUser()->getLedsStrip()->getEffet();
+
+        return $this->json(['0' => $rgb, '1' => $etat, '2' => $debut_time, '3' => $fin_time, '4' => $email, '5' => $effet]);
+    }
+
+    #[Route('/leds/save', name: 'leds_save', methods: 'POST')]
+    public function l_save(Request $request): JsonResponse
+    {
+        if ($request->isXmlHttpRequest()) {
+            $member = $this->getUser();
+            $datas = $member->getLedsStrip();
+            $datas->setRgb($request->get('rgb'));
+            $datas->setEtat($request->get('etat'));
+            $datas->setEmail($request->get('email'));
+            $datas->setEffet($request->get('effet'));
+
+            $member->setLedsStrip($datas);
+            $this->em->flush();
+
+            return $this->json(['status' => 'success', 'message' => 'success message']);
+        } else {
+            return $this->json(['status' => 'error', 'message' => 'not valid json']);
+        }
     }
 
     #[Route('/temp', name: 'temp')]

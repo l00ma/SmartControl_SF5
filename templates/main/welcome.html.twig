@@ -10,36 +10,38 @@
 	{% endblock %}
 	{% block javascript %}
 		<script type="text/javascript" src="{{ asset('js/welcome.js') }}"></script>
-
 	{% endblock %}
 	<div class="container mt-4 text-center">
 		<h2>Welcome
 			{{app.user.username}}</h2>
-		<div class="col-md-2 mt-4">
-			<div class="list-group">
-				<a href="{{ path('motion')}}" class="list-group-item list-group-item-action text-center">Motion detection</a>
-				<a href="#" class="list-group-item list-group-item-action text-center">Recorded videos</a>
-				<a href="#" class="list-group-item list-group-item-action text-center">Live cam</a>
-				<a href="{{ path('temp')}}" class="list-group-item list-group-item-action text-center">Temperature sensors</a>
-				<a href="{{ path('leds')}}" class="list-group-item list-group-item-action text-center">Ledstrip control</a>
+		<div class="row">
+			<div class="col-2 mt-4">
+				<div class="list-group">
+					<a href="{{ path('motion')}}" class="list-group-item list-group-item-action text-center">Motion detection</a>
+					<a href="#" class="list-group-item list-group-item-action text-center">Recorded videos</a>
+					<a href="#" class="list-group-item list-group-item-action text-center">Live cam</a>
+					<a href="{{ path('temp')}}" class="list-group-item list-group-item-action text-center">Temperature sensors</a>
+					<a href="{{ path('leds')}}" class="list-group-item list-group-item-action text-center">Ledstrip control</a>
+				</div>
+			</div>
+			<div class="col-2 mt-4">
+				<div id="historique">
+					<h6>détections récentes:</h6>
+					<p id="histo_liste"></p>
+				</div>
+			</div>
+			<div class="col-5"></div>
+			<div class="col-3 mt-4">
+				<p id="heure"></p>
+				<p id="lieu"></p>
+				<p id="previsions"></p>
+				<div id="temp"></div>
+				<p id="etat_detection"></p>
+				<p id="temp">
+					<span id="etat_alerte"></span>
+				</p>
+				<p id="etat_leds"></p>
 			</div>
 		</div>
-		<div id="historique" class="container border border-secondary border border-1 rounded-3 bg-secondary p-4 text-dark bg-opacity-10" style="width: 325px; height: 300px;">
-			<h4>détections récentes:</h4>
-			<p id="histo_liste"></p>
-		</div>
-
-		<div class="container border border-secondary border border-1 rounded-3 bg-secondary p-4 text-dark bg-opacity-10 position-absolute top-50 end-0 translate-middle-y" style="width: 325px; height: 475px;">
-			<p id="heure"></p>
-			<p id="lieu"></p>
-			<p id="previsions"></p>
-			<div id="temp"></div>
-			<p id="etat_detection"></p>
-			<p id="temp">
-				<span id="etat_alerte"></span>
-			</p>
-			<p id="etat_leds"></p>
-		</div>
-
 	</div>
 {% endblock %}

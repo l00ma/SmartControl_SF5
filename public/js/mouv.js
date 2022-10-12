@@ -75,9 +75,9 @@ function saveValues() {
 		url: 'motion/save',
 		dataType: 'json',
 		data: { 'refresh': refresh_graph, 'cam': allow_cam, 'alert': allow_alert },
-		success: function (result) {
-			if (result === 'redirectUser') {
-				window.location.href = '../index.php'
+		success: function (response) {
+			if (response.status === 'error') {
+				alert(response.message);
 			}
 		}
 	});

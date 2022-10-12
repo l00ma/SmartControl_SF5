@@ -5,163 +5,185 @@
 
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
+	{% block stylesheet %}
+		<link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}"/>
+	{% endblock %}
 	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/load_rgb.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/leds.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
+
 
 	{% endblock %}
 	<style>
 		.form-check-input {
 			transform: scale(1.4);
 		}
+		#colorBox {
+			width: 104px;
+			height: 104px;
+
+			background: #ffffff;
+			border: 1px solid #999999;
+			border-radius: 6px;
+		}
+		#rSlider,
+		#gSlider,
+		#bSlider {
+			float: left;
+			clear: left;
+			width: 300px;
+			margin: 15px;
+		}
 	</style>
-	<section>
-		<br>
+	<div class="ms-2">
 		<h3>Controle éclairage</h3>
-		<!-- checkbox on/off -->
-		<div class="onoffswitch">
+	</div>
+	<div class="container">
+		<div
+			class="col-6">
+			<!-- checkbox on/off -->
 			<div class="form-check form-switch">
-				<input class="form-check-input" type="checkbox" name="onoffswitch" id="myonoffswitch">
+				<input class="form-check-input" type="checkbox" id="myonoffswitch">
 				<label class="form-check-label" for="myonoffswitch"></label>
 			</div>
-		</div>
-		<br>
+			<br>
 
-		<!-- Onglets -->
-
-		<ul class="nav nav-tabs" id="myTabs">
-			<li class="nav-item">
-				<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-bs-toggle="tab" href="#b">Leds effet</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-bs-toggle="tab" href="#c">Leds timer</a>
-			</li>
-		</ul>
-		<div
-			class="tab-content">
-			<!-- 1er onglet -->
+			<!-- Onglets -->
+			<ul class="nav nav-tabs" id="myTabs">
+				<li class="nav-item">
+					<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-bs-toggle="tab" href="#b">Leds effet</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-bs-toggle="tab" href="#c">Leds timer</a>
+				</li>
+			</ul>
 			<div
-				id="a" class="tab-pane fade show active">
-				<!-- sliders -->
-				<div id="container_led1">
-					<label id="outputLabel">Changer la couleur:</label>
-					<br>
-					<table id="table_led1">
-						<tr>
+				class="tab-content">
+				<!-- 1er onglet -->
+				<div
+					id="a" class="tab-pane fade show active">
+					<!-- sliders -->
+					<div id="container_led1">
+						<label id="outputLabel">Changer la couleur:</label>
+						<br>
+						<table id="table_led1">
+							<tr>
+								<td>
+									<label>R:</label>
+								</td>
+								<td>
+									<div id="rSlider"></div>
+								</td>
+							</tr>
+							<tr></tr>
 							<td>
-								<label>R:</label>
+								<label>G:</label>
 							</td>
 							<td>
-								<input type="range" class="form-range" min="0" max="255" id="rSlider">
+								<div id="gSlider"></div>
 							</td>
-						</tr>
-						<tr></tr>
-						<td>
-							<label>G:</label>
-						</td>
-						<td>
-							<input type="range" class="form-range" min="0" max="255" id="gSlider">
-						</td>
-						<tr></tr>
-						<td>
-							<label>B:</label>
-						</td>
-						<td>
-							<input type="range" class="form-range" min="0" max="255" id="bSlider">
-						</td>
-					</table>
-					<div id="colorBox"></div>
+							<tr></tr>
+							<td>
+								<label>B:</label>
+							</td>
+							<td>
+								<div id="bSlider"></div>
+							</td>
+						</table>
+						<div id="colorBox"></div>
+					</div>
 				</div>
-			</div>
 
-			<!-- fin du 1er onglet -->
-			<!-- 2eme onglet -->
-			<div id="b" class="tab-pane fade">
-				<div id="container_led2">
-					<label id="outputLabel">Sélectionner un effet:</label>
+				<!-- fin du 1er onglet -->
+				<!-- 2eme onglet -->
+				<div id="b" class="tab-pane fade">
+					<div id="container_led2">
+						<label id="outputLabel">Sélectionner un effet:</label>
+						<br>
+						<table id="table_led2">
+							<div class="form-check">
+								<tr>
+									<td><input type="radio" name="effets" id="effet1" value="1" class="form-check-input"/><label for="effet1" class="form-check-label">Effet 1</label>
+									</td>
+									<td><input type="radio" name="effets" id="effet2" value="2" class="form-check-input"/><label for="effet2" class="form-check-label">Effet 2</label>
+									</td>
+									<td><input type="radio" name="effets" id="effet3" class="form-check-input"/><label for="effet3" class="form-check-label">Effet 3</label>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="effets" id="effet4" class="form-check-input"/><label for="effet4" class="form-check-label">Effet 4</label>
+									</td>
+									<td><input type="radio" name="effets" id="effet5" class="form-check-input"/><label for="effet5" class="form-check-label">Effet 5</label>
+									</td>
+									<td><input type="radio" name="effets" id="effet6" class="form-check-input"/><label for="effet6" class="form-check-label">Effet 6</label>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="radio" name="effets" id="effetstop" class="form-check-input"/><label for="effetstop" class="form-check-label">Stop</label>
+									</td>
+									<td></td>
+								</tr>
+							</div>
+						</table>
+					</div>
+				</div>
+				<!-- fin du 2eme onglet -->
+				<!-- 3eme onglet -->
+				<div id="c" class="tab-pane fade">
+					<div id="container_led3">
+						<label id="outputLabel">Placer un timer:</label>
+						<br>
+						<table id="table_led3">
+							<tr>
+								<td>
+									<label for="timepicker_deb">Début:</label>
+								</td>
+								<td><input type="text" id="timepicker_deb" value="" class="form-control"/></td>
+							</tr>
+							<tr>
+								<td>
+									<label for="timepicker_fin">Fin:</label>
+								</td>
+								<td><input type="text" id="timepicker_fin" value="" class="form-control"/></td>
+							</tr>
+						</table>
+						<button class="btn btn-primary" id="but_efface">Effacer</button>
+						<button class="btn btn-primary" id="but_enregistre">Enregistrer</button>
+					</div>
 					<br>
-					<table id="table_led2">
-						<div class="form-check">
+					<div id="list-timer">
+						<table id="table_led_list_timer">
 							<tr>
-								<td><input type="radio" name="effets" id="effet1" class="form-check-input"/><label for="effet1" class="form-check-label">Effet 1</label>
-								</td>
-								<td><input type="radio" name="effets" id="effet2" class="form-check-input"/><label for="effet2" class="form-check-label">Effet 2</label>
-								</td>
-								<td><input type="radio" name="effets" id="effet3" class="form-check-input"/><label for="effet3" class="form-check-label">Effet 3</label>
-								</td>
+								<th>Début</th>
+								<th>Fin</th>
+								<th>E-mail</th>
+								<th>Suppr</th>
 							</tr>
 							<tr>
-								<td><input type="radio" name="effets" id="effet4" class="form-check-input"/><label for="effet4" class="form-check-label">Effet 4</label>
+								<td>
+									<div id="heure_deb"></div>
 								</td>
-								<td><input type="radio" name="effets" id="effet5" class="form-check-input"/><label for="effet5" class="form-check-label">Effet 5</label>
+								<td>
+									<div id="heure_fin"></div>
 								</td>
-								<td><input type="radio" name="effets" id="effet6" class="form-check-input"/><label for="effet6" class="form-check-label">Effet 6</label>
+								<td>
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" name="email" id="email"/>
+									</div>
+								</td>
+								<td>
+									<button class="btn btn-primary" id="icon_eraser"></button>
 								</td>
 							</tr>
-							<tr>
-								<td></td>
-								<td><input type="radio" name="effets" id="effetstop" class="form-check-input"/><label for="effetstop" class="form-check-label">Stop</label>
-								</td>
-								<td></td>
-							</tr>
-						</div>
-					</table>
+						</table>
+					</div>
 				</div>
+				<!-- fin du 3eme onglet -->
 			</div>
-			<!-- fin du 2eme onglet -->
-			<!-- 3eme onglet -->
-			<div id="c" class="tab-pane fade">
-				<div id="container_led3">
-					<label id="outputLabel">Placer un timer:</label>
-					<br>
-					<table id="table_led3">
-						<tr>
-							<td>
-								<label for="timepicker_deb">Début:</label>
-							</td>
-							<td><input type="text" id="timepicker_deb" value="" class="form-control"/></td>
-						</tr>
-						<tr>
-							<td>
-								<label for="timepicker_fin">Fin:</label>
-							</td>
-							<td><input type="text" id="timepicker_fin" value="" class="form-control"/></td>
-						</tr>
-					</table>
-					<button id="but_efface">Effacer</button>
-					<button id="but_enregistre">Enregistrer</button>
-				</div>
-				<br>
-				<div id="list-timer">
-					<table id="table_led_list_timer">
-						<tr>
-							<th>Début</th>
-							<th>Fin</th>
-							<th>E-mail</th>
-							<th>Suppr</th>
-						</tr>
-						<tr>
-							<td>
-								<div id="heure_deb"></div>
-							</td>
-							<td>
-								<div id="heure_fin"></div>
-							</td>
-							<td>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" name="email" id="email"/>
-								</div>
-							</td>
-							<td>
-								<button id="icon_eraser"></button>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<!-- fin du 3eme onglet -->
 		</div>
-	</section>
+	</div>
 {% endblock %}
