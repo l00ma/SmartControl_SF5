@@ -17,8 +17,23 @@ function loadValues() {
 	});
 }
 
+function saveValues() {
+	$.ajax({
+		type: 'post',
+		dataType: 'json',
+		url: 'leds/save',
+		data: { 'rgb': rgbString, 'etat': etat, 'email': email, 'effet': effet },
+		success: function (response) {
+			if (response.status === 'error') {
+				alert(response.message);
+			}
+		}
+	});
+}
+
 function traiteEtAffiche(data) {
-	var rgb = data[0].split(',');
+	rgbString = data[0];
+	var rgb = rgbString.split(',');
 	red = parseInt(rgb[0]);
 	green = parseInt(rgb[1]);
 	blue = parseInt(rgb[2]);
@@ -29,7 +44,7 @@ function traiteEtAffiche(data) {
 	effet = data[5];
 
 	//$('#myTabs').tabs();
-	if (effet === '0') {
+	if (effet == '0') {
 		$('#effetstop').prop('checked', true);
 	}
 	else {
@@ -39,7 +54,7 @@ function traiteEtAffiche(data) {
 		$('#heure_deb').html(debut_time);
 		$('#heure_fin').html(fin_time);
 		//$('#icon_eraser').button({ icons: { primary: 'ui-icon-trash' }, text: false });
-		if (email === '0') {
+		if (email == '0') {
 			$('#email').prop('checked', false);
 		}
 		else {
@@ -161,7 +176,7 @@ function storeTimer() {
 		$('#heure_deb').html(debut_time);
 		$('#heure_fin').html(fin_time);
 		$('#icon_eraser').button({ icons: { primary: 'ui-icon-trash' }, text: false });
-		if (email === '0') {
+		if (email == '0') {
 			$('#email').prop('checked', false);
 		}
 		else {
@@ -204,17 +219,7 @@ function formRGB(r, g, b) {
 function refreshOnoff() {
 	etat = $('#myonoffswitch').is(':checked');
 	rgbString = formRGB(red, green, blue);
-	$.ajax({
-		type: 'post',
-		dataType: 'json',
-		url: 'leds/save',
-		data: { 'rgb': rgbString, 'etat': etat, 'email': email, 'effet': effet },
-		success: function (response) {
-			if (response.status === 'error') {
-				alert(response.message);
-			}
-		}
-	});
+	saveValues();
 }
 
 function refreshSwatch() {
@@ -226,25 +231,10 @@ function refreshSwatch() {
 }
 
 function refreshAll() {
+	refreshSwatch();
 	etat = $('#myonoffswitch').is(':checked');
-	red = $('#rSlider').slider('value');
-	green = $('#gSlider').slider('value');
-	blue = $('#bSlider').slider('value');
-	rgbString = formRGB(red, green, blue);
-	$('#colorBox').css('backgroundColor', 'rgb(' + rgbString + ')');
-	$.ajax({
-		type: 'post',
-		dataType: 'json',
-		url: 'leds/save',
-		data: { 'rgb': rgbString, 'etat': etat, 'email': email, 'effet': effet },
-		success: function (response) {
-			if (response.status === 'error') {
-				alert(response.message);
-			}
-		}
-	});
+	saveValues();
 }
-
 
 
 //actions=====================================
@@ -253,166 +243,42 @@ function refreshAll() {
 $(document).ready(function () {
 	//initiTimePicker();
 	loadValues();
-});
 
-//action au click sur on/off
-$('#myonoffswitch').on('change', function () {
-	alert('OK');
-	refreshOnoff();
-});
+	//action au click sur on/off
+	$('#myonoffswitch').on('change', function () {
+		refreshOnoff();
+	});
 
-//action du bouton radio 'Effet1' 
-$('#effet1').click(function () {
-	if ($('#effet1').is(':checked')) {
-		effet = 1;
-		$.ajax({
-			type: 'post',
-			dataType: 'json',
-			url: 'leds/save',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});
-	}
-});
-
-
-//action du bouton radio 'Effet2' 
-$('#effet2').click(function () {
-	if ($('#effet2').is(':checked')) {
-		effet = 2;
-		$.ajax({
-			type: 'post',
-			url: 'includes/save_rgb.php',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});
-	}
-});
-
-//action du bouton radio 'Effet3'
-$('#effet3').click(function () {
-	if ($('#effet3').is(':checked')) {
-		effet = 3;
-		$.ajax({
-			type: 'get',
-			url: 'includes/save_rgb.php',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});;
-	}
-});
-
-//action du bouton radio 'Effet4'
-$('#effet4').click(function () {
-	if ($('#effet4').is(':checked')) {
-		effet = 4;
-		$.ajax({
-			type: 'get',
-			url: 'includes/save_rgb.php',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});
-	}
-});
-
-//action du bouton radio 'Effet5' 
-$('#effet5').click(function () {
-	if ($('#effet5').is(':checked')) {
-		effet = 5;
-		$.ajax({
-			type: 'get',
-			url: 'includes/save_rgb.php',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});
-	}
-});
-
-//action du bouton radio 'Effet6' 
-$('#effet6').click(function () {
-	if ($('#effet6').is(':checked')) {
-		effet = 6;
-		$.ajax({
-			type: 'get',
-			url: 'includes/save_rgb.php',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});
-	}
-});
-
-//action du bouton radio 'Stop' 
-$('#effetstop').click(function () {
-	if ($('#effetstop').is(':checked')) {
-		effet = 0;
-		$.ajax({
-			type: 'get',
-			url: 'includes/save_rgb.php',
-			data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
-				}
-			}
-		});
-	}
-});
-
-//action radiobutton email
-$('#email').click(function () {
-	if ($('#email').is(':checked')) { email = 1; }
-	else { email = 0; }
-	$.ajax({
-		type: 'get',
-		url: 'includes/save_rgb.php',
-		data: { save: red + ',' + green + ',' + blue + ',' + etat + ',' + email + ',' + effet },
-		success: function (result) {
-			if (result === 'redirectUser') {
-				window.location.href = '../index.php'
-			}
+	//action des boutons radio 'Effet' 
+	$(document).on("click touchend", "#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effetstop", function () {
+		if ($(this).is(':checked')) {
+			effet = $(this).attr('num');
+			rgbString = formRGB(red, green, blue);
+			saveValues();
 		}
 	});
 
-});
+	//action radiobutton email
+	$('#email').click(function () {
+		if ($('#email').is(':checked')) { email = 1; }
+		else { email = 0; }
+		rgbString = formRGB(red, green, blue);
+		saveValues();
+	});
 
+	//action button effacer
+	$('#but_efface').click(function () {
+		initiTimePicker();
+		InitTimerValues();
+	});
 
+	//action button enregistrer
+	$('#but_enregistre').click(function () {
+		storeTimer();
+	});
 
-//action button effacer
-$('#but_efface').click(function () {
-	initiTimePicker();
-	InitTimerValues();
-});
-
-//action button enregistrer
-$('#but_enregistre').click(function () {
-	storeTimer();
-});
-
-//action button eraser (efface l'enregistrement)
-$('#icon_eraser').click(function () {
-	eraseTimer();
+	//action button eraser (efface l'enregistrement)
+	$('#icon_eraser').click(function () {
+		eraseTimer();
+	});
 });
