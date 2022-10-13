@@ -6,12 +6,12 @@
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
 	{% block stylesheet %}
-		<link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('css/bootstrap-clockpicker.min.css') }}">
 	{% endblock %}
 	{% block javascript %}
 		<script type="text/javascript" src="{{ asset('js/leds.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
-
+		<script type="text/javascript" src="{{ asset('js/clockpicker.js') }}"></script>
 
 	{% endblock %}
 	<style>
@@ -19,37 +19,35 @@
 			transform: scale(1.4);
 		}
 		#colorBox {
-			width: 104px;
+
 			height: 104px;
 
 			background: #ffffff;
 			border: 1px solid #999999;
 			border-radius: 6px;
 		}
-		#rSlider,
-		#gSlider,
-		#bSlider {
-			float: left;
-			clear: left;
-			width: 300px;
-			margin: 15px;
-		}
 	</style>
 	<div class="ms-2">
 		<h3>Controle éclairage</h3>
 	</div>
-	<div class="container">
-		<div
-			class="col-4">
-			<!-- checkbox on/off -->
-			<div class="form-check form-switch">
-				<input class="form-check-input" type="checkbox" id="myonoffswitch">
-				<label class="form-check-label" for="myonoffswitch"></label>
-			</div>
-			<br>
+	<div class="container mt-4">
 
+		<div class="row mb-2 ms-2">
+			<div class="col-1">On/Off:</div>
+			<!-- checkbox on/off -->
+
+
+			<div class="col-1">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="myonoffswitch">
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="row mb-2">
 			<!-- Onglets -->
-			<ul class="nav nav-tabs" id="myTabs">
+			<ul class="nav nav-tabs col-5">
 				<li class="nav-item">
 					<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
 				</li>
@@ -62,40 +60,37 @@
 			</ul>
 			<div
 				class="tab-content">
+
 				<!-- 1er onglet -->
 				<div
 					id="a" class="tab-pane fade show active">
+
 					<!-- sliders -->
-					<div id="container_led1">
-						<label id="outputLabel">Changer la couleur:</label>
-						<br>
-						<table id="table_led1">
-							<tr>
-								<td>
-									<label>R:</label>
-								</td>
-								<td>
-									<div id="rSlider"></div>
-								</td>
-							</tr>
-							<tr></tr>
-							<td>
-								<label>G:</label>
-							</td>
-							<td>
-								<div id="gSlider"></div>
-							</td>
-							<tr></tr>
-							<td>
-								<label>B:</label>
-							</td>
-							<td>
-								<div id="bSlider"></div>
-							</td>
-						</table>
-						<div id="colorBox"></div>
+					<div class="mt-2 mb-2 ms-2">
+						Changer la couleur:
+					</div>
+					<div class="row align-items-center">
+						<div class="col-1">
+							<label for="rSlider" class="d-block form-label">R:</label>
+							<label for="gSlider" class="d-block form-label">G:</label>
+							<label for="bSlider" class="d-block form-label">B:</label>
+						</div>
+						<div class="col-2">
+
+							<input type="range" class="form-range" min="0" max="255" id="rSlider">
+
+
+							<input type="range" class="form-range" min="0" max="255" id="gSlider">
+
+
+							<input type="range" class="form-range" min="0" max="255" id="bSlider">
+						</div>
+						<div class="col-2">
+							<div class="w-70" id="colorBox"></div>
+						</div>
 					</div>
 				</div>
+
 
 				<!-- fin du 1er onglet -->
 				<!-- 2eme onglet -->
@@ -142,7 +137,17 @@
 								<td>
 									<label for="timepicker_deb">Début:</label>
 								</td>
-								<td><input type="text" id="timepicker_deb" value="" class="form-control"/></td>
+								<td>
+									<div class="input-group clockpicker">
+										<input id="timepicker_debut" type="text" class="form-control" value="18:00">
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-time"></span>
+										</span>
+									</div>
+
+
+									{# <input type="text" id="timepicker_deb" value="" class="form-control"/> #}
+								</td>
 							</tr>
 							<tr>
 								<td>
@@ -176,7 +181,9 @@
 									</div>
 								</td>
 								<td>
-									<button class="btn btn-primary" id="icon_eraser"></button>
+									<button class="btn btn-primary" id="icon_eraser">
+										<i class="bi bi-trash"></i>
+									</button>
 								</td>
 							</tr>
 						</table>

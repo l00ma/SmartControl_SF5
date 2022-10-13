@@ -74,82 +74,75 @@ function traiteEtAffiche(data) {
 		//$('#myTabs').tabs('option', 'active', 0);
 	}
 
+	$('#rSlider').val(red);
+	$('#gSlider').val(green);
+	$('#bSlider').val(blue);
+
 	rgbString = formRGB(red, green, blue);
 	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
-
-	//sliders r v b
-	$('#rSlider').slider({
-		min: 0,
-		max: 255,
-		value: red,
-		animate: 'slow',
-		slide: refreshSwatch,
-		change: refreshAll
-	});
-	$('#gSlider').slider({
-		min: 0,
-		max: 255,
-		value: green,
-		animate: 'slow',
-		slide: refreshSwatch,
-		change: refreshAll
-	});
-	$('#bSlider').slider({
-		min: 0,
-		max: 255,
-		value: blue,
-		animate: 'slow',
-		slide: refreshSwatch,
-		change: refreshAll
-	});
 }
 
 function initiTimePicker() {
 
-	$('#timepicker_deb').timepicker({
-		hourText: 'Heures',
-		minuteText: 'Minutes',
-		amPmText: ['AM', 'PM'],
-		timeSeparator: 'h',
-		nowButtonText: 'Maintenant',
-		showNowButton: true,
-		closeButtonText: 'Fermer',
-		showCloseButton: true,
-		deselectButtonText: 'Désélectionner',
-		showDeselectButton: true,
-
-		onClose: function (time, inst) {
-			if ($('#timepicker_deb').val().length > 0) {
-				$('#timepicker_fin').prop('disabled', false);
-				$('#timepicker_deb').prop('disabled', true);
-			}
-			//alert ('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
-		}
+	$('.clockpicker').clockpicker()
+		.find('input').change(function () {
+			// TODO: time changed
+			console.log(this.value);
+		});
+	$('#timepicker_debut').clockpicker({
+		autoclose: true
 	});
-	$('#timepicker_fin').timepicker({
-		hourText: 'Heures',
-		minuteText: 'Minutes',
-		amPmText: ['AM', 'PM'],
-		timeSeparator: 'h',
-		showNowButton: false,
-		closeButtonText: 'Fermer',
-		showCloseButton: true,
-		deselectButtonText: 'Désélectionner',
-		showDeselectButton: true,
 
-		onClose: function (time, inst) {
-			if ($('#timepicker_deb').val().length > 0 && $('#timepicker_fin').val().length > 0) {
-				$('#timepicker_fin').prop('disabled', true);
-				$('#but_enregistre').prop('disabled', false);
-			}
-			//log_event('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
-		}
-	});
-	$('#timepicker_deb').val();
-	$('#timepicker_fin').val();
-	$('#timepicker_deb').prop('disabled', false);
-	$('#timepicker_fin').prop('disabled', true);
-	$('#but_enregistre').prop('disabled', true);
+	//if (something) {
+	// Manual operations (after clockpicker is initialized).
+	//	$('#timepicker_debut').clockpicker('show') // Or hide, remove ...
+	//		.clockpicker('toggleView', 'minutes');
+	//}
+
+	// $('#timepicker_deb').timepicker({
+	// 	hourText: 'Heures',
+	// 	minuteText: 'Minutes',
+	// 	amPmText: ['AM', 'PM'],
+	// 	timeSeparator: 'h',
+	// 	nowButtonText: 'Maintenant',
+	// 	showNowButton: true,
+	// 	closeButtonText: 'Fermer',
+	// 	showCloseButton: true,
+	// 	deselectButtonText: 'Désélectionner',
+	// 	showDeselectButton: true,
+
+	// 	onClose: function (time, inst) {
+	// 		if ($('#timepicker_deb').val().length > 0) {
+	// 			$('#timepicker_fin').prop('disabled', false);
+	// 			$('#timepicker_deb').prop('disabled', true);
+	// 		}
+	// 		//alert ('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
+	// 	}
+	// });
+	// $('#timepicker_fin').timepicker({
+	// 	hourText: 'Heures',
+	// 	minuteText: 'Minutes',
+	// 	amPmText: ['AM', 'PM'],
+	// 	timeSeparator: 'h',
+	// 	showNowButton: false,
+	// 	closeButtonText: 'Fermer',
+	// 	showCloseButton: true,
+	// 	deselectButtonText: 'Désélectionner',
+	// 	showDeselectButton: true,
+
+	// 	onClose: function (time, inst) {
+	// 		if ($('#timepicker_deb').val().length > 0 && $('#timepicker_fin').val().length > 0) {
+	// 			$('#timepicker_fin').prop('disabled', true);
+	// 			$('#but_enregistre').prop('disabled', false);
+	// 		}
+	// 		//log_event('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
+	// 	}
+	// });
+	// $('#timepicker_deb').val();
+	// $('#timepicker_fin').val();
+	// $('#timepicker_deb').prop('disabled', false);
+	// $('#timepicker_fin').prop('disabled', true);
+	// $('#but_enregistre').prop('disabled', true);
 }
 
 
@@ -223,15 +216,11 @@ function refreshOnoff() {
 }
 
 function refreshSwatch() {
-	red = $('#rSlider').slider('value');
-	green = $('#gSlider').slider('value');
-	blue = $('#bSlider').slider('value');
 	rgbString = formRGB(red, green, blue);
 	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
 }
 
 function refreshAll() {
-	refreshSwatch();
 	etat = $('#myonoffswitch').is(':checked');
 	saveValues();
 }
@@ -241,7 +230,7 @@ function refreshAll() {
 
 //action au chargement de la page
 $(document).ready(function () {
-	//initiTimePicker();
+	initiTimePicker();
 	loadValues();
 
 	//action au click sur on/off
@@ -249,8 +238,24 @@ $(document).ready(function () {
 		refreshOnoff();
 	});
 
+	//action sur les sliders RGB pendant le deplacement du curseur
+	$(document).on('input', '#rSlider, #gSlider, #bSlider', function () {
+		red = $('#rSlider').val();
+		green = $('#gSlider').val();
+		blue = $('#bSlider').val();
+		refreshSwatch();
+	});
+
+	//action sur les sliders RGB apres le deplacement du curseur
+	$(document).on('change', '#rSlider, #gSlider, #bSlider', function () {
+		red = $('#rSlider').val();
+		green = $('#gSlider').val();
+		blue = $('#bSlider').val();
+		refreshAll();
+	});
+
 	//action des boutons radio 'Effet' 
-	$(document).on("click touchend", "#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effetstop", function () {
+	$(document).on('click touchend', '#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effetstop', function () {
 		if ($(this).is(':checked')) {
 			effet = $(this).attr('num');
 			rgbString = formRGB(red, green, blue);

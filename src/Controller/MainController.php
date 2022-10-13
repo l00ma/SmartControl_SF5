@@ -88,13 +88,6 @@ class MainController extends AbstractController
     #[Route('/motion', name: 'motion')]
     public function motion(): Response
     {
-        // if (file_exists($this->getParameter('data_directory') . '/pir_sensor.data')) {
-        //     $motion_stat = file_get_contents($this->getParameter('data_directory') . '/pir_sensor.data');
-
-        //     return $this->render('main/motion.html.twig', [
-        //         'motion_stat' => $motion_stat
-        //     ]);
-        // }
         return $this->render('main/motion.html.twig');
     }
 
@@ -104,7 +97,6 @@ class MainController extends AbstractController
         $refresh = $this->getUser()->getMouvementPir()->getGraphRafraich();
         $cam = $this->getUser()->getMouvementPir()->getEnreg();
         $alert = $this->getUser()->getMouvementPir()->getAlert();
-        //var_dump($refresh, $cam, $alert);
 
         return $this->json(['refresh_graph' => $refresh, 'allow_cam' => $cam, 'allow_alert' => $alert]);
     }
