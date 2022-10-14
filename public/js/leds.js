@@ -80,19 +80,38 @@ function traiteEtAffiche(data) {
 
 	rgbString = formRGB(red, green, blue);
 	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
+
+	$('#debut_time').val(debut_time);
+	$('#fin_time').val(fin_time);
+	$('#timepicker_fin').prop('disabled', false);
+
 }
 
 function initiTimePicker() {
-
-	$('.clockpicker').clockpicker()
-		.find('input').change(function () {
-			// TODO: time changed
-			console.log(this.value);
+	$(function () {
+		$('.timepicker_deb').clockpicker({
+			placement: 'bottom',
+			align: 'left',
+			donetext: 'Done',
+			autoclose: true,
+			afterDone: function () {
+				if ($('.timepicker_deb').val().length > 0) {
+					$('.timepicker_fin').prop('disabled', false);
+					$('.timepicker_deb').prop('disabled', true);
+				}
+			}
 		});
-	$('#timepicker_debut').clockpicker({
-		autoclose: true
 	});
 
+
+	$(function () {
+		$('.timepicker_fin').clockpicker({
+			placement: 'bottom',
+			align: 'left',
+			donetext: 'Done',
+			autoclose: true,
+		});
+	});
 	//if (something) {
 	// Manual operations (after clockpicker is initialized).
 	//	$('#timepicker_debut').clockpicker('show') // Or hide, remove ...
@@ -112,10 +131,10 @@ function initiTimePicker() {
 	// 	showDeselectButton: true,
 
 	// 	onClose: function (time, inst) {
-	// 		if ($('#timepicker_deb').val().length > 0) {
-	// 			$('#timepicker_fin').prop('disabled', false);
-	// 			$('#timepicker_deb').prop('disabled', true);
-	// 		}
+	// if ($('#timepicker_deb').val().length > 0) {
+	// 	$('#timepicker_fin').prop('disabled', false);
+	// 	$('#timepicker_deb').prop('disabled', true);
+	// }
 	// 		//alert ('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
 	// 	}
 	// });
@@ -149,18 +168,19 @@ function initiTimePicker() {
 
 function storeTimer() {
 	//on verifie le format de l'heure et minutes
-	if (/^([0-1]?[0-9]|2[0-3])h([0-5][0-9])(:[0-5][0-9])?$/.test($('#timepicker_deb').val()) && /^([0-1]?[0-9]|2[0-3])h([0-5][0-9])(:[0-5][0-9])?$/.test($('#timepicker_fin').val())) {
-		debut_time = $('#timepicker_deb').val();
-		fin_time = $('#timepicker_fin').val();
+	if (/^([0-1]?[0-9]|2[0-3])h([0-5][0-9])(:[0-5][0-9])?$/.test($('.timepicker_deb').val()) && /^([0-1]?[0-9]|2[0-3])h([0-5][0-9])(:[0-5][0-9])?$/.test($('.timepicker_fin').val())) {
+		debut_time = $('.timepicker_deb').val();
+		fin_time = $('.timepicker_fin').val();
 
 		//ici on peut demander a timer.php de stocker ds la bd puis d'agir
 		$.ajax({
-			type: 'get',
-			url: 'includes/timer.php',
-			data: { debut: debut_time, fin: fin_time },
-			success: function (result) {
-				if (result === 'redirectUser') {
-					window.location.href = '../index.php'
+			type: 'post',
+			dataType: 'json',
+			url: 'leds/timer',
+			data: { 'h_on': debut_time, 'h_off': fin_time },
+			success: function (response) {
+				if (response.status === 'error') {
+					alert(response.message);
 				}
 			}
 		});
@@ -184,10 +204,10 @@ function storeTimer() {
 }
 
 function InitTimerValues() {
-	$('#timepicker_deb').val(null);
-	$('#timepicker_fin').val(null);
-	$('#timepicker_deb').prop('disabled', false);
-	$('#timepicker_fin').prop('disabled', true);
+	$('.timepicker_deb').val(null);
+	$('.timepicker_fin').val(null);
+	$('.timepicker_deb').prop('disabled', false);
+	$('.timepicker_fin').prop('disabled', true);
 }
 
 function eraseTimer() {

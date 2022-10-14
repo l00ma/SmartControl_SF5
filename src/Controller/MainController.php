@@ -166,6 +166,24 @@ class MainController extends AbstractController
         }
     }
 
+    #[Route('/leds/timer', name: 'leds_timer', methods: 'POST')]
+    public function l_timer(Request $request): JsonResponse
+    {
+        if ($request->isXmlHttpRequest()) {
+            $member = $this->getUser();
+            $datas = $member->getLedsStrip();
+            $datas->setHOn($request->get('h_on'));
+            $datas->setHOff($request->get('h_off'));
+
+            $member->setLedsStrip($datas);
+            $this->em->flush();
+
+            return $this->json(['status' => 'success', 'message' => 'success message']);
+        } else {
+            return $this->json(['status' => 'error', 'message' => 'not valid json']);
+        }
+    }
+
     #[Route('/temp', name: 'temp')]
     public function temp(): Response
     {

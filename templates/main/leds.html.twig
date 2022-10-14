@@ -6,12 +6,11 @@
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
 	{% block stylesheet %}
-		<link rel="stylesheet" href="{{ asset('css/bootstrap-clockpicker.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/bootstrap4-clockpicker.css') }}">
 	{% endblock %}
 	{% block javascript %}
 		<script type="text/javascript" src="{{ asset('js/leds.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/clockpicker.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/bootstrap4-clockpicker.js') }}"></script>
 
 	{% endblock %}
 	<style>
@@ -47,7 +46,7 @@
 		<div
 			class="row mb-2">
 			<!-- Onglets -->
-			<ul class="nav nav-tabs col-5">
+			<ul class="nav nav-pills nav-justified col-5">
 				<li class="nav-item">
 					<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
 				</li>
@@ -62,131 +61,140 @@
 				class="tab-content">
 
 				<!-- 1er onglet -->
+
 				<div
 					id="a" class="tab-pane fade show active">
 
 					<!-- sliders -->
-					<div class="mt-2 mb-2 ms-2">
-						Changer la couleur:
-					</div>
-					<div class="row align-items-center">
-						<div class="col-1">
-							<label for="rSlider" class="d-block form-label">R:</label>
-							<label for="gSlider" class="d-block form-label">G:</label>
-							<label for="bSlider" class="d-block form-label">B:</label>
+					<div class="container">
+						<div class="mt-2 mb-2 ms-2">
+							Changer la couleur:
 						</div>
-						<div class="col-2">
-
-							<input type="range" class="form-range" min="0" max="255" id="rSlider">
-
-
-							<input type="range" class="form-range" min="0" max="255" id="gSlider">
-
-
-							<input type="range" class="form-range" min="0" max="255" id="bSlider">
-						</div>
-						<div class="col-2">
-							<div class="w-70" id="colorBox"></div>
+						<div class="row">
+							<div class="col-1">
+								<label for="rSlider" class="d-block form-label">R:</label>
+								<label for="gSlider" class="d-block form-label">G:</label>
+								<label for="bSlider" class="d-block form-label">B:</label>
+							</div>
+							<div class="col-2">
+								<input type="range" class="form-range" min="0" max="255" id="rSlider">
+								<input type="range" class="form-range" min="0" max="255" id="gSlider">
+								<input type="range" class="form-range" min="0" max="255" id="bSlider">
+							</div>
+							<div class="col-2">
+								<div class="w-70" id="colorBox"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 
-
 				<!-- fin du 1er onglet -->
 				<!-- 2eme onglet -->
 				<div id="b" class="tab-pane fade">
-					<div id="container_led2">
-						<label id="outputLabel">Sélectionner un effet:</label>
-						<br>
-						<table id="table_led2">
-							<div class="form-check">
-								<tr>
-									<td><input type="radio" name="effets" id="effet1" num="1" class="form-check-input"/><label for="effet1" class="form-check-label">Effet 1</label>
-									</td>
-									<td><input type="radio" name="effets" id="effet2" num="2" class="form-check-input"/><label for="effet2" class="form-check-label">Effet 2</label>
-									</td>
-									<td><input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/><label for="effet3" class="form-check-label">Effet 3</label>
-									</td>
-								</tr>
-								<tr>
-									<td><input type="radio" name="effets" id="effet4" num="4" class="form-check-input"/><label for="effet4" class="form-check-label">Effet 4</label>
-									</td>
-									<td><input type="radio" name="effets" id="effet5" num="5" class="form-check-input"/><label for="effet5" class="form-check-label">Effet 5</label>
-									</td>
-									<td><input type="radio" name="effets" id="effet6" num="6" class="form-check-input"/><label for="effet6" class="form-check-label">Effet 6</label>
-									</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td><input type="radio" name="effets" id="effetstop" num="0" class="form-check-input"/><label for="effetstop" class="form-check-label">Stop</label>
-									</td>
-									<td></td>
-								</tr>
+					<div class="container">
+						<div class="mt-2 mb-2 ms-2">
+							Sélectionner un effet:
+						</div>
+						<div class="row mt-2">
+							<div class="col-1">
+								<input type="radio" name="effets" id="effet1" num="1" class="form-check-input"/>
+								<label for="effet1" class="form-check-label">Effet 1</label>
+								<div class="mt-4"></div>
+								<input type="radio" name="effets" id="effet4" num="4" class="form-check-input"/>
+								<label for="effet4" class="form-check-label">Effet 4</label>
 							</div>
-						</table>
+							<div class="col-1 offset-1">
+								<input type="radio" name="effets" id="effet2" num="2" class="form-check-input"/>
+								<label for="effet2" class="form-check-label">Effet 2</label>
+								<div class="mt-4"></div>
+								<input type="radio" name="effets" id="effet5" num="5" class="form-check-input"/>
+								<label for="effet5" class="form-check-label">Effet 5</label>
+								<div class="mt-4"></div>
+								<input type="radio" name="effets" id="effetstop" num="0" class="form-check-input"/>
+								<label for="effetstop" class="form-check-label">Stop</label>
+							</div>
+							<div class="col-1 offset-1">
+								<input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/>
+								<label for="effet3" class="form-check-label">Effet 3</label>
+								<div class="mt-4"></div>
+								<input type="radio" name="effets" id="effet6" num="6" class="form-check-input"/>
+								<label for="effet6" class="form-check-label">Effet 6</label>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- fin du 2eme onglet -->
 				<!-- 3eme onglet -->
 				<div id="c" class="tab-pane fade">
-					<div id="container_led3">
-						<label id="outputLabel">Placer un timer:</label>
-						<br>
-						<table id="table_led3">
-							<tr>
-								<td>
+					<div class="container">
+						<div class="mt-2 mb-2 ms-2">Placer un timer:
+						</div>
+						<div class="col-5">
+							<div class="row justify-content-evenly mt-2">
+								<div class="col-2">
 									<label for="timepicker_deb">Début:</label>
-								</td>
-								<td>
-									<div class="input-group clockpicker">
-										<input id="timepicker_debut" type="text" class="form-control" value="18:00">
-										<span class="input-group-addon">
-											<span class="glyphicon glyphicon-time"></span>
+								</div>
+								<div class="col-4">
+									<div class="input-group timepicker_deb">
+										<input type="text" class="form-control" id="debut_time">
+										<span class="input-group-text input-group-addon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewbox="0 0 16 16">
+												<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+												<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+											</svg>
 										</span>
 									</div>
-
-
-									{# <input type="text" id="timepicker_deb" value="" class="form-control"/> #}
-								</td>
-							</tr>
-							<tr>
-								<td>
+								</div>
+							</div>
+							<div class="row justify-content-evenly mt-2">
+								<div class="col-2">
 									<label for="timepicker_fin">Fin:</label>
-								</td>
-								<td><input type="text" id="timepicker_fin" value="" class="form-control"/></td>
-							</tr>
-						</table>
-						<button class="btn btn-primary" id="but_efface">Effacer</button>
-						<button class="btn btn-primary" id="but_enregistre">Enregistrer</button>
-					</div>
-					<br>
-					<div id="list-timer">
-						<table id="table_led_list_timer">
-							<tr>
-								<th>Début</th>
-								<th>Fin</th>
-								<th>E-mail</th>
-								<th>Suppr</th>
-							</tr>
-							<tr>
-								<td>
-									<div id="heure_deb"></div>
-								</td>
-								<td>
-									<div id="heure_fin"></div>
-								</td>
-								<td>
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="email" id="email"/>
+								</div>
+								<div class="col-4">
+									<div class="input-group timepicker_fin">
+										<input type="text" class="form-control" id="fin_time">
+										<span class="input-group-text input-group-addon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewbox="0 0 16 16">
+												<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+												<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+											</svg>
+										</span>
+
 									</div>
-								</td>
-								<td>
-									<button class="btn btn-primary" id="icon_eraser">
-										<i class="bi bi-trash"></i>
-									</button>
-								</td>
-							</tr>
-						</table>
+								</div>
+							</div>
+							<div class="row justify-content-evenly mt-2">
+								<div class="col-4">
+									<button class="btn btn-primary" id="but_efface">Effacer</button>
+								</div>
+								<div class="col-4">
+									<button class="btn btn-primary" id="but_enregistre">Enregistrer</button>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-4">
+							<div class="col-1">
+								Début
+								<div id="heure_deb"></div>
+							</div>
+							<div class="col-1">
+								Fin
+								<div id="heure_fin"></div>
+							</div>
+							<div class="col-1 offset-1">
+								E-mail
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" name="email" id="email"/>
+								</div>
+							</div>
+							<div class="col-1">
+								Suppr
+								<div id="heure_deb"></div>
+								<button class="btn btn-primary" id="icon_eraser">
+									<i class="bi bi-trash"></i>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- fin du 3eme onglet -->
