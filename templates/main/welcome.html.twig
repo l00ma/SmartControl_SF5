@@ -11,37 +11,48 @@
 	{% block javascript %}
 		<script type="text/javascript" src="{{ asset('js/welcome.js') }}"></script>
 	{% endblock %}
+	<style>
+		.petite {
+			font-size: 0.6em;
+			align: 'center'
+		}
+		.moyenne {
+			font-size: 1.5em;
+		}
+		.grande {
+			font-size: 2.2em;
+		}
+		.gadget_allume {
+			padding: 2px 50px;
+			background: #c9f7b8;
+		}
+	</style>
 	<div class="container mt-4 text-center">
-		<h2>Welcome
-			{{app.user.username}}</h2>
-		<div class="row">
-			<div class="col-2 mt-4">
-				<div class="list-group">
-					<a href="{{ path('motion')}}" class="list-group-item list-group-item-action text-center">Motion detection</a>
-					<a href="#" class="list-group-item list-group-item-action text-center">Recorded videos</a>
-					<a href="#" class="list-group-item list-group-item-action text-center">Live cam</a>
-					<a href="{{ path('temp')}}" class="list-group-item list-group-item-action text-center">Temperature sensors</a>
-					<a href="{{ path('leds')}}" class="list-group-item list-group-item-action text-center">Ledstrip control</a>
-				</div>
-			</div>
-			<div class="col-2 mt-4">
-				<div id="historique">
-					<h6>détections récentes:</h6>
-					<p id="histo_liste"></p>
-				</div>
-			</div>
-			<div class="col-5"></div>
+		<span class="grande">Welcome
+			{{app.user.username}}</span>
+		<div
+			class="row ">
+			{# <div class="col-2 mt-4">
+										<div class="list-group">
+											<a href="{{ path('motion')}}" class="list-group-item list-group-item-action text-center">Motion detection</a>
+											<a href="#" class="list-group-item list-group-item-action text-center">Recorded videos</a>
+											<a href="#" class="list-group-item list-group-item-action text-center">Live cam</a>
+											<a href="{{ path('temp')}}" class="list-group-item list-group-item-action text-center">Temperature sensors</a>
+											<a href="{{ path('leds')}}" class="list-group-item list-group-item-action text-center">Ledstrip control</a>
+										</div>
+									</div> #}
 			<div class="col-3 mt-4">
-				<p id="heure"></p>
-				<p id="lieu"></p>
-				<p id="previsions"></p>
-				<div id="temp"></div>
-				<p id="etat_detection"></p>
-				<p id="temp">
-					<span id="etat_alerte"></span>
-				</p>
-				<p id="etat_leds"></p>
+				<span class="moyenne">détections récentes:</span>
+				<p class="petite histo d-flex justify-content-center"></p>
+			</div>
+			<div class="col-3 offset-6 mt-4 pt-2 pb-3 border-2 rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
+				<div id="heure" class="mb-2"></div>
+				<div id="lieu" class="mb-2"></div>
+				<div id="previsions" class="mb-2 d-flex justify-content-center"></div>
+				<div id="temp" class="mb-2 d-flex justify-content-center"></div>
+				<div id="etat_detection" class="mb-2 petite"></div>
+				<div id="etat_alerte" class="mb-2 petite"></div>
+				<div id="etat_leds" class="petite"></div>
 			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}

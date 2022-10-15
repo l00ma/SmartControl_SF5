@@ -47,15 +47,15 @@ function traiteEtAffiche(data) {
 
 
 	if (data.etat === 'true') {
-		$("#etat_leds").html('<span class=\'gadget_allume\'>Leds allumées</span>');
+		$("#etat_leds").html('<span class="gadget_allume">Leds allumées</span>');
 	}
 	else {
 		$("#etat_leds").html('Leds éteintes');
 	}
-	if (data.enreg === '1' || data.alert === '1') {
-		$("#etat_detection").html('<span class=\'gadget_allume\'>Détection activée</span>');
+	if (data.enreg == '1' || data.alert == '1') {
+		$("#etat_detection").html('<span class="gadget_allume">Détection activée</span>');
 		if (data.enreg_detect === '1') {
-			$("#etat_alerte").html('<span class=\'alerte_allume\'>Alerte en cours</span>');
+			$("#etat_alerte").html('<span class="alerte_allume">Alerte en cours</span>');
 		}
 		else {
 			$("#etat_alerte").html('Pas d\'alerte');
@@ -65,10 +65,10 @@ function traiteEtAffiche(data) {
 		$("#etat_detection").html('Détection désactivée');
 		$("#etat_alerte").html('');
 	}
-	$("#lieu").html('<span class=\'donnees_meteo\'>' + data.location + '</span>');
-	$("#previsions").html('<table class=\'tableau_meteo\'><tr><th class=\'icone_meteo\'><i class="wi ' + data.icon_id + '"></i></th><th class=\'donnees_meteo\'><i class="wi ' + data.icon_f1 + '" title="' + data.weather_f1 + '"></i></th><th class=\'donnees_meteo\'><i class="wi ' + data.icon_f2 + '" title="' + data.weather_f2 + '"></i></th><th class=\'donnees_meteo\'><i class="wi ' + data.icon_f3 + '" title="' + data.weather_f3 + '"></i></th></tr><tr><td class="meteo_actuelle" >' + data.weather + '</td><td>' + data.temp_f1 + '°c</td><td>' + data.temp_f2 + '°c</td><td>' + data.temp_f3 + '°c</td></tr><tr><td></td><td>' + data.time_f1 + '</td><td>' + data.time_f2 + '</td><td>' + data.time_f3 + '</td></tr></table>');
+	$("#lieu").html('<span class="moyenne">' + data.location + '</span>');
+	$("#previsions").html('<table><tr><th class="grande text-danger"><i class="wi ' + data.icon_id + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f1 + '" title="' + data.weather_f1 + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f2 + '" title="' + data.weather_f2 + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f3 + '" title="' + data.weather_f3 + '"></i></th></tr><tr><td class="petite" >' + data.weather + '</td><td class="petite" >' + data.temp_f1 + '°c</td><td class="petite" >' + data.temp_f2 + '°c</td><td class="petite" >' + data.temp_f3 + '°c</td></tr><tr><td></td><td class="petite">' + data.time_f1 + '</td><td class="petite" >' + data.time_f2 + '</td><td class="petite" >' + data.time_f3 + '</td></tr></table>');
 
-	$("#temp").html('<table id="tab_donnees_live"><tr><td class="tab_gauche"><i class="wi wi-thermometer" title="temperature"></i></td><td title="temp bas:' + data.temp_bas + '" >ext <span class=\'donnees_meteo\'>' + data.temp_ext + '</span> °c&nbsp;&nbsp;&nbsp;int <span class=\'donnees_meteo\'>' + data.temp_int + '</span> °c</td></tr><tr><td class="tab_gauche"><i class="wi wi-humidity" title="humidité"></i></td><td><span class=\'donnees_meteo\'>' + data.humidite + '</span> %</td></tr><tr><td class="tab_gauche"><i class="wi wi-barometer" title="pression"></i></td><td><span class=\'donnees_meteo\'>' + data.pression + '</span> Hpa</td></tr><tr><td class="tab_gauche"><i class="wi wi-strong-wind" title="vent"></i></td><td><span class=\'donnees_meteo\'>' + data.vitesse_vent + '</span> km/h&nbsp;&nbsp;&nbsp;<span class=\'donnees_meteo\'>' + data.direction_vent + '</span></td></tr><tr><td align="center"  colspan="2" ><i class="wi wi-sunrise" title="heure de levé du soleil"></i>&nbsp;&nbsp;<span class=\'donnees_meteo\'>' + data.leve_soleil + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="wi wi-sunset" title="heure de couché du soleil"></i>&nbsp;&nbsp;<span class=\'donnees_meteo\'>' + data.couche_soleil + '</span></td></tr></table>');
+	$("#temp").html('<table><tr><td class="moyenne" title="température"><i class="wi wi-thermometer"></i></td><td title="temp bas:' + data.temp_bas + '" ><span class="petite">ext </span><span class="moyenne">' + data.temp_ext + '</span><span class="petite"> °c</span>&nbsp;&nbsp;&nbsp;<span class="petite">int </span><span class="moyenne">' + data.temp_int + '</span><span class="petite"> °c</span></td></tr><tr><td class="moyenne" title="humidité"><i class="wi wi-humidity"></i></td><td><span class="moyenne" title="humidité">' + data.humidite + '</span><span class="petite"> %</span></td></tr><tr><td class="moyenne" title="pression"><i class="wi wi-barometer"></i></td><td><span class="moyenne" title="pression">' + data.pression + '</span><span class="petite"> Hpa</span></td></tr><tr><td class="moyenne" title="vent"><i class="wi wi-strong-wind"></i></td><td><span class="moyenne" title="vent">' + data.vitesse_vent + '</span><span class="petite"> km/h</span>&nbsp;&nbsp;&nbsp;<span class="moyenne">' + data.direction_vent + '</span></td></tr><tr><td align="center"  colspan="2" ><i class="wi wi-sunrise" title="heure de levé du soleil"></i>&nbsp;&nbsp;<span class="moyenne">' + data.leve_soleil + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="wi wi-sunset" title="heure de couché du soleil"></i>&nbsp;&nbsp;<span class="moyenne">' + data.couche_soleil + '</span></td></tr></table>');
 
 	if (nombre_film === 0) {
 		tableau_film = 'aucun';
@@ -82,7 +82,7 @@ function traiteEtAffiche(data) {
 		tableau_mail = histo_mail[4] + '<br>' + histo_mail[3] + '<br>' + histo_mail[2] + '<br>' + histo_mail[1] + '<br>' + histo_mail[0];
 	}
 
-	$("#histo_liste").html('<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
+	$('.histo').html('<table class="border-2 rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary"><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
 
 	setTimeout(loadValues, 10000)
 }
@@ -108,7 +108,7 @@ function AfficheHeure() {
 
 	horloge_heure = heure0 + heure + sep + min0 + min + sep + sec0 + sec;
 	horloge_date = jour_semaine + " " + jour + " " + mois + " " + annee;
-	horloge_content = "<div class='horloge_date'>" + horloge_date + "</div><div class='horloge_heure'>" + horloge_heure + "</div>";
+	horloge_content = "<div class='moyenne'>" + horloge_date + "</div><div class='grande'>" + horloge_heure + "</div>";
 	document.getElementById('heure').innerHTML = horloge_content;
 	setTimeout(AfficheHeure, 1000)
 }

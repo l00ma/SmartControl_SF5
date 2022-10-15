@@ -95,7 +95,7 @@ function initiTimePicker() {
 			donetext: 'Done',
 			autoclose: true,
 			afterDone: function () {
-				if ($('.timepicker_deb').val().length > 0) {
+				if ($('#debut_time').val().length > 0) {
 					$('.timepicker_fin').prop('disabled', false);
 					$('.timepicker_deb').prop('disabled', true);
 				}
@@ -168,9 +168,9 @@ function initiTimePicker() {
 
 function storeTimer() {
 	//on verifie le format de l'heure et minutes
-	if (/^([0-1]?[0-9]|2[0-3])h([0-5][0-9])(:[0-5][0-9])?$/.test($('.timepicker_deb').val()) && /^([0-1]?[0-9]|2[0-3])h([0-5][0-9])(:[0-5][0-9])?$/.test($('.timepicker_fin').val())) {
-		debut_time = $('.timepicker_deb').val();
-		fin_time = $('.timepicker_fin').val();
+	if (/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test($('#debut_time').val()) && /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test($('#fin_time').val())) {
+		debut_time = $('#debut_time').val();
+		fin_time = $('#fin_time').val();
 
 		//ici on peut demander a timer.php de stocker ds la bd puis d'agir
 		$.ajax({
@@ -204,8 +204,8 @@ function storeTimer() {
 }
 
 function InitTimerValues() {
-	$('.timepicker_deb').val(null);
-	$('.timepicker_fin').val(null);
+	$('#debut_time').val(null);
+	$('#fin_time').val(null);
 	$('.timepicker_deb').prop('disabled', false);
 	$('.timepicker_fin').prop('disabled', true);
 }
@@ -214,11 +214,13 @@ function eraseTimer() {
 	$('#list-timer').hide();
 	//ici on peut demander a timer.php de vider la bd puis d'agir
 	$.ajax({
-		type: 'get',
-		url: 'includes/timer.php',
-		success: function (result) {
-			if (result === 'redirectUser') {
-				window.location.href = '../index.php'
+		type: 'post',
+		dataType: 'json',
+		url: 'leds/timer',
+		data: { 'h_on': 'null', 'h_off': 'null', },
+		success: function (response) {
+			if (response.status === 'error') {
+				alert(response.message);
 			}
 		}
 	});
