@@ -29,12 +29,12 @@
 	<div class="ms-2">
 		<h3>Controle éclairage</h3>
 	</div>
-	<div class="container mt-4">
+	<div class="container mt-4 mb-4">
 
 		<div class="row mb-4 ms-2">
-			<div class="col-1">On/Off:</div>
+			<div class="col-3 col-md-2 col-lg-1">On/Off:</div>
 			<!-- checkbox on/off -->
-			<div class="col-1">
+			<div class="col-2 col-md-2 col-lg-1">
 				<div class="form-check form-switch">
 					<input class="form-check-input" type="checkbox" id="myonoffswitch">
 				</div>
@@ -43,7 +43,7 @@
 		<div
 			class="row">
 			<!-- Onglets -->
-			<ul class="nav nav-pills nav-justified col-5">
+			<ul class="nav nav-pills nav-justified col-12 col-md-7 col-lg-5">
 				<li class="nav-item">
 					<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
 				</li>
@@ -68,17 +68,17 @@
 							Changer la couleur:
 						</div>
 						<div class="row">
-							<div class="col-1">
+							<div class="col-2 col-lg-1">
 								<label for="rSlider" class="d-block form-label">R:</label>
 								<label for="gSlider" class="d-block form-label">G:</label>
 								<label for="bSlider" class="d-block form-label">B:</label>
 							</div>
-							<div class="col-2">
+							<div class="col-6 col-md-4 col-lg-2">
 								<input type="range" class="form-range" min="0" max="255" id="rSlider">
 								<input type="range" class="form-range" min="0" max="255" id="gSlider">
 								<input type="range" class="form-range" min="0" max="255" id="bSlider">
 							</div>
-							<div class="col-2">
+							<div class="col-4 col-lg-2">
 								<div class="w-70" id="colorBox"></div>
 							</div>
 						</div>
@@ -93,14 +93,14 @@
 							Sélectionner un effet:
 						</div>
 						<div class="row mt-4">
-							<div class="col-1">
+							<div class="col-4 col-md-2 col-lg-1">
 								<input type="radio" name="effets" id="effet1" num="1" class="form-check-input"/>
 								<label for="effet1" class="form-check-label">Effet 1</label>
 								<div class="mt-4"></div>
 								<input type="radio" name="effets" id="effet4" num="4" class="form-check-input"/>
 								<label for="effet4" class="form-check-label">Effet 4</label>
 							</div>
-							<div class="col-1 offset-1">
+							<div class="col-4 col-md-2 col-lg-1 offset-lg-1">
 								<input type="radio" name="effets" id="effet2" num="2" class="form-check-input"/>
 								<label for="effet2" class="form-check-label">Effet 2</label>
 								<div class="mt-4"></div>
@@ -110,7 +110,7 @@
 								<input type="radio" name="effets" id="effetstop" num="0" class="form-check-input"/>
 								<label for="effetstop" class="form-check-label">Stop</label>
 							</div>
-							<div class="col-1 offset-1">
+							<div class="col-4 col-md-2 col-lg-1 offset-lg-1">
 								<input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/>
 								<label for="effet3" class="form-check-label">Effet 3</label>
 								<div class="mt-4"></div>
@@ -126,12 +126,12 @@
 					<div class="container">
 						<div class="mt-2 mb-2 ms-2">Placer un timer:
 						</div>
-						<div class="col-5">
+						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
 							<div class="row justify-content-evenly mt-2">
-								<div class="col-2">
+								<div class="col-3 col-md-3 col-lg-2 col-xl-1">
 									<label for="timepicker_deb">Début:</label>
 								</div>
-								<div class="col-4">
+								<div class="col-6 col-md-5 col-lg-4 col-xl-4">
 									<div class="input-group timepicker_deb">
 										<input type="text" class="form-control" id="debut_time">
 										<span class="input-group-text input-group-addon">
@@ -144,10 +144,10 @@
 								</div>
 							</div>
 							<div class="row justify-content-evenly mt-2">
-								<div class="col-2">
+								<div class="col-3 col-md-3 col-lg-2 col-xl-1">
 									<label for="timepicker_fin">Fin:</label>
 								</div>
-								<div class="col-4">
+								<div class="col-6 col-md-5 col-lg-4 col-xl-4">
 									<div class="input-group timepicker_fin">
 										<input type="text" class="form-control" id="fin_time">
 										<span class="input-group-text input-group-addon">
@@ -170,21 +170,21 @@
 							</div>
 						</div>
 						<div class="row mt-4">
-							<div class="col-1">
+							<div class="col-3 col-sm-2 col-lg-1">
 								Début
 								<div id="heure_deb"></div>
 							</div>
-							<div class="col-1">
+							<div class="col-3 col-sm-2 col-lg-1">
 								Fin
 								<div id="heure_fin"></div>
 							</div>
-							<div class="col-1 offset-1">
+							<div class="col-3 col-sm-2 col-lg-1 offset-lg-1">
 								E-mail
 								<div class="form-check">
 									<input class="form-check-input" type="checkbox" name="email" id="email"/>
 								</div>
 							</div>
-							<div class="col-1">
+							<div class="col-3 col-sm-2 col-lg-1">
 								Suppr
 								<div id="heure_deb"></div>
 								<button class="btn btn-primary" id="icon_eraser">
