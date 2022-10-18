@@ -13,11 +13,10 @@
 	{% endblock %}
 	<style>
 		.petite {
-			font-size: 0.6em;
-			align: 'center'
+			font-size: 0.7em;
 		}
 		.moyenne {
-			font-size: 1.5em;
+			font-size: 1.4em;
 		}
 		.grande {
 			font-size: 2.2em;
@@ -25,27 +24,21 @@
 		.gadget_allume {
 			padding: 2px 50px;
 			background: #c9f7b8;
+			border-radius: 5px;
 		}
 	</style>
-	<div class="container mt-4 text-center">
-		<span class="grande">Welcome
-			{{app.user.username}}</span>
-		<div
-			class="row ">
-			{# <div class="col-2 mt-4">
-										<div class="list-group">
-											<a href="{{ path('motion')}}" class="list-group-item list-group-item-action text-center">Motion detection</a>
-											<a href="#" class="list-group-item list-group-item-action text-center">Recorded videos</a>
-											<a href="#" class="list-group-item list-group-item-action text-center">Live cam</a>
-											<a href="{{ path('temp')}}" class="list-group-item list-group-item-action text-center">Temperature sensors</a>
-											<a href="{{ path('leds')}}" class="list-group-item list-group-item-action text-center">Ledstrip control</a>
-										</div>
-									</div> #}
-			<div class="col-3 mt-4">
-				<span class="moyenne">détections récentes:</span>
-				<p class="petite histo d-flex justify-content-center"></p>
+	<div class="container mt-4 mb-4 text-center">
+
+		<div class="row">
+			<div class="col-12 col-md-5 col-xl-3 mt-4">
+				<div class="container pt-2 pb-3 border border-secondary rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
+					<div class="moyenne">Welcome
+						{{app.user.username}}</div>
+					<span class="moyenne">détections récentes:</span>
+					<p class="petite histo d-flex justify-content-center"></p>
+				</div>
 			</div>
-			<div class="col-3 offset-6 mt-4 pt-2 pb-3 border-2 rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
+			<div class="col-12 col-md-5 offset-md-2 col-xl-3 offset-xl-6 mt-4 pt-2 pb-3 border border-secondary rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
 				<div id="heure" class="mb-2"></div>
 				<div id="lieu" class="mb-2"></div>
 				<div id="previsions" class="mb-2 d-flex justify-content-center"></div>

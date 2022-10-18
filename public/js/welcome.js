@@ -82,7 +82,7 @@ function traiteEtAffiche(data) {
 		tableau_mail = histo_mail[4] + '<br>' + histo_mail[3] + '<br>' + histo_mail[2] + '<br>' + histo_mail[1] + '<br>' + histo_mail[0];
 	}
 
-	$('.histo').html('<table class="border-2 rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary"><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
+	$('.histo').html('<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
 
 	setTimeout(loadValues, 10000)
 }

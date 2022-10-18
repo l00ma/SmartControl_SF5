@@ -217,7 +217,7 @@ function eraseTimer() {
 		type: 'post',
 		dataType: 'json',
 		url: 'leds/timer',
-		data: { 'h_on': 'null', 'h_off': 'null', },
+		data: { 'h_on': 'null', 'h_off': 'null' },
 		success: function (response) {
 			if (response.status === 'error') {
 				alert(response.message);

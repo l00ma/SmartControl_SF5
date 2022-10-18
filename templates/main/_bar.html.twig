@@ -1,32 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
 	<div class="container-fluid">
 		{% if is_granted('ROLE_USER') %}
-			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link active" href="{{ path ('welcome') }}"><img src="{{ asset('icons/home.svg') }}" alt="Home"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path ('motion') }}"><img src="{{ asset('icons/detection.svg') }}" alt="Motion sensor"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href='#'><img src="{{ asset('icons/film.svg') }}" alt="Recorded videos"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href='#'><img src="{{ asset('icons/live.svg') }}" alt="Live camr"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path ('temp') }}"><img src="{{ asset('icons/temp.svg') }}" alt="Temperature sensor"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path ('leds') }}"><img src="{{ asset('icons/light.svg') }}" alt="Ledstrip control"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path ('user.edit') }}"><img src="{{ asset('icons/user.svg') }}" alt="Edit user"/></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path ('app_logout') }}"><img src="{{ asset('icons/exit.svg') }}" alt="Sign out"/></a>
-				</li>
-			</ul>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#my_navbar" aria-controls="my_navbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="my_navbar">
+				<a class="navbar-brand" href="{{ path ('welcome') }}">Smart Control</a>
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" title="Home page" href="{{ path ('welcome') }}"><img src="{{ asset('icons/home.svg') }}" alt="Home"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Motion sensor" href="{{ path ('motion') }}"><img src="{{ asset('icons/detection.svg') }}" alt="Motion sensor"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Recorded videos" href='#'><img src="{{ asset('icons/film.svg') }}" alt="Recorded videos"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Live camera" href='#'><img src="{{ asset('icons/live.svg') }}" alt="Live cam"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Temperature sensor" href="{{ path ('temp') }}"><img src="{{ asset('icons/temp.svg') }}" alt="Temperature sensor"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Ledstrip control" href="{{ path ('leds') }}"><img src="{{ asset('icons/light.svg') }}" alt="Ledstrip control"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Edit user" href="{{ path ('user.edit') }}"><img src="{{ asset('icons/user.svg') }}" alt="Edit user"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" title="Sign out" href="{{ path ('app_logout') }}"><img src="{{ asset('icons/exit.svg') }}" alt="Sign out"/></a>
+					</li>
+				</ul>
+			</div>
 		{% endif %}
 	</div>
 </nav>

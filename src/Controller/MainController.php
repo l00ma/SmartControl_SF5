@@ -172,6 +172,9 @@ class MainController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $member = $this->getUser();
             $datas = $member->getLedsStrip();
+            // if ($request->getHOn('h_on')) =  'null' or ($request->getHOn('h_off')) =  'null' {
+
+            // }
             $datas->setHOn($request->get('h_on'));
             $datas->setHOff($request->get('h_off'));
 
