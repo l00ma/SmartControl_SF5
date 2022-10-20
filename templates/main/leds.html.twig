@@ -18,21 +18,19 @@
 			transform: scale(1.4);
 		}
 		#colorBox {
-
 			height: 104px;
-
 			background: #ffffff;
 			border: 1px solid #999999;
 			border-radius: 6px;
 		}
 	</style>
-	<div class="ms-2">
+	<div class="ms-2 text-secondary">
 		<h3>Controle éclairage</h3>
 	</div>
 	<div class="container mt-4 mb-4">
 
 		<div class="row mb-4 ms-2">
-			<div class="col-3 col-md-2 col-lg-1">On/Off:</div>
+			<div class="col-3 col-md-2 col-lg-1 text-secondary">On/Off:</div>
 			<!-- checkbox on/off -->
 			<div class="col-2 col-md-2 col-lg-1">
 				<div class="form-check form-switch">
@@ -63,23 +61,23 @@
 					id="a" class="tab-pane fade show active">
 
 					<!-- sliders -->
-					<div class="container">
+					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">
 							Changer la couleur:
 						</div>
 						<div class="row">
-							<div class="col-2 col-lg-1">
+							<div class="col-2 col-lg-1 align-self-center">
 								<label for="rSlider" class="d-block form-label">R:</label>
 								<label for="gSlider" class="d-block form-label">G:</label>
 								<label for="bSlider" class="d-block form-label">B:</label>
 							</div>
-							<div class="col-6 col-md-4 col-lg-2">
+							<div class="col-6 col-md-4 col-lg-2 align-self-center">
 								<input type="range" class="form-range" min="0" max="255" id="rSlider">
 								<input type="range" class="form-range" min="0" max="255" id="gSlider">
 								<input type="range" class="form-range" min="0" max="255" id="bSlider">
 							</div>
 							<div class="col-4 col-lg-2">
-								<div class="w-70" id="colorBox"></div>
+								<div id="colorBox"></div>
 							</div>
 						</div>
 					</div>
@@ -88,7 +86,7 @@
 				<!-- fin du 1er onglet -->
 				<!-- 2eme onglet -->
 				<div id="b" class="tab-pane fade">
-					<div class="container">
+					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">
 							Sélectionner un effet:
 						</div>
@@ -123,7 +121,7 @@
 				<!-- fin du 2eme onglet -->
 				<!-- 3eme onglet -->
 				<div id="c" class="tab-pane fade">
-					<div class="container">
+					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">Placer un timer:
 						</div>
 						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -169,8 +167,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="row mt-4">
-							<div class="col-3 col-sm-2 col-lg-1">
+						<div class="row mt-4" id="list-timer">
+							<div class="col-3 col-sm-2 col-lg-1 border">
 								Début
 								<div id="heure_deb"></div>
 							</div>
@@ -187,7 +185,7 @@
 							<div class="col-3 col-sm-2 col-lg-1">
 								Suppr
 								<div id="heure_deb"></div>
-								<button class="btn btn-primary" id="icon_eraser">
+								<button class="btn btn-primary btn-sm" id="icon_eraser">
 									<i class="bi bi-trash"></i>
 								</button>
 							</div>

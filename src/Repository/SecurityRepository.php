@@ -54,6 +54,17 @@ class SecurityRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllMedia($value): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.filename, s.id')
+            ->andWhere('s.file_type = :type')
+            ->setParameter('type', $value)
+            ->orderBy('s.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    public function findOneBySomeField($value): ?Security
     //    {
     //        return $this->createQueryBuilder('s')

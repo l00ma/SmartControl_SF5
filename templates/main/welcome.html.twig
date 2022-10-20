@@ -26,9 +26,15 @@
 			background: #c9f7b8;
 			border-radius: 5px;
 		}
+		.background {
+			background-image: url("{{ asset("css/images/raspberry_fond_light.jpg") }}");
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+		}
 	</style>
-	<div class="container mt-4 mb-4 text-center">
 
+	<div class="container mt-4 mb-4 text-center background">
 		<div class="row">
 			<div class="col-12 col-md-5 col-xl-3 mt-4">
 				<div class="container pt-2 pb-3 border border-secondary rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
@@ -38,14 +44,16 @@
 					<p class="petite histo d-flex justify-content-center"></p>
 				</div>
 			</div>
-			<div class="col-12 col-md-5 offset-md-2 col-xl-3 offset-xl-6 mt-4 pt-2 pb-3 border border-secondary rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
-				<div id="heure" class="mb-2"></div>
-				<div id="lieu" class="mb-2"></div>
-				<div id="previsions" class="mb-2 d-flex justify-content-center"></div>
-				<div id="temp" class="mb-2 d-flex justify-content-center"></div>
-				<div id="etat_detection" class="mb-2 petite"></div>
-				<div id="etat_alerte" class="mb-2 petite"></div>
-				<div id="etat_leds" class="petite"></div>
+			<div class="col-12 col-md-5 offset-md-2 col-xl-3 offset-xl-6 mt-4">
+				<div class="container pt-2 pb-3 border border-secondary rounded-4 bg-secondary bg-gradient bg-opacity-10 text-secondary">
+					<div id="heure" class="mb-2"></div>
+					<div id="lieu" class="mb-2"></div>
+					<div id="previsions" class="mb-2 d-flex justify-content-center"></div>
+					<div id="temp" class="mb-2 d-flex justify-content-center"></div>
+					<div id="etat_detection" class="mb-2 petite"></div>
+					<div id="etat_alerte" class="mb-2 petite"></div>
+					<div id="etat_leds" class="petite"></div>
+				</div>
 			</div>
 		</div>
 	{% endblock %}

@@ -207,4 +207,39 @@ class MainController extends AbstractController
         $fileContent = json_encode($fileContent);
         return new Response($fileContent);
     }
+
+    #[Route('/gallery', name: 'gallery')]
+    public function gallery(ManagerRegistry $doctrine): Response
+    {
+        $nbColonne = 4;
+        $colonneSaut = 0;
+        $chaine_html = '<tr>';
+        $security_rep = $doctrine->getRepository(Security::class);
+
+        foreach ($security_rep->findAllMedia(8) as $key => $val) {
+            $chemin_video = substr($val['filename'], 27);
+            $nom_video = substr($val['filename'], 34);
+            $chemin_image = preg_replace("/.mp4$/", '.jpg', $chemin_video);
+            $nom_image = preg_replace("/_event\d+.mp4$/", '', $nom_video);
+            if ($colonneSaut != 0 && $colonneSaut % $nbColonne == 0) {
+                $chaine_html .= '</tr><tr>';
+            }
+            $chaine_html .= '<td><a href="player.php?event=' . $nom_video . '&id=' . $val['id'] . '"><img src=' . $chemin_image . ' alt="Vidéo en cours de création..."></a><br><span class="petite nom">' . $nom_image . '</span><input type="checkbox" class="ms-2 video_select" data-url="' . '../' . $chemin_video . '" data-id_nb="' . $val['id'] . '"></td>';
+            $colonneSaut++;
+        }
+        $chaine_html .= '</tr>';
+
+
+        return $this->render('main/gallery.html.twig', ['property' => $chaine_html]);
+    }
+
+    #[Route('/gallery/discusage', name: 'discusage')]
+    public function du_load(): JsonResponse
+    {
+        $espace_total = $this->getUser()->getMouvementPir()->getEspaceTotal();
+        $espace_dispo = $this->getUser()->getMouvementPir()->getEspaceDispo();
+        $taux_utilisation = $this->getUser()->getMouvementPir()->getTauxUtilisation();
+
+        return $this->json(['0' => $espace_total, '1' => $espace_dispo, '2' => $taux_utilisation]);
+    }
 }

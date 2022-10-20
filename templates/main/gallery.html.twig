@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Videos enregistrées
+{% endblock %}
+
+
+{% block body %}
+	{% include 'main/_bar.html.twig' %}
+
+
+	{% block javascript %}
+		<script type="text/javascript" src="{{ asset('js/gallery.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/jszip.min.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/jszip-utils.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/FileSaver.js') }}"></script>
+
+	{% endblock %}
+	<style>
+		.petite {
+			font-size: 0.7em;
+		}
+	</style>
+	<div class="container">
+		<div class="row mt-2">
+			<div class="col-6 col-md-3">
+				<button type="button" id="but_all" class="btn btn-primary">Toutes</button>
+			</div>
+			<div class="col-6 col-md-3">
+				<button type="button" id="but_none" class="btn btn-primary">Aucune</button>
+			</div>
+			<div class="col-6 col-md-3">
+				<button type="button" id="but_download" class="btn btn-primary">Télécharger</button>
+			</div>
+			<div class="col-6 col-md-3">
+				<button type="button" id="but_supprime" class="btn btn-primary">Supprimer</button>
+			</div>
+		</div>
+	</div>
+
+	<div id='cadre_foreground'></div>
+	<br><br>
+	<table class="" id="tableau">{{ property | raw }}</table>
+{% endblock %}

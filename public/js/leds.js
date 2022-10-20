@@ -44,13 +44,14 @@ function traiteEtAffiche(data) {
 	effet = data[5];
 
 	//$('#myTabs').tabs();
+	InitTimerValues();
 	if (effet == '0') {
 		$('#effetstop').prop('checked', true);
 	}
 	else {
 		$("#effet" + effet).prop('checked', true);
 	}
-	if (debut_time.length > 0) {
+	if (debut_time != '0') {
 		$('#heure_deb').html(debut_time);
 		$('#heure_fin').html(fin_time);
 		//$('#icon_eraser').button({ icons: { primary: 'ui-icon-trash' }, text: false });
@@ -81,8 +82,6 @@ function traiteEtAffiche(data) {
 	rgbString = formRGB(red, green, blue);
 	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
 
-	$('#debut_time').val(debut_time);
-	$('#fin_time').val(fin_time);
 	$('#timepicker_fin').prop('disabled', false);
 
 }
@@ -204,8 +203,8 @@ function storeTimer() {
 }
 
 function InitTimerValues() {
-	$('#debut_time').val(null);
-	$('#fin_time').val(null);
+	$('#debut_time').val('');
+	$('#fin_time').val('');
 	$('.timepicker_deb').prop('disabled', false);
 	$('.timepicker_fin').prop('disabled', true);
 }
@@ -217,7 +216,7 @@ function eraseTimer() {
 		type: 'post',
 		dataType: 'json',
 		url: 'leds/timer',
-		data: { 'h_on': 'null', 'h_off': 'null' },
+		data: { 'h_on': '0', 'h_off': '0' },
 		success: function (response) {
 			if (response.status === 'error') {
 				alert(response.message);
