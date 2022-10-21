@@ -213,7 +213,7 @@ class MainController extends AbstractController
     {
         $nbColonne = 4;
         $colonneSaut = 0;
-        $chaine_html = '<tr>';
+        $chaine_html = '<div class="row d-flex justify-content-center">';
         $security_rep = $doctrine->getRepository(Security::class);
 
         foreach ($security_rep->findAllMedia(8) as $key => $val) {
@@ -222,15 +222,14 @@ class MainController extends AbstractController
             $chemin_image = preg_replace("/.mp4$/", '.jpg', $chemin_video);
             $nom_image = preg_replace("/_event\d+.mp4$/", '', $nom_video);
             if ($colonneSaut != 0 && $colonneSaut % $nbColonne == 0) {
-                $chaine_html .= '</tr><tr>';
+                $chaine_html .= '</div><div class="row d-flex justify-content-center">';
             }
-            $chaine_html .= '<td><a href="player.php?event=' . $nom_video . '&id=' . $val['id'] . '"><img src=' . $chemin_image . ' alt="Vidéo en cours de création..."></a><br><span class="petite nom">' . $nom_image . '</span><input type="checkbox" class="ms-2 video_select" data-url="' . '../' . $chemin_video . '" data-id_nb="' . $val['id'] . '"></td>';
+            $chaine_html .= '<div class="col-12 col-sm-8 col-md-5 col-md-4 col-xl-3 text-center"><a href="player.php?event=' . $nom_video . '&id=' . $val['id'] . '"><img src=' . $chemin_image . ' alt="Vidéo en cours de création..."></a><div class="text-center"><span class="petite nom">' . $nom_image . '</span><input type="checkbox" class="ms-2 video_select" data-url="' . '../' . $chemin_video . '" data-id_nb="' . $val['id'] . '"></div></div>';
             $colonneSaut++;
         }
-        $chaine_html .= '</tr>';
+        $chaine_html .= '</div>';
 
-
-        return $this->render('main/gallery.html.twig', ['property' => $chaine_html]);
+        return $this->render('main/gallery.html.twig', ['videos' => $chaine_html]);
     }
 
     #[Route('/gallery/discusage', name: 'discusage')]

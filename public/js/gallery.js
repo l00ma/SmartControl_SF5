@@ -21,7 +21,7 @@ function traiteEtAffiche(data) {
 	espace_total = data[0];
 	espace_dispo = data[1];
 	taux_utilisation = data[2];
-	$("#bar").html('<meter value="' + taux_utilisation + '" min="0" max="100" high="85" title="Espace disque total: ' + espace_total + ' Go,&#10;Espace disque dispo: ' + espace_dispo + ' Go"></meter><span class="ps-4 petite">Disque: ' + taux_utilisation + '% utilisé</span>');
+	$("#bar").html('<div><meter value="' + taux_utilisation + '" min="0" max="100" high="85" title="Espace disque total: ' + espace_total + ' Go,&#10;Espace disque dispo: ' + espace_dispo + ' Go"></meter><div class="xpetite">Disque: ' + taux_utilisation + '% utilisé</div></div>');
 	//fonction supprimer
 	$('#but_supprime').on('click', function () {
 		var checked_values = [];
@@ -125,16 +125,14 @@ function traiteEtAffiche(data) {
 $(document).ready(function () {
 	//$('#cadre_foreground').append('<div class="foreground"></div>');
 	loadValues();
-});
 
-//action button tout selectionner
-$('#but_all').click(function () {
-	alert('click');
-	$('#tableau td').find('input:checkbox').prop('checked', true);
-});
+	//action button tout selectionner
+	$('#but_all').click(function () {
+		$('#tableau div').find('input:checkbox').prop('checked', true);
+	});
 
-//action button tout dÃ©selectionner
-$('#but_none').click(function () {
-	$('#tableau td').find('input:checkbox').prop('checked', false);
-	//$(this).val('check all');        
+	//action button tout dÃ©selectionner
+	$('#but_none').click(function () {
+		$('#tableau div').find('input:checkbox').prop('checked', false);
+	});
 });
