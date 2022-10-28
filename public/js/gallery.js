@@ -53,10 +53,10 @@ function traiteEtAffiche(data) {
 				url: 'gallery/erase',
 				data: { value: checked_values },
 				success: function (result) {
-					if (result !== 'done') { alert('Erreur lors de la suppression') };
+					//if (result !== 'done') { alert('Erreur lors de la suppression') };
 				}
 			});
-			//window.location.href = '../gallery';
+			window.location.href = '../gallery';
 		}
 		//si le tableau checked_values ne contient aucune video, on avertit l'utilisateur et on quitte
 		else {
