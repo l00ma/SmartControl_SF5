@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\VarExporter\Internal\Values;
 
 class MainController extends AbstractController
 {
@@ -248,14 +249,24 @@ class MainController extends AbstractController
     {
         $single_value = preg_split("/,/", $this->request->query->get('value'));
         foreach ($single_value as $i) {
-            $values = preg_split("/#/", $i);
-            $entityManger = $this->getDoctrine()->getManager();
-            $security_rep = $entityManger->getRepository(Security::class)->find($values[0]);
-            $entityManger->remove($security_rep);
-            $entityManger->flush($security_rep);
-            unlink('images/' . $values[1]);
-            $image = preg_replace('/mp4/i', 'jpg', $values[1]);
-            unlink('images/' . $image);
+            if (isset($i)) {
+                $values = preg_split("/#/", $i);
+                $image = preg_replace('/mp4/i', 'jpg', $values[1]);
+                if ((isset($values[0])) && (isset($values[1]) && (preg_match('/^\d+$/', $values[0])) && (preg_match('/\d{2}-\d{2}-\d{4}_\d{2}h\d{2}m\d{2}s_event\d+\.mp4$/', $values[1])))) {
+
+                    $entityManger = $this->getDoctrine()->getManager();
+                    $security_rep = $entityManger->getRepository(Security::class)->find($values[0]);
+                    $entityManger->remove($security_rep);
+                    $entityManger->flush($security_rep);
+
+                    unlink('images/' . $values[1]);
+                    unlink('images/' . $image);
+                } else {
+                    $retour = "error";
+                }
+            } else {
+                $retour = "error";
+            }
         }
         return $this->redirectToRoute('gallery');
     }

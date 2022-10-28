@@ -14,7 +14,7 @@
 	{% endblock %}
 	<div class="container">
 		<center>
-			<div class="row mt-2 border">
+			<div class="row mt-2 justify-content-evenly">
 				<div class="col-12 col-md-2 mb-2">
 					<button type="button" id="but_download" class="btn btn-secondary">Télécharger</button>
 				</div>
@@ -25,8 +25,6 @@
 					</form>
 				</div>
 			</div>
-
-
 			<video class="col-12 col-lg-8 mt-4" controls>
 				<source src="/images/{{ video }}" type="video/mp4">
 				Your browser does not support the video tag.
@@ -61,9 +59,9 @@
 
 // });
 $("#but_download").click(function () {
-if (confirm("Voulez-vous télécharger                        {{ video }}?")) {
+if (confirm("Voulez-vous télécharger {{ video }}?")) {
 var x = new XMLHttpRequest();
-x.open('GET', 'data/image/                        {{ video }}', true);
+x.open('GET', '../images/{{ video }}', true);
 x.responseType = 'blob';
 x.onload = function (e) {
 download(x.response, '{{ video }}', 'video/x-msvideo');
