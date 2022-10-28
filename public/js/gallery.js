@@ -28,7 +28,7 @@ function traiteEtAffiche(data) {
 		//on stock le nom des videos cochées dans le tableau checked_values
 		$('#tableau').find(":checked").each(function () {
 			var $this = $(this);
-			var id_nb = $this.data("id_nb");
+			var id_nb = $this.data("id_nb") + "#" + $this.data("name");
 			checked_values.push(id_nb);
 		});
 		//si le tableau checked_values contient au moins une video, on l'efface.
@@ -50,13 +50,13 @@ function traiteEtAffiche(data) {
 			$.ajax({
 				type: 'get',
 				async: false,
-				url: 'cgi-bin/asuppr.cgi',
-				data: { file_id: checked_values, id_secure: challenge },
+				url: 'gallery/erase',
+				data: { value: checked_values },
 				success: function (result) {
 					if (result !== 'done') { alert('Erreur lors de la suppression') };
 				}
 			});
-			window.location.href = '../gallery.php';
+			//window.location.href = '../gallery';
 		}
 		//si le tableau checked_values ne contient aucune video, on avertit l'utilisateur et on quitte
 		else {

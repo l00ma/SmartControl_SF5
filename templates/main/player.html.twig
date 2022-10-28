@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lecteur vidéo
+{% endblock %}
+
+
+{% block body %}
+	{% include 'main/_bar.html.twig' %}
+
+
+	{% block javascript %}
+		<script type="text/javascript" src="{{ asset('js/download.js') }}"></script>
+
+	{% endblock %}
+	<div class="container">
+		<center>
+			<div class="row mt-2 border">
+				<div class="col-12 col-md-2 mb-2">
+					<button type="button" id="but_download" class="btn btn-secondary">Télécharger</button>
+				</div>
+				<div class="col-12 col-md-2">
+					<form action="erase">
+						<input type="hidden" id="value" name="value" value="{{id}}#{{video}}">
+						<button type="submit" id="but_supprime" class="btn btn-secondary">Supprimer</button>
+					</form>
+				</div>
+			</div>
+
+
+			<video class="col-12 col-lg-8 mt-4" controls>
+				<source src="/images/{{ video }}" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+		</center>
+	</div>
+
+	<script>
+		$(document).ready(function () {
+// $("#but_supprime").click(function () {
+
+// if (confirm("Voulez-vous supprimer                     {{ video }}?")) {
+// $.ajax({
+// type: 'get',
+// async: false,
+// url: 'cgi-bin/asuppr.cgi',
+// data: {
+// file_id: "{{ id }}",
+// id_secure:'<?php echo $_SESSION["login_string"]; ?>'
+// },
+// success: function (result) {
+// if (result === 'done') {
+// window.location.href = '../gallery.php'
+// };
+// if (result === 'error') {
+// alert("Impossible de supprimer                 {{ video }}")
+// };
+// }
+
+// });
+// }
+
+// });
+$("#but_download").click(function () {
+if (confirm("Voulez-vous télécharger                        {{ video }}?")) {
+var x = new XMLHttpRequest();
+x.open('GET', 'data/image/                        {{ video }}', true);
+x.responseType = 'blob';
+x.onload = function (e) {
+download(x.response, '{{ video }}', 'video/x-msvideo');
+}
+x.send();
+}
+});
+});
+	</script>
+{% endblock %}
