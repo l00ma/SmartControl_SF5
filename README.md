@@ -1,3 +1,3 @@
 # SmartControl_SF5
-New version of SmartControl app.
-This version will be powered by symfony 5.4
+Clone of [SmartControl app](https://github.com/l00ma/smartcontrol).<br>
+This version is powered by symfony 5.4.
