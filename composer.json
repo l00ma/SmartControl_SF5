@@ -44,6 +44,7 @@
         "symfony/yaml": "6.0.*",
         "symfonycasts/reset-password-bundle": "^1.14",
         "twbs/bootstrap": "5.2.1",
+        "twbs/bootstrap-icons": "^1.10",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },
