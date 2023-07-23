@@ -131,7 +131,7 @@ $(document).ready(function () {
 		$('#tableau div').find('input:checkbox').prop('checked', true);
 	});
 
-	//action button tout dÃ©selectionner
+	//action button tout déselectionner
 	$('#but_none').click(function () {
 		$('#tableau div').find('input:checkbox').prop('checked', false);
 	});

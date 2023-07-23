@@ -2,32 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Security;
 use App\Repository\MembersRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\SecurityRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\VarExporter\Internal\Values;
 
 class MainController extends AbstractController
 {
-
-    /**
-     * @var MembersRepository;
-     */
-    private $repository;
-
-    public function __construct(MembersRepository $repository, EntityManagerInterface $em)
-    {
-        $this->repository = $repository;
-        $this->em = $em;
-        $request = Request::createFromGlobals();
-        $this->request = $request;
-    }
 
     #[Route('/welcome', name: 'welcome')]
     public function index(): Response
@@ -36,7 +20,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/welcome/load', name: 'welcome_load')]
-    public function w_load(ManagerRegistry $doctrine): JsonResponse
+    public function w_load(SecurityRepository $securityRepository): JsonResponse
     {
         $etat = $this->getUser()->getLedsStrip()->getEtat();
         $temp_int = $this->getUser()->getLedsStrip()->getTemp();
@@ -69,17 +53,15 @@ class MainController extends AbstractController
         $icon_f2 = $this->getUser()->getMeteo()->getIconF2();
         $icon_f3 = $this->getUser()->getMeteo()->getIconF3();
 
-        $security_rep = $doctrine->getRepository(Security::class);
-
         $films = $emails = array_fill(0, 5, '0');
         $i = $j = 0;
 
-        foreach ($security_rep->findByMedia(8) as $key => $val) {
+        foreach ($securityRepository->findByMedia(8) as $key => $val) {
             $timeStamp = $val["time_stamp"]->format('\l\e d/m/Y à H:i:s');
             $films[$i] = $timeStamp;
             $i++;
         }
-        foreach ($security_rep->findByMedia(2) as $key => $val) {
+        foreach ($securityRepository->findByMedia(2) as $key => $val) {
             $timeStamp = $val["time_stamp"]->format('\l\e d/m/Y à H:i:s');
             $emails[$j] = $timeStamp;
             $j++;
@@ -105,17 +87,17 @@ class MainController extends AbstractController
     }
 
     #[Route('/motion/save', name: 'motion_save', methods: 'POST')]
-    public function m_save(Request $request): JsonResponse
+    public function m_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            $member = $this->getUser();
-            $datas = $member->getMouvementPir();
+            $user = $this->getUser();
+            $datas = $user->getMouvementPir();
             $datas->setGraphRafraich((int) $request->get('refresh'));
             $datas->setEnreg($request->get('cam'));
             $datas->setAlert($request->get('alert'));
 
-            $member->setMouvementPir($datas);
-            $this->em->flush();
+            $user->setMouvementPir($datas);
+            $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
         } else {
@@ -150,18 +132,18 @@ class MainController extends AbstractController
     }
 
     #[Route('/leds/save', name: 'leds_save', methods: 'POST')]
-    public function l_save(Request $request): JsonResponse
+    public function l_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            $member = $this->getUser();
-            $datas = $member->getLedsStrip();
+            $user = $this->getUser();
+            $datas = $user->getLedsStrip();
             $datas->setRgb($request->get('rgb'));
             $datas->setEtat($request->get('etat'));
             $datas->setEmail($request->get('email'));
             $datas->setEffet($request->get('effet'));
 
-            $member->setLedsStrip($datas);
-            $this->em->flush();
+            $user->setLedsStrip($datas);
+            $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
         } else {
@@ -170,19 +152,19 @@ class MainController extends AbstractController
     }
 
     #[Route('/leds/timer', name: 'leds_timer', methods: 'POST')]
-    public function l_timer(Request $request): JsonResponse
+    public function l_timer(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            $member = $this->getUser();
-            $datas = $member->getLedsStrip();
+            $user = $this->getUser();
+            $datas = $user->getLedsStrip();
             // if ($request->getHOn('h_on')) =  'null' or ($request->getHOn('h_off')) =  'null' {
 
             // }
             $datas->setHOn($request->get('h_on'));
             $datas->setHOff($request->get('h_off'));
 
-            $member->setLedsStrip($datas);
-            $this->em->flush();
+            $user->setLedsStrip($datas);
+            $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
         } else {
@@ -193,7 +175,6 @@ class MainController extends AbstractController
     #[Route('/temp', name: 'temp')]
     public function temp(): Response
     {
-
         return $this->render('main/temp.html.twig');
     }
 
@@ -212,16 +193,16 @@ class MainController extends AbstractController
     }
 
     #[Route('/gallery', name: 'gallery')]
-    public function gallery(ManagerRegistry $doctrine): Response
+    public function gallery(SecurityRepository $securityRepository): Response
     {
         $nbColonne = 4;
         $colonneSaut = 0;
         $chaine_html = '<div class="row d-flex justify-content-center">';
-        $security_rep = $doctrine->getRepository(Security::class);
 
-        foreach ($security_rep->findAllMedia(8) as $key => $val) {
-            $chemin_video = substr($val['filename'], 27);
-            $nom_video = substr($val['filename'], 34);
+        foreach ($securityRepository->findAllMedia(8) as $val) {
+            //$chemin_video = substr($val['filename'], 27);
+            $nom_video = basename($val['filename']);
+            $chemin_video = basename(dirname($val['filename'])) . '/' . $nom_video;
             $chemin_image = preg_replace("/.mp4$/", '.jpg', $chemin_video);
             $nom_image = preg_replace("/_event\d+.mp4$/", '', $nom_video);
             if ($colonneSaut != 0 && $colonneSaut % $nbColonne == 0) {
@@ -236,28 +217,28 @@ class MainController extends AbstractController
     }
 
     #[Route('/gallery/player', name: 'player')]
-    public function play(): Response
+    public function play(Request $request): Response
     {
-        $video = $this->request->query->get('event');
-        $id = $this->request->query->get('id');
+        $video = $request->query->get('event');
+        $id = $request->query->get('id');
 
         return $this->render('main/player.html.twig', ['video' => $video, 'id' => $id]);
     }
 
     #[Route('/gallery/erase', name: 'erase')]
-    public function erase(ManagerRegistry $doctrine): Response
+    public function erase(Request $request, SecurityRepository $securityRepository): Response
     {
-        $single_value = preg_split("/,/", $this->request->query->get('value'));
+
+        $single_value = preg_split("/,/", $request->query->get('value'));
         foreach ($single_value as $i) {
             if (isset($i)) {
                 $values = preg_split("/#/", $i);
                 $image = preg_replace('/mp4/i', 'jpg', $values[1]);
                 if ((isset($values[0])) && (isset($values[1]) && (preg_match('/^\d+$/', $values[0])) && (preg_match('/\d{2}-\d{2}-\d{4}_\d{2}h\d{2}m\d{2}s_event\d+\.mp4$/', $values[1])))) {
 
-                    $entityManger = $this->getDoctrine()->getManager();
-                    $security_rep = $entityManger->getRepository(Security::class)->find($values[0]);
-                    $entityManger->remove($security_rep);
-                    $entityManger->flush($security_rep);
+                    $security_rep = $securityRepository->find($values[0]);
+                    $securityRepository->remove($security_rep, true);
+                    //$securityRepository->flush($security_rep);
 
                     unlink('images/' . $values[1]);
                     unlink('images/' . $image);

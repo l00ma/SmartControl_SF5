@@ -15,7 +15,7 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 128, unique: true)]
     private ?string $username = null;
 
     #[ORM\Column]
@@ -27,7 +27,7 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 128)]
     private ?string $email = null;
 
     #[ORM\OneToOne(targetEntity: MouvementPir::class, mappedBy: 'owner', cascade: ['persist', 'remove'])]
