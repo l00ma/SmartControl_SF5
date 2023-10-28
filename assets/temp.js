@@ -132,7 +132,7 @@ function graph() {
 					count: 1,
 					text: 'tout'
 				}],
-				// se positionne par defaut sur 1 jour
+				// se positionne par defaut sur 3 jours
 				selected: 2,
 				inputEnabled: false
 			},
