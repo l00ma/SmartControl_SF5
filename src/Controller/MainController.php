@@ -2,32 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Security;
 use App\Repository\MembersRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\SecurityRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\VarExporter\Internal\Values;
 
 class MainController extends AbstractController
 {
-
-    /**
-     * @var MembersRepository;
-     */
-    private $repository;
-
-    public function __construct(MembersRepository $repository, EntityManagerInterface $em)
-    {
-        $this->repository = $repository;
-        $this->em = $em;
-        $request = Request::createFromGlobals();
-        $this->request = $request;
-    }
 
     #[Route('/welcome', name: 'welcome')]
     public function index(): Response
@@ -36,50 +20,49 @@ class MainController extends AbstractController
     }
 
     #[Route('/welcome/load', name: 'welcome_load')]
-    public function w_load(ManagerRegistry $doctrine): JsonResponse
+    public function w_load(SecurityRepository $securityRepository): JsonResponse
     {
-        $etat = $this->getUser()->getLedsStrip()->getEtat();
-        $temp_int = $this->getUser()->getLedsStrip()->getTemp();
-        $temp_ext = $this->getUser()->getLedsStrip()->getTempExt();
-        $temp_bas = $this->getUser()->getLedsStrip()->getTempBas();
+        $user = $this->getUser();
+        $etat = $user->getLedsStrip()->getEtat();
+        $temp_int = $user->getLedsStrip()->getTemp();
+        $temp_ext = $user->getLedsStrip()->getTempExt();
+        $temp_bas = $user->getLedsStrip()->getTempBas();
 
-        $enreg = $this->getUser()->getMouvementPir()->getEnreg();
-        $enreg_detect = $this->getUser()->getMouvementPir()->getEnregDetect();
-        $alert = $this->getUser()->getMouvementPir()->getAlert();
+        $enreg = $user->getMouvementPir()->getEnreg();
+        $enreg_detect = $user->getMouvementPir()->getEnregDetect();
+        $alert = $user->getMouvementPir()->getAlert();
 
-        $pression = $this->getUser()->getMeteo()->getPression();
-        $vitesse_vent = $this->getUser()->getMeteo()->getVitesseVent();
-        $direction_vent = $this->getUser()->getMeteo()->getDirectionVent();
-        $location = $this->getUser()->getMeteo()->getLocation();
-        $humidite = $this->getUser()->getMeteo()->getHumidite();
-        $weather = $this->getUser()->getMeteo()->getWeather();
-        $icon_id = $this->getUser()->getMeteo()->getIconId();
-        $leve_soleil = $this->getUser()->getMeteo()->getLeveSoleil();
-        $couche_soleil = $this->getUser()->getMeteo()->getCoucheSoleil();
-        $temp_f1 = $this->getUser()->getMeteo()->getTempF1();
-        $temp_f2 = $this->getUser()->getMeteo()->getTempF2();
-        $temp_f3 = $this->getUser()->getMeteo()->getTempF3();
-        $time_f1 = $this->getUser()->getMeteo()->getTimeF1();
-        $time_f2 = $this->getUser()->getMeteo()->getTimeF2();
-        $time_f3 = $this->getUser()->getMeteo()->getTimeF3();
-        $weather_f1 = $this->getUser()->getMeteo()->getWeatherF1();
-        $weather_f2 = $this->getUser()->getMeteo()->getWeatherF2();
-        $weather_f3 = $this->getUser()->getMeteo()->getWeatherF3();
-        $icon_f1 = $this->getUser()->getMeteo()->getIconF1();
-        $icon_f2 = $this->getUser()->getMeteo()->getIconF2();
-        $icon_f3 = $this->getUser()->getMeteo()->getIconF3();
-
-        $security_rep = $doctrine->getRepository(Security::class);
+        $pression = $user->getMeteo()->getPression();
+        $vitesse_vent = $user->getMeteo()->getVitesseVent();
+        $direction_vent = $user->getMeteo()->getDirectionVent();
+        $location = $user->getMeteo()->getLocation();
+        $humidite = $user->getMeteo()->getHumidite();
+        $weather = $user->getMeteo()->getWeather();
+        $icon_id = $user->getMeteo()->getIconId();
+        $leve_soleil = $user->getMeteo()->getLeveSoleil();
+        $couche_soleil = $user->getMeteo()->getCoucheSoleil();
+        $temp_f1 = $user->getMeteo()->getTempF1();
+        $temp_f2 = $user->getMeteo()->getTempF2();
+        $temp_f3 = $user->getMeteo()->getTempF3();
+        $time_f1 = $user->getMeteo()->getTimeF1();
+        $time_f2 = $user->getMeteo()->getTimeF2();
+        $time_f3 = $user->getMeteo()->getTimeF3();
+        $weather_f1 = $user->getMeteo()->getWeatherF1();
+        $weather_f2 = $user->getMeteo()->getWeatherF2();
+        $weather_f3 = $user->getMeteo()->getWeatherF3();
+        $icon_f1 = $user->getMeteo()->getIconF1();
+        $icon_f2 = $user->getMeteo()->getIconF2();
+        $icon_f3 = $user->getMeteo()->getIconF3();
 
         $films = $emails = array_fill(0, 5, '0');
         $i = $j = 0;
 
-        foreach ($security_rep->findByMedia(8) as $key => $val) {
+        foreach ($securityRepository->findByMedia(8) as $key => $val) {
             $timeStamp = $val["time_stamp"]->format('\l\e d/m/Y à H:i:s');
             $films[$i] = $timeStamp;
             $i++;
         }
-        foreach ($security_rep->findByMedia(2) as $key => $val) {
+        foreach ($securityRepository->findByMedia(2) as $key => $val) {
             $timeStamp = $val["time_stamp"]->format('\l\e d/m/Y à H:i:s');
             $emails[$j] = $timeStamp;
             $j++;
@@ -105,17 +88,17 @@ class MainController extends AbstractController
     }
 
     #[Route('/motion/save', name: 'motion_save', methods: 'POST')]
-    public function m_save(Request $request): JsonResponse
+    public function m_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            $member = $this->getUser();
-            $datas = $member->getMouvementPir();
+            $user = $this->getUser();
+            $datas = $user->getMouvementPir();
             $datas->setGraphRafraich((int) $request->get('refresh'));
             $datas->setEnreg($request->get('cam'));
             $datas->setAlert($request->get('alert'));
 
-            $member->setMouvementPir($datas);
-            $this->em->flush();
+            $user->setMouvementPir($datas);
+            $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
         } else {
@@ -150,18 +133,18 @@ class MainController extends AbstractController
     }
 
     #[Route('/leds/save', name: 'leds_save', methods: 'POST')]
-    public function l_save(Request $request): JsonResponse
+    public function l_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            $member = $this->getUser();
-            $datas = $member->getLedsStrip();
+            $user = $this->getUser();
+            $datas = $user->getLedsStrip();
             $datas->setRgb($request->get('rgb'));
             $datas->setEtat($request->get('etat'));
             $datas->setEmail($request->get('email'));
             $datas->setEffet($request->get('effet'));
 
-            $member->setLedsStrip($datas);
-            $this->em->flush();
+            $user->setLedsStrip($datas);
+            $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
         } else {
@@ -170,19 +153,19 @@ class MainController extends AbstractController
     }
 
     #[Route('/leds/timer', name: 'leds_timer', methods: 'POST')]
-    public function l_timer(Request $request): JsonResponse
+    public function l_timer(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            $member = $this->getUser();
-            $datas = $member->getLedsStrip();
+            $user = $this->getUser();
+            $datas = $user->getLedsStrip();
             // if ($request->getHOn('h_on')) =  'null' or ($request->getHOn('h_off')) =  'null' {
 
             // }
             $datas->setHOn($request->get('h_on'));
             $datas->setHOff($request->get('h_off'));
 
-            $member->setLedsStrip($datas);
-            $this->em->flush();
+            $user->setLedsStrip($datas);
+            $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
         } else {
@@ -193,35 +176,40 @@ class MainController extends AbstractController
     #[Route('/temp', name: 'temp')]
     public function temp(): Response
     {
-
         return $this->render('main/temp.html.twig');
     }
 
     #[Route('/temp/load', name: 'temp_load')]
-    public function t_load()
+    public function t_load(): Response
     {
-        $fileContent_int = file_get_contents($this->getParameter('data_directory') . '/temp_sensor.data');
-        $fileContent_int = '{"data_int":' . $fileContent_int . ',';
-        $fileContent_ext = file_get_contents($this->getParameter('data_directory') . '/temp_ext_sensor.data');
-        $fileContent_ext = ' "data_ext":' . $fileContent_ext . ',';
-        $fileContent_bas = file_get_contents($this->getParameter('data_directory') . '/temp_bas_sensor.data');
-        $fileContent_bas = ' "data_bas":' . $fileContent_bas . '}';
-        $fileContent = $fileContent_int . $fileContent_ext . $fileContent_bas;
-        $fileContent = json_encode($fileContent);
-        return new Response($fileContent);
+        $data_int = file_get_contents($this->getParameter('data_directory') . '/temp_sensor.data');
+        $data_ext = file_get_contents($this->getParameter('data_directory') . '/temp_ext_sensor.data');
+        $data_bas = file_get_contents($this->getParameter('data_directory') . '/temp_bas_sensor.data');
+    
+        // on crée un tableau associatif avec les données
+        $data = [
+            "data_int" => json_decode($data_int, true),
+            "data_ext" => json_decode($data_ext, true),
+            "data_bas" => json_decode($data_bas, true)
+        ];
+    
+        // on convertit le tout en JSON
+        $json_data = json_encode($data);
+
+        return new Response($json_data);
     }
 
     #[Route('/gallery', name: 'gallery')]
-    public function gallery(ManagerRegistry $doctrine): Response
+    public function gallery(SecurityRepository $securityRepository): Response
     {
         $nbColonne = 4;
         $colonneSaut = 0;
         $chaine_html = '<div class="row d-flex justify-content-center">';
-        $security_rep = $doctrine->getRepository(Security::class);
 
-        foreach ($security_rep->findAllMedia(8) as $key => $val) {
-            $chemin_video = substr($val['filename'], 27);
-            $nom_video = substr($val['filename'], 34);
+        foreach ($securityRepository->findAllMedia(8) as $val) {
+            //$chemin_video = substr($val['filename'], 27);
+            $nom_video = basename($val['filename']);
+            $chemin_video = basename(dirname($val['filename'])) . '/' . $nom_video;
             $chemin_image = preg_replace("/.mp4$/", '.jpg', $chemin_video);
             $nom_image = preg_replace("/_event\d+.mp4$/", '', $nom_video);
             if ($colonneSaut != 0 && $colonneSaut % $nbColonne == 0) {
@@ -236,28 +224,28 @@ class MainController extends AbstractController
     }
 
     #[Route('/gallery/player', name: 'player')]
-    public function play(): Response
+    public function play(Request $request): Response
     {
-        $video = $this->request->query->get('event');
-        $id = $this->request->query->get('id');
+        $video = $request->query->get('event');
+        $id = $request->query->get('id');
 
         return $this->render('main/player.html.twig', ['video' => $video, 'id' => $id]);
     }
 
     #[Route('/gallery/erase', name: 'erase')]
-    public function erase(ManagerRegistry $doctrine): Response
+    public function erase(Request $request, SecurityRepository $securityRepository): Response
     {
-        $single_value = preg_split("/,/", $this->request->query->get('value'));
+
+        $single_value = preg_split("/,/", $request->query->get('value'));
         foreach ($single_value as $i) {
             if (isset($i)) {
                 $values = preg_split("/#/", $i);
                 $image = preg_replace('/mp4/i', 'jpg', $values[1]);
                 if ((isset($values[0])) && (isset($values[1]) && (preg_match('/^\d+$/', $values[0])) && (preg_match('/\d{2}-\d{2}-\d{4}_\d{2}h\d{2}m\d{2}s_event\d+\.mp4$/', $values[1])))) {
 
-                    $entityManger = $this->getDoctrine()->getManager();
-                    $security_rep = $entityManger->getRepository(Security::class)->find($values[0]);
-                    $entityManger->remove($security_rep);
-                    $entityManger->flush($security_rep);
+                    $security_rep = $securityRepository->find($values[0]);
+                    $securityRepository->remove($security_rep, true);
+                    //$securityRepository->flush($security_rep);
 
                     unlink('images/' . $values[1]);
                     unlink('images/' . $image);

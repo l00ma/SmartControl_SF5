@@ -1,11 +1,5 @@
 {% if is_granted('ROLE_USER') %}
-
-	<style>
-		.svg_gris {
-			filter: invert(50%) sepia(6%) saturate(630%) hue-rotate(167deg) brightness(87%) contrast(86%);
-		}
-	</style>
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f7f7f7">
+	<nav class="navbar navbar-expand-md navbar-light" style="background-color: #f7f7f7">
 		<div class="container-fluid">
 
 			<a class="navbar-brand" href="{{ path ('welcome') }}"><img src="{{ asset('css/images/raspberry_petit.png') }}" alt="Logo" width="29" class="d-inline-block align-text-bottom"><span class="fs-4 fw-bolder ms-1 text-secondary">
@@ -16,30 +10,30 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="my_navbar">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row fs-2 font-color">
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link active" title="Home page" href="{{ path ('welcome') }}"><img src="{{ asset('css/icons/home.svg') }}" class="svg_gris" alt="Home"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'welcome' %}active{% endif %}" title="Home page" href="{{ path ('welcome') }}"><i class="bi bi-house-fill"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Motion sensor" href="{{ path ('motion') }}"><img src="{{ asset('css/icons/detection.svg') }}" class="svg_gris" alt="Motion sensor"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'motion' %}active{% endif %}" title="Home page" href="{{ path ('motion') }}"><i class="fa-solid fa-house-signal"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Recorded videos" href="{{ path ('gallery') }}"><img src="{{ asset('css/icons/film.svg') }}" class="svg_gris" alt="Recorded videos"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'gallery' %}active{% endif %}" title="Recorded videos" href="{{ path ('gallery') }}"><i class="bi bi-film"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Live camera" href='#'><img src="{{ asset('css/icons/live.svg') }}" class="svg_gris" alt="Live cam"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == '#' %}active{% endif %}" title="Live camera" href='#'><i class="bi bi-camera-reels-fill"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Temperature sensor" href="{{ path ('temp') }}"><img src="{{ asset('css/icons/temp.svg') }}" class="svg_gris" alt="Temperature sensor"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'temp' %}active{% endif %}" title="Temperature sensor" href="{{ path ('temp') }}"><i class="bi bi-thermometer-half"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Ledstrip control" href="{{ path ('leds') }}"><img src="{{ asset('css/icons/light.svg') }}" class="svg_gris" alt="Ledstrip control"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'leds' %}active{% endif %}" title="Ledstrip control" href="{{ path ('leds') }}"><i class="bi bi-lamp-fill"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Edit user" href="{{ path ('user.edit') }}"><img src="{{ asset('css/icons/user.svg') }}" class="svg_gris" alt="Edit user"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'user.edit' %}active{% endif %}" title="Edit user" href="{{ path ('user.edit') }}"><i class="bi bi-person-fill-gear"></i></a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Sign out" href="{{ path ('app_logout') }}"><img src="{{ asset('css/icons/exit.svg') }}" class="svg_gris" alt="Sign out"/></a>
+						<a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" title="Sign out" href="{{ path ('app_logout') }}"><i class="fa-solid fa-person-walking-arrow-right"></i></a>
 					</li>
 				</ul>
 			</div>

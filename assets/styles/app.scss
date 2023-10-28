@@ -1,0 +1,16 @@
+
+
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons";
+
+body {
+
+}
+
+.font-color{
+    color: $secondary;
+}
+
+.active {
+    color: $danger !important;
+}

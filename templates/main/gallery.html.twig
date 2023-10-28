@@ -39,7 +39,10 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="mb-4" id="cadre_foreground"></div>
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
 	<div id="tableau">{{ videos | raw }}</div>
 {% endblock %}
