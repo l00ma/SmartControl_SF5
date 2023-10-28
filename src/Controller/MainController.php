@@ -78,13 +78,25 @@ class MainController extends AbstractController
     }
 
     #[Route('/motion/load', name: 'motion_load')]
-    public function m_load(): JsonResponse
+    public function m_load(): Response
     {
+        $data_pir = file_get_contents($this->getParameter('data_directory') . '/pir_sensor.data');
         $refresh = $this->getUser()->getMouvementPir()->getGraphRafraich();
         $cam = $this->getUser()->getMouvementPir()->getEnreg();
         $alert = $this->getUser()->getMouvementPir()->getAlert();
 
-        return $this->json(['refresh_graph' => $refresh, 'allow_cam' => $cam, 'allow_alert' => $alert]);
+         // on crée un tableau associatif avec les données
+         $data = [
+            "refresh_graph" => json_decode($refresh, true),
+            "allow_cam" => json_decode($cam, true),
+            "allow_alert" => json_decode($alert, true),
+            "data_pir" => json_decode($data_pir, true)
+        ];
+    
+        // on convertit le tout en JSON
+        $json_data = json_encode($data);
+
+        return new Response($json_data);
     }
 
     #[Route('/motion/save', name: 'motion_save', methods: 'POST')]
@@ -195,7 +207,7 @@ class MainController extends AbstractController
     
         // on convertit le tout en JSON
         $json_data = json_encode($data);
-
+        
         return new Response($json_data);
     }
 

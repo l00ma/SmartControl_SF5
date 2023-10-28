@@ -14,7 +14,6 @@ function loadValues_int() {
 		})
 		.then(data => {
 			data_temp = data;
-			console.log(data_temp.data_int);
 			graph();
 		});
 
@@ -133,7 +132,7 @@ function graph() {
 					count: 1,
 					text: 'tout'
 				}],
-				// se positionne par defaut sur 1 jour
+				// se positionne par defaut sur 3 jours
 				selected: 2,
 				inputEnabled: false
 			},
@@ -213,5 +212,5 @@ function graph() {
 // actions
 $(document).ready(function () {
 	loadValues_int();
-	setInterval(function () { loadValues_int(); graph(); }, 300000);
+	setInterval(function () { loadValues_int(); }, 300000);
 });
