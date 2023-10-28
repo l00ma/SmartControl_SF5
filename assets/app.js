@@ -14,12 +14,27 @@ import './bootstrap';
 const $ = require('jquery');
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
+
+//include fontawesome
+require('@fortawesome/fontawesome-free/css/all.min.css');
+require('@fortawesome/fontawesome-free/js/all.js');
+
+// include bootstrap JS
 require('bootstrap');
+
+//boostrap css alert auto-close
+const alert = document.getElementById('alertMsg');
+//close the alert after 2 seconds (2000 milliseconds)
+if (alert) {
+setTimeout(() => {
+    alert.remove();
+}, 2000);
+}
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
 //require('bootstrap/js/dist/popover');
 
-// $(document).ready(function() {
-//     $('[data-toggle="popover"]').popover();
-// });
+$(document).ready(function() {
+    $('[data-toggle="popover"]').popover();
+});

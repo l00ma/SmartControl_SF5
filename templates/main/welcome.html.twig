@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('welcome') }}
+	{% endblock %}
 
 {% block title %}Welcome
 {% endblock %}
@@ -7,9 +11,6 @@
 	{% include 'main/_bar.html.twig' %}
 	{% block stylesheet %}
 		<link rel="stylesheet" href="{{ asset('css/weather-icons.min.css') }}"/>
-	{% endblock %}
-	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/welcome.js') }}"></script>
 	{% endblock %}
 	<style>
 		.petite {

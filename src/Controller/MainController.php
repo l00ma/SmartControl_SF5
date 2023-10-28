@@ -22,36 +22,37 @@ class MainController extends AbstractController
     #[Route('/welcome/load', name: 'welcome_load')]
     public function w_load(SecurityRepository $securityRepository): JsonResponse
     {
-        $etat = $this->getUser()->getLedsStrip()->getEtat();
-        $temp_int = $this->getUser()->getLedsStrip()->getTemp();
-        $temp_ext = $this->getUser()->getLedsStrip()->getTempExt();
-        $temp_bas = $this->getUser()->getLedsStrip()->getTempBas();
+        $user = $this->getUser();
+        $etat = $user->getLedsStrip()->getEtat();
+        $temp_int = $user->getLedsStrip()->getTemp();
+        $temp_ext = $user->getLedsStrip()->getTempExt();
+        $temp_bas = $user->getLedsStrip()->getTempBas();
 
-        $enreg = $this->getUser()->getMouvementPir()->getEnreg();
-        $enreg_detect = $this->getUser()->getMouvementPir()->getEnregDetect();
-        $alert = $this->getUser()->getMouvementPir()->getAlert();
+        $enreg = $user->getMouvementPir()->getEnreg();
+        $enreg_detect = $user->getMouvementPir()->getEnregDetect();
+        $alert = $user->getMouvementPir()->getAlert();
 
-        $pression = $this->getUser()->getMeteo()->getPression();
-        $vitesse_vent = $this->getUser()->getMeteo()->getVitesseVent();
-        $direction_vent = $this->getUser()->getMeteo()->getDirectionVent();
-        $location = $this->getUser()->getMeteo()->getLocation();
-        $humidite = $this->getUser()->getMeteo()->getHumidite();
-        $weather = $this->getUser()->getMeteo()->getWeather();
-        $icon_id = $this->getUser()->getMeteo()->getIconId();
-        $leve_soleil = $this->getUser()->getMeteo()->getLeveSoleil();
-        $couche_soleil = $this->getUser()->getMeteo()->getCoucheSoleil();
-        $temp_f1 = $this->getUser()->getMeteo()->getTempF1();
-        $temp_f2 = $this->getUser()->getMeteo()->getTempF2();
-        $temp_f3 = $this->getUser()->getMeteo()->getTempF3();
-        $time_f1 = $this->getUser()->getMeteo()->getTimeF1();
-        $time_f2 = $this->getUser()->getMeteo()->getTimeF2();
-        $time_f3 = $this->getUser()->getMeteo()->getTimeF3();
-        $weather_f1 = $this->getUser()->getMeteo()->getWeatherF1();
-        $weather_f2 = $this->getUser()->getMeteo()->getWeatherF2();
-        $weather_f3 = $this->getUser()->getMeteo()->getWeatherF3();
-        $icon_f1 = $this->getUser()->getMeteo()->getIconF1();
-        $icon_f2 = $this->getUser()->getMeteo()->getIconF2();
-        $icon_f3 = $this->getUser()->getMeteo()->getIconF3();
+        $pression = $user->getMeteo()->getPression();
+        $vitesse_vent = $user->getMeteo()->getVitesseVent();
+        $direction_vent = $user->getMeteo()->getDirectionVent();
+        $location = $user->getMeteo()->getLocation();
+        $humidite = $user->getMeteo()->getHumidite();
+        $weather = $user->getMeteo()->getWeather();
+        $icon_id = $user->getMeteo()->getIconId();
+        $leve_soleil = $user->getMeteo()->getLeveSoleil();
+        $couche_soleil = $user->getMeteo()->getCoucheSoleil();
+        $temp_f1 = $user->getMeteo()->getTempF1();
+        $temp_f2 = $user->getMeteo()->getTempF2();
+        $temp_f3 = $user->getMeteo()->getTempF3();
+        $time_f1 = $user->getMeteo()->getTimeF1();
+        $time_f2 = $user->getMeteo()->getTimeF2();
+        $time_f3 = $user->getMeteo()->getTimeF3();
+        $weather_f1 = $user->getMeteo()->getWeatherF1();
+        $weather_f2 = $user->getMeteo()->getWeatherF2();
+        $weather_f3 = $user->getMeteo()->getWeatherF3();
+        $icon_f1 = $user->getMeteo()->getIconF1();
+        $icon_f2 = $user->getMeteo()->getIconF2();
+        $icon_f3 = $user->getMeteo()->getIconF3();
 
         $films = $emails = array_fill(0, 5, '0');
         $i = $j = 0;
@@ -179,17 +180,23 @@ class MainController extends AbstractController
     }
 
     #[Route('/temp/load', name: 'temp_load')]
-    public function t_load()
+    public function t_load(): Response
     {
-        $fileContent_int = file_get_contents($this->getParameter('data_directory') . '/temp_sensor.data');
-        $fileContent_int = '{"data_int":' . $fileContent_int . ',';
-        $fileContent_ext = file_get_contents($this->getParameter('data_directory') . '/temp_ext_sensor.data');
-        $fileContent_ext = ' "data_ext":' . $fileContent_ext . ',';
-        $fileContent_bas = file_get_contents($this->getParameter('data_directory') . '/temp_bas_sensor.data');
-        $fileContent_bas = ' "data_bas":' . $fileContent_bas . '}';
-        $fileContent = $fileContent_int . $fileContent_ext . $fileContent_bas;
-        $fileContent = json_encode($fileContent);
-        return new Response($fileContent);
+        $data_int = file_get_contents($this->getParameter('data_directory') . '/temp_sensor.data');
+        $data_ext = file_get_contents($this->getParameter('data_directory') . '/temp_ext_sensor.data');
+        $data_bas = file_get_contents($this->getParameter('data_directory') . '/temp_bas_sensor.data');
+    
+        // on crée un tableau associatif avec les données
+        $data = [
+            "data_int" => json_decode($data_int, true),
+            "data_ext" => json_decode($data_ext, true),
+            "data_bas" => json_decode($data_bas, true)
+        ];
+    
+        // on convertit le tout en JSON
+        $json_data = json_encode($data);
+
+        return new Response($json_data);
     }
 
     #[Route('/gallery', name: 'gallery')]

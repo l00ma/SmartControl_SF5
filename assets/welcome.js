@@ -1,7 +1,7 @@
 // fonctions
 
-var histo_film = new Array();
-var histo_mail = new Array();
+let histo_film = new Array();
+let histo_mail = new Array();
 
 function loadValues() {
 	$.ajax({
@@ -32,7 +32,7 @@ function traiteEtAffiche(data) {
 	histo_mail[0] = data['9'];
 	data.weather = decodeURIComponent(escape(data.weather));
 
-	var nombre_film = 0; var nombre_mail = 0;
+	let nombre_film = 0; let nombre_mail = 0;
 	for (i = 0; i < histo_film.length; i++) {
 		if (histo_film[i] != '0') {
 			nombre_film++;
@@ -90,25 +90,26 @@ function traiteEtAffiche(data) {
 
 //fonction affiche l'heure
 function AfficheHeure() {
-	dows = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-	mois = ["janv", "f&eacute;v", "mars", "avril", "mai", "juin", "juillet", "ao&ucirc;t", "sept", "oct", "nov", "d&eacute;c"];
-	sep = ":";
-	now = new Date;
-	heure = now.getHours();
-	min = now.getMinutes();
-	sec = now.getSeconds();
-	jour_semaine = dows[now.getDay()];
-	jour = now.getDate();
+	let heure0, min0, sec0;
+	const dows = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+	let mois = ["janv", "f&eacute;v", "mars", "avril", "mai", "juin", "juillet", "ao&ucirc;t", "sept", "oct", "nov", "d&eacute;c"];
+	const sep = ":";
+	const now = new Date;
+	const heure = now.getHours();
+	const min = now.getMinutes();
+	const sec = now.getSeconds();
+	const jour_semaine = dows[now.getDay()];
+	const jour = now.getDate();
 	mois = mois[now.getMonth()];
-	annee = now.getFullYear();
+	const annee = now.getFullYear();
 
 	if (sec < 10) { sec0 = "0"; } else { sec0 = ""; }
 	if (min < 10) { min0 = "0"; } else { min0 = ""; }
 	if (heure < 10) { heure0 = "0"; } else { heure0 = ""; }
 
-	horloge_heure = heure0 + heure + sep + min0 + min + sep + sec0 + sec;
-	horloge_date = jour_semaine + " " + jour + " " + mois + " " + annee;
-	horloge_content = "<div class='moyenne'>" + horloge_date + "</div><div class='grande'>" + horloge_heure + "</div>";
+	const horloge_heure = heure0 + heure + sep + min0 + min + sep + sec0 + sec;
+	const horloge_date = jour_semaine + " " + jour + " " + mois + " " + annee;
+	const horloge_content = "<div class='moyenne'>" + horloge_date + "</div><div class='grande'>" + horloge_heure + "</div>";
 	document.getElementById('heure').innerHTML = horloge_content;
 	setTimeout(AfficheHeure, 1000)
 }
