@@ -6,9 +6,9 @@
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
 
-	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/highstock.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/mouv.js') }}"></script>
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('mouv') }}
 	{% endblock %}
 	<style>
 		.form-check-input {
