@@ -72,7 +72,6 @@ function saveDatas() {
 			return response.json();
 		})
 		.then(data => {
-			console.log(data);
 			if (data.status === 'error') {
 				alert(data.message);
 			}
@@ -83,19 +82,6 @@ function saveDatas() {
 		});
 }
 
-/*function saveDatas() {
-	$.ajax({
-		type: 'post',
-		url: 'motion/save',
-		dataType: 'json',
-		data: { 'refresh': refresh_graph, 'cam': allow_cam, 'alert': allow_alert },
-		success: function (response) {
-			if (response.status === 'error') {
-				alert(response.message);
-			}
-		}
-	});
-}*/
 //fonction trace le graph
 function graph(data) {
 	//console.log(data.data_pir);
