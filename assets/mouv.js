@@ -84,7 +84,7 @@ function saveDatas() {
 
 //fonction trace le graph
 function graph(data) {
-	//console.log(data.data_pir);
+	
 	Highcharts.setOptions({
 		lang: {
 			months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
