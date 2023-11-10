@@ -16,18 +16,6 @@
 		{{ encore_entry_script_tags('leds') }}
 	{% endblock %}
 
-
-	<style>
-		.form-check-input {
-			transform: scale(1.4);
-		}
-		#colorBox {
-			height: 104px;
-			background: #ffffff;
-			border: 1px solid #999999;
-			border-radius: 6px;
-		}
-	</style>
 	<div class="ms-2 text-secondary">
 		<h3>Controle éclairage</h3>
 	</div>
@@ -45,19 +33,19 @@
 		<div
 			class="row">
 			<!-- Onglets -->
-			<ul class="nav nav-pills nav-justified col-12 col-md-7 col-lg-5">
+			<ul class="nav nav-pills flex-column flex-sm-row nav-fill">
 				<li class="nav-item">
-					<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
+					<a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-bs-toggle="tab" href="#b">Leds effet</a>
+					<a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" href="#b">Leds effet</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-bs-toggle="tab" href="#c">Leds timer</a>
+					<a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" href="#c">Leds timer</a>
 				</li>
 			</ul>
 			<div
-				class="tab-content">
+				class="tab-content text-center">
 
 				<!-- 1er onglet -->
 
@@ -69,7 +57,7 @@
 						<div class="mt-2 mb-2 ms-2">
 							Changer la couleur:
 						</div>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-2 col-lg-1 align-self-center">
 								<label for="rSlider" class="d-block form-label">R:</label>
 								<label for="gSlider" class="d-block form-label">G:</label>
@@ -94,7 +82,7 @@
 						<div class="mt-2 mb-2 ms-2">
 							Sélectionner un effet:
 						</div>
-						<div class="row mt-4">
+						<div class="row mt-4 justify-content-center">
 							<div class="col-4 col-md-2 col-lg-1">
 								<input type="radio" name="effets" id="effet1" num="1" class="form-check-input"/>
 								<label for="effet1" class="form-check-label">Effet 1</label>
@@ -128,6 +116,7 @@
 					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">Placer un timer:
 						</div>
+						<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
 							<div class="row justify-content-evenly mt-2">
 								<div class="col-3 col-md-3 col-lg-2 col-xl-1">
@@ -162,7 +151,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row justify-content-evenly mt-2">
+							<div class="row justify-content-evenly mt-4">
 								<div class="col-4">
 									<button class="btn btn-primary" id="but_efface">Effacer</button>
 								</div>
@@ -194,6 +183,7 @@
 								</button>
 							</div>
 						</div>
+					</div>
 					</div>
 				</div>
 				<!-- fin du 3eme onglet -->

@@ -1,5 +1,5 @@
 import 'clockpicker/dist/jquery-clockpicker';
-import './styles/leds.css';
+import './styles/leds.scss';
 
 let red, green, blue, etat, rgbString, debut_time, fin_time, email, effet;
 
@@ -44,7 +44,6 @@ function traiteEtAffiche(data) {
 	email = data[4];
 	effet = data[5];
 
-	//$('#myTabs').tabs();
 	InitTimerValues();
 	if (effet == '0') {
 		$('#effetstop').prop('checked', true);
@@ -55,7 +54,6 @@ function traiteEtAffiche(data) {
 	if (debut_time != '0') {
 		$('#heure_deb').html(debut_time);
 		$('#heure_fin').html(fin_time);
-		//$('#icon_eraser').button({ icons: { primary: 'ui-icon-trash' }, text: false });
 		if (email == '0') {
 			$('#email').prop('checked', false);
 		}
@@ -69,11 +67,9 @@ function traiteEtAffiche(data) {
 	}
 	if (etat === 'true') {
 		$('#myonoffswitch').prop('checked', true);
-		//$('#myTabs').tabs('option', 'disabled', []);
 	}
 	else {
 		$('#myonoffswitch').prop('checked', false);
-		//$('#myTabs').tabs('option', 'active', 0);
 	}
 
 	$('#rSlider').val(red);
@@ -91,8 +87,8 @@ function initiTimePicker() {
 	$(function () {
 		$('.timepicker_deb').clockpicker({
 			placement: 'bottom',
-			align: 'left',
-			donetext: 'Done',
+			align: 'right',
+			'default': 'now',
 			autoclose: true,
 			afterDone: function () {
 				if ($('#debut_time').val().length > 0) {
@@ -107,61 +103,11 @@ function initiTimePicker() {
 	$(function () {
 		$('.timepicker_fin').clockpicker({
 			placement: 'bottom',
-			align: 'left',
-			donetext: 'Done',
+			align: 'right',
+			'default': 'now',
 			autoclose: true,
 		});
 	});
-	//if (something) {
-	// Manual operations (after clockpicker is initialized).
-	//	$('#timepicker_debut').clockpicker('show') // Or hide, remove ...
-	//		.clockpicker('toggleView', 'minutes');
-	//}
-
-	// $('#timepicker_deb').timepicker({
-	// 	hourText: 'Heures',
-	// 	minuteText: 'Minutes',
-	// 	amPmText: ['AM', 'PM'],
-	// 	timeSeparator: 'h',
-	// 	nowButtonText: 'Maintenant',
-	// 	showNowButton: true,
-	// 	closeButtonText: 'Fermer',
-	// 	showCloseButton: true,
-	// 	deselectButtonText: 'Désélectionner',
-	// 	showDeselectButton: true,
-
-	// 	onClose: function (time, inst) {
-	// if ($('#timepicker_deb').val().length > 0) {
-	// 	$('#timepicker_fin').prop('disabled', false);
-	// 	$('#timepicker_deb').prop('disabled', true);
-	// }
-	// 		//alert ('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
-	// 	}
-	// });
-	// $('#timepicker_fin').timepicker({
-	// 	hourText: 'Heures',
-	// 	minuteText: 'Minutes',
-	// 	amPmText: ['AM', 'PM'],
-	// 	timeSeparator: 'h',
-	// 	showNowButton: false,
-	// 	closeButtonText: 'Fermer',
-	// 	showCloseButton: true,
-	// 	deselectButtonText: 'Désélectionner',
-	// 	showDeselectButton: true,
-
-	// 	onClose: function (time, inst) {
-	// 		if ($('#timepicker_deb').val().length > 0 && $('#timepicker_fin').val().length > 0) {
-	// 			$('#timepicker_fin').prop('disabled', true);
-	// 			$('#but_enregistre').prop('disabled', false);
-	// 		}
-	// 		//log_event('onSelect triggered with time : ' + time + ' for instance id : ' + inst.id);
-	// 	}
-	// });
-	// $('#timepicker_deb').val();
-	// $('#timepicker_fin').val();
-	// $('#timepicker_deb').prop('disabled', false);
-	// $('#timepicker_fin').prop('disabled', true);
-	// $('#but_enregistre').prop('disabled', true);
 }
 
 
