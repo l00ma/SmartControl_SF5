@@ -5,14 +5,18 @@
 
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
-	{% block stylesheet %}
-		<link rel="stylesheet" href="{{ asset('css/bootstrap4-clockpicker.css') }}">
-	{% endblock %}
-	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/leds.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/bootstrap4-clockpicker.js') }}"></script>
 
+	{% block stylesheets %}
+		{{ parent() }}
+		{{ encore_entry_link_tags('leds') }}
 	{% endblock %}
+
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('leds') }}
+	{% endblock %}
+
+
 	<style>
 		.form-check-input {
 			transform: scale(1.4);

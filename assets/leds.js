@@ -1,6 +1,7 @@
-//fonctions
+import 'clockpicker/dist/jquery-clockpicker';
+import './styles/leds.css';
 
-var red, green, blue, etat, rgbString, debut_time, fin_time, email, effet;
+let red, green, blue, etat, rgbString, debut_time, fin_time, email, effet;
 
 function loadValues() {
 	$.ajax({
@@ -33,7 +34,7 @@ function saveValues() {
 
 function traiteEtAffiche(data) {
 	rgbString = data[0];
-	var rgb = rgbString.split(',');
+	let rgb = rgbString.split(',');
 	red = parseInt(rgb[0]);
 	green = parseInt(rgb[1]);
 	blue = parseInt(rgb[2]);
@@ -226,7 +227,7 @@ function eraseTimer() {
 }
 
 function formRGB(r, g, b) {
-	var text = r + ',' + g + ',' + b;
+	let text = r + ',' + g + ',' + b;
 	return text;
 }
 
@@ -250,7 +251,7 @@ function refreshAll() {
 //actions=====================================
 
 //action au chargement de la page
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
 	initiTimePicker();
 	loadValues();
 
