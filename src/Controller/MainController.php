@@ -102,14 +102,21 @@ class MainController extends AbstractController
     #[Route('/motion/save', name: 'motion_save', methods: 'POST')]
     public function m_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
-        if ($request->isXmlHttpRequest()) {
+        $contentType = $request->headers->get('Content-Type');
+        // on vérifie que la requete est bien du JSON
+        if (str_starts_with($contentType, 'application/json')) {
+            // on décode le JSON => array
+            $incomingMouvData = json_decode($request->getContent(), true);
             $user = $this->getUser();
-            $datas = $user->getMouvementPir();
-            $datas->setGraphRafraich((int) $request->get('refresh'));
-            $datas->setEnreg($request->get('cam'));
-            $datas->setAlert($request->get('alert'));
+            $dataToSave = $user->getMouvementPir();
+            // on vérifie les valeurs et on sauvegarde
+            $camAndAlertTest = [0,1];
+            $refreshTest = [5,10,15];
+            if(in_array($incomingMouvData['refresh'],$refreshTest)) $dataToSave->setGraphRafraich($incomingMouvData['refresh']);
+            if(in_array($incomingMouvData['cam'],$camAndAlertTest)) $dataToSave->setEnreg($incomingMouvData['cam']);
+            if(in_array($incomingMouvData['alert'],$camAndAlertTest)) $dataToSave->setAlert($incomingMouvData['alert']);
 
-            $user->setMouvementPir($datas);
+            $user->setMouvementPir($dataToSave);
             $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);

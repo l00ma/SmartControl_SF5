@@ -210,7 +210,7 @@ function graph() {
 }
 
 // actions
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
 	loadValues_int();
 	setInterval(function () { loadValues_int(); }, 300000);
 });

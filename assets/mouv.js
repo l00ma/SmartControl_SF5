@@ -7,7 +7,7 @@ let refresh_graph = 5;
 let allow_cam = 0;
 let allow_alert = 0;
 
-function loadValues() {
+function loadDatas() {
 	fetch('motion/load')
 		.then(response => {
 			if (!response.ok) {
@@ -16,78 +16,75 @@ function loadValues() {
 			return response.json();
 		})
 		.then(data => {
-			traiteEtAffiche(data);
+			parseAndDisplay(data);
 			graph(data);
 		});
 }
 
-function traiteEtAffiche(data) {
+function parseAndDisplay(data) {
 	refresh_graph = data.refresh_graph;
 	allow_cam = data.allow_cam;
 	allow_alert = data.allow_alert;
 
 	// valeur pour le rafraichissement du graph
-	$("#refresh").val(refresh_graph);
+	document.getElementById("refresh").value = refresh_graph;
 	// valeur pour autoriser webcam
-	if (allow_cam == '1') {
-		$('#myenr_switch').prop('checked', true);
-	}
-	else {
-		$('#myenr_switch').prop('checked', false);
-	}
-
+	document.getElementById("myenr_switch").checked = allow_cam;
 	//valeur pour autoriser alerte
-	if (allow_alert == '1') {
-		$('#myalrt_switch').prop('checked', true);
-	}
-	else {
-		$('#myalrt_switch').prop('checked', false);
-	}
+	document.getElementById("myalrt_switch").checked = allow_alert;
 }
+
 //action au click sur valeur rafraichissement graph
 function changeRefreshValue() {
-	refresh_graph = $('#refresh').val();
-	saveValues();
+	refresh_graph = document.getElementById("refresh").value;
+	saveDatas();
 }
+
 //action au click sur autoriser webcam
 function allowCam() {
-	if ($('#myenr_switch').is(':checked')) {
-		allow_cam = 1;
-	}
-	else {
-		allow_cam = 0;
-	}
-	saveValues();
+	allow_cam = document.getElementById("myenr_switch").checked ? 1 : 0;
+	saveDatas();
 }
 
 //action au click sur autoriser alerte
 function allowAlert() {
-	if ($('#myalrt_switch').is(':checked')) {
-		allow_alert = 1;
-	}
-	else {
-		allow_alert = 0;
-	}
-	saveValues();
+	allow_alert = document.getElementById("myalrt_switch").checked ? 1 : 0;
+	saveDatas();
 }
 
 //fonction sauvegarde dans bdd
-function saveValues() {
-	$.ajax({
-		type: 'post',
-		url: 'motion/save',
-		dataType: 'json',
-		data: { 'refresh': refresh_graph, 'cam': allow_cam, 'alert': allow_alert },
-		success: function (response) {
-			if (response.status === 'error') {
-				alert(response.message);
+function saveDatas() {
+	fetch('motion/save', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			'refresh': Number(refresh_graph),
+			'cam': Number(allow_cam),
+			'alert': Number(allow_alert)
+		}),
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erreur lors de la requête');
 			}
-		}
-	});
+			return response.json();
+		})
+		.then(data => {
+			if (data.status === 'error') {
+				alert(data.message);
+			}
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la sauvegarde des données');
+		});
 }
+
 //fonction trace le graph
 function graph(data) {
-	console.log(data.data_pir);
+	
 	Highcharts.setOptions({
 		lang: {
 			months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -225,33 +222,16 @@ function graph(data) {
 }
 
 // actions
-$(document).ready(function () {
-	loadValues();
-	setInterval(function () { loadValues(); }, refresh_graph * 60000);
+document.addEventListener("DOMContentLoaded", function () {
+	loadDatas();
+	setInterval(function () { loadDatas(); }, refresh_graph * 60000);
 
 	//action au click sur valeur rafraichissement graph
-	$('#refresh').on('change', function () {
-		changeRefreshValue();
-
-	});
+	document.getElementById("refresh").addEventListener("change", changeRefreshValue);
 
 	//action au click sur autoriser webcam
-	$('#myenr_switch').on('change', function () {
-		allowCam();
-	});
+	document.getElementById("myenr_switch").addEventListener("change", allowCam);
 
-	//action au click sur valeur declenchement webcam
-	$('.recam_select').on('change', function () {
-		changeWebcamValue();
-	});
-
-	//action au click sur autoriser alert
-	$('#myalrt_switch').on('change', function () {
-		allowAlert();
-	});
-
-	//action au click sur valeur declenchement alerte
-	$('.alrt_select').on('change', function () {
-		changeAlertValue();
-	});
+	//action au click sur autoriser alerte
+	document.getElementById("myalrt_switch").addEventListener("change", allowAlert);
 });
