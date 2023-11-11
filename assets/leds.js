@@ -102,7 +102,7 @@ function initiTimePicker() {
 
 	$(function () {
 		$('.timepicker_fin').clockpicker({
-			placement: 'bottom',
+			placement: 'top',
 			align: 'right',
 			'default': 'now',
 			autoclose: true,

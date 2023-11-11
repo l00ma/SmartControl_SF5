@@ -1,121 +1,79 @@
-// fonctions
+import './styles/welcome.scss';
 
-let histo_film = new Array();
-let histo_mail = new Array();
+let videoHistory = [];
+let emailHistory = [];
 
 function loadValues() {
-	$.ajax({
-		type: 'get',
-		async: false,
-		url: 'welcome/load',
-		dataType: 'json',
-		success: (function (result) {
-			traiteEtAffiche(result);
-		}),
-		error: (function () {
-			setTimeout(loadValues, 10000);
-		}),
-	});
+	videoHistory = [];
+	emailHistory = [];
+	fetch('welcome/load')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
+			}
+			return response.json();
+		})
+		.then(data => {
+			parseAndDisplay(data);
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la lecture des données');
+		});
 }
 
-function traiteEtAffiche(data) {
-	histo_film[4] = data['0'];
-	histo_film[3] = data['1'];
-	histo_film[2] = data['2'];
-	histo_film[1] = data['3'];
-	histo_film[0] = data['4'];
-
-	histo_mail[4] = data['5'];
-	histo_mail[3] = data['6'];
-	histo_mail[2] = data['7'];
-	histo_mail[1] = data['8'];
-	histo_mail[0] = data['9'];
-	data.weather = decodeURIComponent(escape(data.weather));
-
-	let nombre_film = 0; let nombre_mail = 0;
-	for (i = 0; i < histo_film.length; i++) {
-		if (histo_film[i] != '0') {
-			nombre_film++;
+function parseAndDisplay(data) {
+	for (let i = 0; i < 5; i++) {
+		const videoValue = data[i];
+		const emailValue = data[(5 + i)];
+		if (videoValue !== '0') {
+			videoHistory.push(videoValue);
 		}
-		else { histo_film[i] = ""; }
-
-		if (histo_mail[i] != '0') {
-			nombre_mail++;
+		if (emailValue !== '0') {
+			emailHistory.push(emailValue);
 		}
-		else { histo_mail[i] = ""; }
 	}
 
+	data.weather = decodeURIComponent(encodeURIComponent(data.weather));
 
-	if (data.etat === 'true') {
-		$("#etat_leds").html('<span class="gadget_allume">Leds allumées</span>');
-	}
-	else {
-		$("#etat_leds").html('Leds éteintes');
-	}
+	data.etat === 'true' ? document.getElementById("etat_leds").innerHTML = '<span class="gadget_allume">Leds allumées</span>' : document.getElementById("etat_leds").innerHTML = 'Leds éteintes';
+
 	if (data.enreg == '1' || data.alert == '1') {
-		$("#etat_detection").html('<span class="gadget_allume">Détection activée</span>');
-		if (data.enreg_detect === '1') {
-			$("#etat_alerte").html('<span class="alerte_allume">Alerte en cours</span>');
-		}
-		else {
-			$("#etat_alerte").html('Pas d\'alerte');
-		}
+		document.getElementById("etat_detection").innerHTML = '<span class="gadget_allume">Détection activée</span>';
+		data.enreg_detect === '1' ? document.getElementById("etat_alerte").innerHTML = '<span class="alerte_allume">Alerte en cours</span>' : document.getElementById("etat_alerte").innerHTML = 'Pas d\'alerte';
 	}
 	else {
-		$("#etat_detection").html('Détection désactivée');
-		$("#etat_alerte").html('');
-	}
-	$("#lieu").html('<span class="moyenne">' + data.location + '</span>');
-	$("#previsions").html('<table><tr><th class="grande text-danger"><i class="wi ' + data.icon_id + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f1 + '" title="' + data.weather_f1 + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f2 + '" title="' + data.weather_f2 + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f3 + '" title="' + data.weather_f3 + '"></i></th></tr><tr><td class="petite" >' + data.weather + '</td><td class="petite" >' + data.temp_f1 + '°c</td><td class="petite" >' + data.temp_f2 + '°c</td><td class="petite" >' + data.temp_f3 + '°c</td></tr><tr><td></td><td class="petite">' + data.time_f1 + '</td><td class="petite" >' + data.time_f2 + '</td><td class="petite" >' + data.time_f3 + '</td></tr></table>');
-
-	$("#temp").html('<table><tr><td class="moyenne" title="température"><i class="wi wi-thermometer"></i></td><td title="temp bas:' + data.temp_bas + '" ><span class="petite">ext </span><span class="moyenne">' + data.temp_ext + '</span><span class="petite"> °c</span>&nbsp;&nbsp;&nbsp;<span class="petite">int </span><span class="moyenne">' + data.temp_int + '</span><span class="petite"> °c</span></td></tr><tr><td class="moyenne" title="humidité"><i class="wi wi-humidity"></i></td><td><span class="moyenne" title="humidité">' + data.humidite + '</span><span class="petite"> %</span></td></tr><tr><td class="moyenne" title="pression"><i class="wi wi-barometer"></i></td><td><span class="moyenne" title="pression">' + data.pression + '</span><span class="petite"> Hpa</span></td></tr><tr><td class="moyenne" title="vent"><i class="wi wi-strong-wind"></i></td><td><span class="moyenne" title="vent">' + data.vitesse_vent + '</span><span class="petite"> km/h</span>&nbsp;&nbsp;&nbsp;<span class="moyenne">' + data.direction_vent + '</span></td></tr><tr><td align="center"  colspan="2" ><i class="wi wi-sunrise" title="heure de levé du soleil"></i>&nbsp;&nbsp;<span class="moyenne">' + data.leve_soleil + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="wi wi-sunset" title="heure de couché du soleil"></i>&nbsp;&nbsp;<span class="moyenne">' + data.couche_soleil + '</span></td></tr></table>');
-
-	if (nombre_film === 0) {
-		tableau_film = 'aucun';
-	} else {
-		tableau_film = histo_film[4] + '<br>' + histo_film[3] + '<br>' + histo_film[2] + '<br>' + histo_film[1] + '<br>' + histo_film[0];
+		document.getElementById("etat_detection").innerHTML = 'Détection désactivée';
+		document.getElementById("etat_alerte").innerHTML = '';
 	}
 
-	if (nombre_mail === 0) {
-		tableau_mail = 'aucun';
-	} else {
-		tableau_mail = histo_mail[4] + '<br>' + histo_mail[3] + '<br>' + histo_mail[2] + '<br>' + histo_mail[1] + '<br>' + histo_mail[0];
-	}
+	document.getElementById("lieu").innerHTML = '<span class="moyenne">' + data.location + '</span>';
+	document.getElementById("previsions").innerHTML = '<table><tr><th class="grande text-danger"><i class="wi ' + data.icon_id + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f1 + '" title="' + data.weather_f1 + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f2 + '" title="' + data.weather_f2 + '"></i></th><th class="moyenne"><i class="wi ' + data.icon_f3 + '" title="' + data.weather_f3 + '"></i></th></tr><tr><td class="petite" >' + data.weather + '</td><td class="petite" >' + data.temp_f1 + '°c</td><td class="petite" >' + data.temp_f2 + '°c</td><td class="petite" >' + data.temp_f3 + '°c</td></tr><tr><td></td><td class="petite">' + data.time_f1 + '</td><td class="petite" >' + data.time_f2 + '</td><td class="petite" >' + data.time_f3 + '</td></tr></table>';
 
-	$('.histo').html('<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + tableau_film + '</td><td></td><td>' + tableau_mail + '</td></tr></table>');
+	document.getElementById("temp").innerHTML = '<table><tr><td class="moyenne" title="température"><i class="wi wi-thermometer"></i></td><td title="temp bas:' + data.temp_bas + '" ><span class="petite">ext </span><span class="moyenne">' + data.temp_ext + '</span><span class="petite"> °c</span>&nbsp;&nbsp;&nbsp;<span class="petite">int </span><span class="moyenne">' + data.temp_int + '</span><span class="petite"> °c</span></td></tr><tr><td class="moyenne" title="humidité"><i class="wi wi-humidity"></i></td><td><span class="moyenne" title="humidité">' + data.humidite + '</span><span class="petite"> %</span></td></tr><tr><td class="moyenne" title="pression"><i class="wi wi-barometer"></i></td><td><span class="moyenne" title="pression">' + data.pression + '</span><span class="petite"> Hpa</span></td></tr><tr><td class="moyenne" title="vent"><i class="wi wi-strong-wind"></i></td><td><span class="moyenne" title="vent">' + data.vitesse_vent + '</span><span class="petite"> km/h</span>&nbsp;&nbsp;&nbsp;<span class="moyenne">' + data.direction_vent + '</span></td></tr><tr><td align="center"  colspan="2" ><i class="wi wi-sunrise" title="heure de levé du soleil"></i>&nbsp;&nbsp;<span class="moyenne">' + data.leve_soleil + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="wi wi-sunset" title="heure de couché du soleil"></i>&nbsp;&nbsp;<span class="moyenne">' + data.couche_soleil + '</span></td></tr></table>';
+
+	let videoDisplay, emailDisplay;
+	videoHistory.length === 0 ? videoDisplay = 'aucun' : videoDisplay = videoHistory.join('<br>');
+	emailHistory.length === 0 ?	emailDisplay = 'aucun' : emailDisplay = emailHistory.join('<br>');
+
+	document.getElementById("histo").innerHTML = '<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + videoDisplay + '</td><td></td><td>' + emailDisplay + '</td></tr></table>';
 
 	setTimeout(loadValues, 10000)
 }
 
+function displayDateAndTime() {
+	let nowDate = new Date();
+	let dateOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+	let timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+	// Date et heure formatées en français
+	let formattedDate = new Intl.DateTimeFormat('fr-FR', dateOptions).format(nowDate);
+	let formattedTime = new Intl.DateTimeFormat('fr-FR', timeOptions).format(nowDate);
 
-//fonction affiche l'heure
-function AfficheHeure() {
-	let heure0, min0, sec0;
-	const dows = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-	let mois = ["janv", "f&eacute;v", "mars", "avril", "mai", "juin", "juillet", "ao&ucirc;t", "sept", "oct", "nov", "d&eacute;c"];
-	const sep = ":";
-	const now = new Date;
-	const heure = now.getHours();
-	const min = now.getMinutes();
-	const sec = now.getSeconds();
-	const jour_semaine = dows[now.getDay()];
-	const jour = now.getDate();
-	mois = mois[now.getMonth()];
-	const annee = now.getFullYear();
-
-	if (sec < 10) { sec0 = "0"; } else { sec0 = ""; }
-	if (min < 10) { min0 = "0"; } else { min0 = ""; }
-	if (heure < 10) { heure0 = "0"; } else { heure0 = ""; }
-
-	const horloge_heure = heure0 + heure + sep + min0 + min + sep + sec0 + sec;
-	const horloge_date = jour_semaine + " " + jour + " " + mois + " " + annee;
-	const horloge_content = "<div class='moyenne'>" + horloge_date + "</div><div class='grande'>" + horloge_heure + "</div>";
-	document.getElementById('heure').innerHTML = horloge_content;
-	setTimeout(AfficheHeure, 1000)
+	document.getElementById('heure').innerHTML = "<div class='moyenne'>" + formattedDate + "</div><div class='grande'>" + formattedTime + "</div>";
+	setTimeout(displayDateAndTime, 1000)
 }
 
-// actions
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
 	loadValues();
-	AfficheHeure();
+	displayDateAndTime();
 });
