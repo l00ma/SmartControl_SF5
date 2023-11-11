@@ -54,7 +54,7 @@ function parseAndDisplay(data) {
 
 	let videoDisplay, emailDisplay;
 	videoHistory.length === 0 ? videoDisplay = 'aucun' : videoDisplay = videoHistory.join('<br>');
-	emailHistory.length === 0 ?	emailDisplay = 'aucun' : emailDisplay = emailHistory.join('<br>');
+	emailHistory.length === 0 ? emailDisplay = 'aucun' : emailDisplay = emailHistory.join('<br>');
 
 	document.getElementById("histo").innerHTML = '<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + videoDisplay + '</td><td></td><td>' + emailDisplay + '</td></tr></table>';
 
