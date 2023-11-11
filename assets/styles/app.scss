@@ -1,16 +1,14 @@
-
-
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
 body {
-
 }
 
 .font-color{
     color: $secondary;
 }
 
-.active {
+// for navbar only
+#my_navbar .active {
     color: $danger !important;
 }

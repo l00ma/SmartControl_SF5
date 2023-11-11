@@ -11,13 +11,17 @@ function loadDatas() {
 	fetch('motion/load')
 		.then(response => {
 			if (!response.ok) {
-				throw new Error("Failed with HTTP code " + response.status);
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
 			}
 			return response.json();
 		})
 		.then(data => {
 			parseAndDisplay(data);
 			graph(data);
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la lecture des données');
 		});
 }
 
@@ -67,7 +71,7 @@ function saveDatas() {
 	})
 		.then(response => {
 			if (!response.ok) {
-				throw new Error('Erreur lors de la requête');
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
 			}
 			return response.json();
 		})

@@ -1,0 +1,22 @@
+@import "weather-icons.min.css";
+
+.petite {
+  font-size: 0.7em;
+}
+.moyenne {
+  font-size: 1.4em;
+}
+.grande {
+  font-size: 2.2em;
+}
+.gadget_allume {
+  padding: 2px 50px;
+  background: #c9f7b8;
+  border-radius: 5px;
+}
+.background {
+  background-image: url('../images/raspberry_fond_light.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}

@@ -3,27 +3,19 @@
 {% block title %}Ledstrip control
 {% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('leds') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('leds') }}
+{% endblock %}
+
 {% block body %}
 	{% include 'main/_bar.html.twig' %}
-	{% block stylesheet %}
-		<link rel="stylesheet" href="{{ asset('css/bootstrap4-clockpicker.css') }}">
-	{% endblock %}
-	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/leds.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/bootstrap4-clockpicker.js') }}"></script>
 
-	{% endblock %}
-	<style>
-		.form-check-input {
-			transform: scale(1.4);
-		}
-		#colorBox {
-			height: 104px;
-			background: #ffffff;
-			border: 1px solid #999999;
-			border-radius: 6px;
-		}
-	</style>
 	<div class="ms-2 text-secondary">
 		<h3>Controle éclairage</h3>
 	</div>
@@ -41,89 +33,89 @@
 		<div
 			class="row">
 			<!-- Onglets -->
-			<ul class="nav nav-pills nav-justified col-12 col-md-7 col-lg-5">
+			<ul class="nav nav-pills flex-column flex-sm-row nav-fill">
 				<li class="nav-item">
-					<a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
+					<a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Leds couleur</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-bs-toggle="tab" href="#b">Leds effet</a>
+					<a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" href="#b">Leds effet</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-bs-toggle="tab" href="#c">Leds timer</a>
+					<a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" href="#c">Leds timer</a>
 				</li>
 			</ul>
 			<div
-				class="tab-content">
+				class="tab-content text-center">
 
 				<!-- 1er onglet -->
-
 				<div
 					id="a" class="tab-pane fade show active">
-
 					<!-- sliders -->
 					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">
 							Changer la couleur:
 						</div>
-						<div class="row">
-							<div class="col-2 col-lg-1 align-self-center">
+						<div class="row justify-content-center">
+							<div class="col-2 col-lg-1">
 								<label for="rSlider" class="d-block form-label">R:</label>
 								<label for="gSlider" class="d-block form-label">G:</label>
 								<label for="bSlider" class="d-block form-label">B:</label>
 							</div>
-							<div class="col-6 col-md-4 col-lg-2 align-self-center">
+							<div class="col-6 col-md-4 col-lg-2">
 								<input type="range" class="form-range" min="0" max="255" id="rSlider">
 								<input type="range" class="form-range" min="0" max="255" id="gSlider">
 								<input type="range" class="form-range" min="0" max="255" id="bSlider">
 							</div>
-							<div class="col-4 col-lg-2">
+							<div class="col-8 col-sm-4 col-lg-3">
 								<div id="colorBox"></div>
 							</div>
 						</div>
 					</div>
 				</div>
-
 				<!-- fin du 1er onglet -->
+
 				<!-- 2eme onglet -->
 				<div id="b" class="tab-pane fade">
 					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">
 							Sélectionner un effet:
 						</div>
-						<div class="row mt-4">
+						<div class="row mt-4 justify-content-center">
 							<div class="col-4 col-md-2 col-lg-1">
 								<input type="radio" name="effets" id="effet1" num="1" class="form-check-input"/>
-								<label for="effet1" class="form-check-label">Effet 1</label>
+								<label for="effet1" class="form-check-label ms-1">Effet 1</label>
 								<div class="mt-4"></div>
 								<input type="radio" name="effets" id="effet4" num="4" class="form-check-input"/>
-								<label for="effet4" class="form-check-label">Effet 4</label>
+								<label for="effet4" class="form-check-label ms-1">Effet 4</label>
 							</div>
 							<div class="col-4 col-md-2 col-lg-1 offset-lg-1">
 								<input type="radio" name="effets" id="effet2" num="2" class="form-check-input"/>
-								<label for="effet2" class="form-check-label">Effet 2</label>
+								<label for="effet2" class="form-check-label ms-1">Effet 2</label>
 								<div class="mt-4"></div>
 								<input type="radio" name="effets" id="effet5" num="5" class="form-check-input"/>
-								<label for="effet5" class="form-check-label">Effet 5</label>
+								<label for="effet5" class="form-check-label ms-1">Effet 5</label>
 								<div class="mt-4"></div>
 								<input type="radio" name="effets" id="effetstop" num="0" class="form-check-input"/>
-								<label for="effetstop" class="form-check-label">Stop</label>
+								<label for="effetstop" class="form-check-label ms-1">Stop</label>
 							</div>
 							<div class="col-4 col-md-2 col-lg-1 offset-lg-1">
 								<input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/>
-								<label for="effet3" class="form-check-label">Effet 3</label>
+								<label for="effet3" class="form-check-label ms-1">Effet 3</label>
 								<div class="mt-4"></div>
 								<input type="radio" name="effets" id="effet6" num="6" class="form-check-input"/>
-								<label for="effet6" class="form-check-label">Effet 6</label>
+								<label for="effet6" class="form-check-label ms-1">Effet 6</label>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- fin du 2eme onglet -->
+
 				<!-- 3eme onglet -->
 				<div id="c" class="tab-pane fade">
 					<div class="container text-secondary">
 						<div class="mt-2 mb-2 ms-2">Placer un timer:
 						</div>
+						<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
 							<div class="row justify-content-evenly mt-2">
 								<div class="col-3 col-md-3 col-lg-2 col-xl-1">
@@ -158,7 +150,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row justify-content-evenly mt-2">
+							<div class="row justify-content-evenly mt-4">
 								<div class="col-4">
 									<button class="btn btn-primary" id="but_efface">Effacer</button>
 								</div>
@@ -191,8 +183,10 @@
 							</div>
 						</div>
 					</div>
+					</div>
 				</div>
 				<!-- fin du 3eme onglet -->
+
 			</div>
 		</div>
 	</div>

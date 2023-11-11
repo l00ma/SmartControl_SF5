@@ -4,19 +4,22 @@ import accessibility from 'highcharts/modules/accessibility';
 accessibility(Highcharts);
 let data_temp;
 
-function loadValues_int() {
+function loadTemp() {
 	fetch('temp/load')
 		.then(response => {
 			if (!response.ok) {
-				throw new Error("Failed with HTTP code " + response.status);
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
 			}
 			return response.json();
 		})
 		.then(data => {
 			data_temp = data;
 			graph();
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la lecture des données');
 		});
-
 }
 
 //fonction trace le graph
@@ -211,6 +214,6 @@ function graph() {
 
 // actions
 document.addEventListener("DOMContentLoaded", function () {
-	loadValues_int();
-	setInterval(function () { loadValues_int(); }, 300000);
+	loadTemp();
+	setInterval(function () { loadTemp(); }, 300000);
 });
