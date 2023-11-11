@@ -19,7 +19,9 @@ class UserDataController extends AbstractController
             if ($request->request->get('pass1') == $request->request->get('pass2')) {
                 $user->setUsername($request->request->get('user'));
                 $user->setEmail($request->request->get('email'));
-                $user->setPassword($passwordEncoder->hashPassword($user, $request->request->get('pass1')));
+                if (!empty($request->request->get('pass1'))) {
+                    $user->setPassword($passwordEncoder->hashPassword($user, $request->request->get('pass1')));
+                }
                 $membersRepository->add($user, true);
                 $this->addFlash('success', 'Credentials successfully saved');
             } else {
