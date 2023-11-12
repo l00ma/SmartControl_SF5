@@ -1,86 +1,83 @@
 import 'clockpicker/dist/jquery-clockpicker';
 import './styles/leds.scss';
 
-let red, green, blue, etat, rgbString, debut_time, fin_time, email, effet;
-
-function loadValues() {
-	$.ajax({
-		type: 'get',
-		async: false,
-		url: 'leds/load',
-		dataType: 'json',
-		success: function (result) {
-			traiteEtAffiche(result);
-		},
-		error: function () {
-			alert('erreur lors du chargement des paramètres.');
-		}
-	});
-}
-
-function saveValues() {
-	$.ajax({
-		type: 'post',
-		dataType: 'json',
-		url: 'leds/save',
-		data: { 'rgb': rgbString, 'etat': etat, 'email': email, 'effet': effet },
-		success: function (response) {
-			if (response.status === 'error') {
-				alert(response.message);
+let red, green, blue, etat, rgbString, debut_time, fin_time, effet;
+let email = false;
+function loadDatas() {
+	fetch('leds/load')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
 			}
-		}
-	});
+			return response.json();
+		})
+		.then(data => {
+			parseAndDisplay(data);
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la lecture des données');
+		});
 }
 
-function traiteEtAffiche(data) {
-	rgbString = data[0];
-	let rgb = rgbString.split(',');
-	red = parseInt(rgb[0]);
-	green = parseInt(rgb[1]);
-	blue = parseInt(rgb[2]);
-	etat = data[1];
-	debut_time = data[2];
-	fin_time = data[3];
-	email = data[4];
-	effet = data[5];
+function saveDatas() {
+	fetch('leds/save', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			'rgb': rgbString,
+			'etat': etat,
+			'email': email,
+			'effet': Number(effet)
+		}),
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (data.status === 'error') {
+				alert(data.message);
+			}
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la sauvegarde des données');
+		});
+}
+
+function parseAndDisplay(data) {
+
+	[red, green, blue] = data[0].split(',').map(Number);
+	[etat, debut_time, fin_time, email, effet] = data.slice(1);
 
 	InitTimerValues();
-	if (effet == '0') {
-		$('#effetstop').prop('checked', true);
-	}
-	else {
-		$("#effet" + effet).prop('checked', true);
-	}
-	if (debut_time != '0') {
-		$('#heure_deb').html(debut_time);
-		$('#heure_fin').html(fin_time);
-		if (email == '0') {
-			$('#email').prop('checked', false);
-		}
-		else {
-			$('#email').prop('checked', true);
-		}
-		$('#list-timer').show();
-	}
-	else {
-		$('#list-timer').hide();
-	}
-	if (etat === 'true') {
-		$('#myonoffswitch').prop('checked', true);
-	}
-	else {
-		$('#myonoffswitch').prop('checked', false);
-	}
+	document.getElementById("effet" + effet).checked = true;
 
-	$('#rSlider').val(red);
-	$('#gSlider').val(green);
-	$('#bSlider').val(blue);
+	if (debut_time !== '0') {
+		document.getElementById('heure_deb').innerHTML = debut_time;
+		document.getElementById('heure_fin').innerHTML = fin_time;
+
+		document.getElementById("email").checked = email;
+		document.getElementById("list-timer").style.visibility = 'visible';
+	}
+	else {
+		document.getElementById("list-timer").style.visibility = 'hidden';
+	}
+	document.getElementById("myonoffswitch").checked = etat;
+
+	document.getElementById("rSlider").value = red;
+	document.getElementById("gSlider").value = green;
+	document.getElementById("bSlider").value = blue;
 
 	rgbString = formRGB(red, green, blue);
 	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
 
 	$('#timepicker_fin').prop('disabled', false);
-
 }
 
 function initiTimePicker() {
@@ -90,15 +87,8 @@ function initiTimePicker() {
 			align: 'right',
 			'default': 'now',
 			autoclose: true,
-			afterDone: function () {
-				if ($('#debut_time').val().length > 0) {
-					$('.timepicker_fin').prop('disabled', false);
-					$('.timepicker_deb').prop('disabled', true);
-				}
-			}
 		});
 	});
-
 
 	$(function () {
 		$('.timepicker_fin').clockpicker({
@@ -110,37 +100,54 @@ function initiTimePicker() {
 	});
 }
 
-
+function saveTimerData(data){
+	fetch('leds/timer', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (data.status === 'error') {
+				alert(data.message);
+			}
+		})
+		.catch(error => {
+			console.error('Erreur:', error);
+			alert('Erreur lors de la sauvegarde des données');
+		});
+}
 
 function storeTimer() {
 	//on verifie le format de l'heure et minutes
-	if (/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test($('#debut_time').val()) && /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test($('#fin_time').val())) {
-		debut_time = $('#debut_time').val();
-		fin_time = $('#fin_time').val();
+	var regexTime = /^([01]\d|2[0-3]):([0-5]\d)$/;
+	email = false;
+	if (regexTime.test(document.getElementById('debut_time').value) && regexTime.test(document.getElementById('fin_time').value)) {
+		debut_time = document.getElementById('debut_time').value;
+		fin_time = document.getElementById('fin_time').value;
+		// on initialise les valeurs
+		let data = {
+			'h_on': debut_time,
+			'h_off': fin_time,
+			'timer': true,
+			'email': false
+		};
+		//on sauvegarde les valeurs
+		saveTimerData(data)
 
-		//ici on peut demander a timer.php de stocker ds la bd puis d'agir
-		$.ajax({
-			type: 'post',
-			dataType: 'json',
-			url: 'leds/timer',
-			data: { 'h_on': debut_time, 'h_off': fin_time },
-			success: function (response) {
-				if (response.status === 'error') {
-					alert(response.message);
-				}
-			}
-		});
-		initiTimePicker();
-		$('#list-timer').show();
-		$('#heure_deb').html(debut_time);
-		$('#heure_fin').html(fin_time);
+		document.getElementById("list-timer").style.visibility = 'visible';
+		document.getElementById("heure_deb").innerHTML = debut_time;
+		document.getElementById("heure_fin").innerHTML = fin_time;
+
 		$('#icon_eraser').button({ icons: { primary: 'ui-icon-trash' }, text: false });
-		if (email == '0') {
-			$('#email').prop('checked', false);
-		}
-		else {
-			$('#email').prop('checked', true);
-		}
+		document.getElementById("email").checked = email;
 		InitTimerValues();
 	}
 	else {
@@ -150,37 +157,33 @@ function storeTimer() {
 }
 
 function InitTimerValues() {
-	$('#debut_time').val('');
-	$('#fin_time').val('');
-	$('.timepicker_deb').prop('disabled', false);
-	$('.timepicker_fin').prop('disabled', true);
+	document.getElementById('debut_time').value = '';
+	document.getElementById('fin_time').value = '';
+	document.getElementsByClassName('timepicker_deb').disabled = false;
+	document.getElementsByClassName('timepicker_fin').disabled = true;
 }
 
 function eraseTimer() {
-	$('#list-timer').hide();
-	//ici on peut demander a timer.php de vider la bd puis d'agir
-	$.ajax({
-		type: 'post',
-		dataType: 'json',
-		url: 'leds/timer',
-		data: { 'h_on': '0', 'h_off': '0' },
-		success: function (response) {
-			if (response.status === 'error') {
-				alert(response.message);
-			}
-		}
-	});
+	document.getElementById("list-timer").style.visibility = 'hidden';
+	// on initialise les valeurs
+	let data = {
+		'h_on': '0',
+		'h_off': '0',
+		'timer': false,
+		'email': false
+	};
+	//on sauvegarde les valeurs
+	saveTimerData(data);
 }
 
 function formRGB(r, g, b) {
-	let text = r + ',' + g + ',' + b;
-	return text;
+	return r + ',' + g + ',' + b;
 }
 
 function refreshOnoff() {
-	etat = $('#myonoffswitch').is(':checked');
+	etat =  document.getElementById("myonoffswitch").checked;
 	rgbString = formRGB(red, green, blue);
-	saveValues();
+	saveDatas();
 }
 
 function refreshSwatch() {
@@ -189,8 +192,8 @@ function refreshSwatch() {
 }
 
 function refreshAll() {
-	etat = $('#myonoffswitch').is(':checked');
-	saveValues();
+	etat = document.getElementById("myonoffswitch").checked;
+	saveDatas();
 }
 
 
@@ -199,12 +202,10 @@ function refreshAll() {
 //action au chargement de la page
 document.addEventListener("DOMContentLoaded", function () {
 	initiTimePicker();
-	loadValues();
+	loadDatas();
 
 	//action au click sur on/off
-	$('#myonoffswitch').on('change', function () {
-		refreshOnoff();
-	});
+	document.getElementById("myonoffswitch").addEventListener("change", refreshOnoff);
 
 	//action sur les sliders RGB pendant le deplacement du curseur
 	$(document).on('input', '#rSlider, #gSlider, #bSlider', function () {
@@ -223,35 +224,31 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	//action des boutons radio 'Effet' 
-	$(document).on('click touchend', '#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effetstop', function () {
+	$(document).on('click touchend', '#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effet0', function () {
 		if ($(this).is(':checked')) {
 			effet = $(this).attr('num');
 			rgbString = formRGB(red, green, blue);
-			saveValues();
+			saveDatas();
 		}
 	});
 
 	//action radiobutton email
 	$('#email').click(function () {
-		if ($('#email').is(':checked')) { email = 1; }
-		else { email = 0; }
+		if ($('#email').is(':checked')) { email = true; }
+		else { email = false; }
 		rgbString = formRGB(red, green, blue);
-		saveValues();
+		saveDatas();
 	});
 
 	//action button effacer
-	$('#but_efface').click(function () {
-		initiTimePicker();
-		InitTimerValues();
-	});
+	document.getElementById("but_efface").addEventListener("click", [initiTimePicker, InitTimerValues]);
 
 	//action button enregistrer
-	$('#but_enregistre').click(function () {
-		storeTimer();
-	});
+	document.getElementById("but_enregistre").addEventListener("click", storeTimer);
 
 	//action button eraser (efface l'enregistrement)
 	$('#icon_eraser').click(function () {
+		email = false;
 		eraseTimer();
 	});
 });

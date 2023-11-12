@@ -16,8 +16,8 @@ class LedsStrip
     #[ORM\Column(length: 255)]
     private ?string $item = null;
 
-    #[ORM\Column(length: 7)]
-    private ?string $etat = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $etat = null;
 
     #[ORM\Column(length: 11)]
     private ?string $rgb = null;
@@ -28,11 +28,11 @@ class LedsStrip
     #[ORM\Column(length: 5)]
     private ?string $h_off = null;
 
-    #[ORM\Column]
-    private ?int $timer = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $timer = null;
 
-    #[ORM\Column]
-    private ?int $email = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $email = null;
 
     #[ORM\Column]
     private ?int $effet = null;
@@ -67,12 +67,12 @@ class LedsStrip
         return $this;
     }
 
-    public function getEtat(): ?string
+    public function getEtat(): ?bool
     {
         return $this->etat;
     }
 
-    public function setEtat(string $etat): self
+    public function setEtat(bool $etat): self
     {
         $this->etat = $etat;
 
@@ -115,24 +115,24 @@ class LedsStrip
         return $this;
     }
 
-    public function getTimer(): ?int
+    public function getTimer(): ?bool
     {
         return $this->timer;
     }
 
-    public function setTimer(int $timer): self
+    public function setTimer(bool $timer): self
     {
         $this->timer = $timer;
 
         return $this;
     }
 
-    public function getEmail(): ?int
+    public function getEmail(): ?bool
     {
         return $this->email;
     }
 
-    public function setEmail(int $email): self
+    public function setEmail(bool $email): self
     {
         $this->email = $email;
 
