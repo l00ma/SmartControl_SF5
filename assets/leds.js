@@ -75,9 +75,9 @@ function parseAndDisplay(data) {
 	document.getElementById("bSlider").value = blue;
 
 	rgbString = formRGB(red, green, blue);
-	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
+	document.getElementById( 'colorBox' ).style.backgroundColor = "rgb(" + rgbString + ")";
 
-	$('#timepicker_fin').prop('disabled', false);
+	//$('#timepicker_fin').prop('disabled', false);
 }
 
 function initiTimePicker() {
@@ -146,7 +146,6 @@ function storeTimer() {
 		document.getElementById("heure_deb").innerHTML = debut_time;
 		document.getElementById("heure_fin").innerHTML = fin_time;
 
-		$('#icon_eraser').button({ icons: { primary: 'ui-icon-trash' }, text: false });
 		document.getElementById("email").checked = email;
 		InitTimerValues();
 	}
@@ -188,16 +187,13 @@ function refreshOnoff() {
 
 function refreshSwatch() {
 	rgbString = formRGB(red, green, blue);
-	$('#colorBox').css('background-color', 'rgb(' + rgbString + ')');
+	document.getElementById( 'colorBox' ).style.backgroundColor = "rgb(" + rgbString + ")";
 }
 
 function refreshAll() {
 	etat = document.getElementById("myonoffswitch").checked;
 	saveDatas();
 }
-
-
-//actions=====================================
 
 //action au chargement de la page
 document.addEventListener("DOMContentLoaded", function () {
@@ -207,35 +203,40 @@ document.addEventListener("DOMContentLoaded", function () {
 	//action au click sur on/off
 	document.getElementById("myonoffswitch").addEventListener("change", refreshOnoff);
 
-	//action sur les sliders RGB pendant le deplacement du curseur
-	$(document).on('input', '#rSlider, #gSlider, #bSlider', function () {
-		red = $('#rSlider').val();
-		green = $('#gSlider').val();
-		blue = $('#bSlider').val();
-		refreshSwatch();
+	//action sur les sliders RGB
+	let sliders = document.querySelectorAll('#rSlider, #gSlider, #bSlider');
+	sliders.forEach(function (slider) {
+		// Pendant le deplacement du curseur
+		slider.addEventListener('input', function () {
+			red = document.getElementById('rSlider').value;
+			green = document.getElementById('gSlider').value;
+			blue = document.getElementById('bSlider').value;
+			refreshSwatch();
+		});
+		// Apres le deplacement du curseur
+		slider.addEventListener('change', function () {
+			red = document.getElementById('rSlider').value;
+			green = document.getElementById('gSlider').value;
+			blue = document.getElementById('bSlider').value;
+			refreshAll();
+		});
 	});
 
-	//action sur les sliders RGB apres le deplacement du curseur
-	$(document).on('change', '#rSlider, #gSlider, #bSlider', function () {
-		red = $('#rSlider').val();
-		green = $('#gSlider').val();
-		blue = $('#bSlider').val();
-		refreshAll();
-	});
-
-	//action des boutons radio 'Effet' 
-	$(document).on('click touchend', '#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effet0', function () {
-		if ($(this).is(':checked')) {
-			effet = $(this).attr('num');
-			rgbString = formRGB(red, green, blue);
-			saveDatas();
-		}
+	//action des boutons radio 'Effet'
+	let checkBoxes = document.querySelectorAll('#effet1, #effet2, #effet3, #effet4, #effet5, #effet6, #effet0');
+	checkBoxes.forEach(function (checkBox) {
+		checkBox.addEventListener('click', function () {
+			if(this.checked) {
+				effet = this.getAttribute('num');
+				rgbString = formRGB(red, green, blue);
+				saveDatas();
+			}
+		});
 	});
 
 	//action radiobutton email
-	$('#email').click(function () {
-		if ($('#email').is(':checked')) { email = true; }
-		else { email = false; }
+	document.getElementById('email').addEventListener('click', function () {
+		email = document.getElementById('email').checked;
 		rgbString = formRGB(red, green, blue);
 		saveDatas();
 	});
@@ -247,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById("but_enregistre").addEventListener("click", storeTimer);
 
 	//action button eraser (efface l'enregistrement)
-	$('#icon_eraser').click(function () {
+	document.getElementById('icon_eraser').addEventListener('click', function () {
 		email = false;
 		eraseTimer();
 	});
