@@ -36,7 +36,7 @@ function traiteEtAffiche(data) {
 	espace_total = data[0];
 	espace_dispo = data[1];
 	taux_utilisation = data[2];
-	$("#bar").html('<div><meter value="' + taux_utilisation + '" min="0" max="100" high="85" title="Espace disque total: ' + espace_total + ' Go,&#10;Espace disque dispo: ' + espace_dispo + ' Go"></meter><div class="xpetite">Disque: ' + taux_utilisation + '% utilisé</div></div>');
+	$("#bar").html('<div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="' + taux_utilisation + '" aria-valuemin="0" aria-valuemax="100" style="height: 15px" title="Espace disque total: ' + espace_total + ' Go,&#10;Espace disque dispo: ' + espace_dispo + ' Go"> <div class="progress-bar bg-success overflow-visible text-light petite" style="width: ' + taux_utilisation + '%">' + taux_utilisation + '%</div></div> <div class="xpetite">Espace disque utilisé</div> ');
 
 
 

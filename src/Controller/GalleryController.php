@@ -14,25 +14,22 @@ class GalleryController extends AbstractController
     #[Route('/gallery', name: 'gallery')]
     public function gallery(SecurityRepository $securityRepository): Response
     {
-        $nbColonne = 4;
-        $colonneSaut = 0;
-        $chaine_html = '<div class="row d-flex justify-content-center">';
-
+        $video = [];
         foreach ($securityRepository->findAllMedia(8) as $val) {
-            //$chemin_video = substr($val['filename'], 27);
-            $nom_video = basename($val['filename']);
-            $chemin_video = basename(dirname($val['filename'])) . '/' . $nom_video;
-            $chemin_image = preg_replace("/.mp4$/", '.jpg', $chemin_video);
-            $nom_image = preg_replace("/_event\d+.mp4$/", '', $nom_video);
-            if ($colonneSaut != 0 && $colonneSaut % $nbColonne == 0) {
-                $chaine_html .= '</div><div class="row d-flex justify-content-center">';
-            }
-            $chaine_html .= '<div class="col-12 col-sm-8 col-md-5 col-md-4 col-xl-3 text-center"><a href="/gallery/player?event=' . $nom_video . '&id=' . $val['id'] . '"><img src=' . $chemin_image . ' alt="Vidéo en cours de création..."></a><div class="text-center"><span class="petite nom">' . $nom_image . '</span><input type="checkbox" class="ms-2 video_select" data-url="' . '../' . $chemin_video . '" data-id_nb="' . $val['id'] . '" data-name="' . $nom_video . '"></div></div>';
-            $colonneSaut++;
+            $videoId = $val['id'];
+            $videoFilename = basename($val['filename']);
+            $videoPath = basename(dirname($val['filename'])) . '/' . $videoFilename;
+            $imageName = preg_replace("/_event\d+.mp4$/", '', $videoFilename);
+            $imagePath = preg_replace("/.mp4$/", '.jpg', $videoPath);
+            $video[] = [
+                'videoId' => $videoId,
+                'videoFilename' => $videoFilename,
+                'videoPath' => $videoPath,
+                'imageName' => $imageName,
+                'imagePath' => $imagePath
+            ];
         }
-        $chaine_html .= '</div>';
-
-        return $this->render('gallery/index.html.twig', ['videos' => $chaine_html]);
+        return $this->render('gallery/index.html.twig', ['video' => $video]);
     }
 
     #[Route('/gallery/player', name: 'player')]
