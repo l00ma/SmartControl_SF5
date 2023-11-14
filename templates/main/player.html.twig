@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lecteur vidéo
+{% block title %}Vidéo
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('player') }}
 {% endblock %}
 
 
@@ -8,20 +13,16 @@
 	{% include '_bar.html.twig' %}
 
 
-	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/download.js') }}"></script>
-
-	{% endblock %}
 	<div class="container">
 		<center>
 			<div class="row mt-2 justify-content-evenly">
 				<div class="col-12 col-md-2 mb-2">
-					<button type="button" id="but_download" class="btn btn-secondary">Télécharger</button>
+					<button type="button" id="but_download" class="btn btn-sm btn-primary">Télécharger</button>
 				</div>
 				<div class="col-12 col-md-2">
 					<form action="erase">
 						<input type="hidden" id="value" name="value" value="{{id}}#{{video}}">
-						<button type="submit" id="but_supprime" class="btn btn-secondary">Supprimer</button>
+						<button type="submit" id="but_supprime" class="btn btn-sm btn-primary">Supprimer</button>
 					</form>
 				</div>
 			</div>
@@ -58,6 +59,7 @@
 // }
 
 // });
+			alert("ici");
 $("#but_download").click(function () {
 if (confirm("Voulez-vous télécharger {{ video }}?")) {
 var x = new XMLHttpRequest();

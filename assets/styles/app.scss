@@ -12,3 +12,14 @@ body {
 #my_navbar .active {
     color: $danger !important;
 }
+
+.form-check-input {
+    transform: scale(1.4) !important;
+}
+
+.petite {
+    font-size: 0.7em;
+}
+.xpetite {
+    font-size: 0.5em;
+}

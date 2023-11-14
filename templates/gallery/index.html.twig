@@ -1,41 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Videos enregistrées
+{% block title %}Vidéos enregistrées
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('gallery') }}
 {% endblock %}
 
 
 {% block body %}
 	{% include '_bar.html.twig' %}
-
-
-	{% block javascript %}
-		<script type="text/javascript" src="{{ asset('js/gallery.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/jszip.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/jszip-utils.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/FileSaver.js') }}"></script>
-
-	{% endblock %}
-	<style>
-		.petite {
-			font-size: 0.7em;
-		}
-		.xpetite {
-			font-size: 0.5em;
-		}
-	</style>
 	<div class="container">
 		<div class="row mt-2 text-center">
 			<div class="col-6 col-md-3 mb-2">
-				<button type="button" id="but_all" class="btn btn-secondary">Toutes</button>
+				<button type="button" id="but_all" class="btn btn-sm btn-primary">Toutes</button>
 			</div>
 			<div class="col-6 col-md-3 mb-2">
-				<button type="button" id="but_none" class="btn btn-secondary">Aucune</button>
+				<button type="button" id="but_none" class="btn btn-sm btn-primary">Aucune</button>
 			</div>
 			<div class="col-6 col-md-3 mb-2">
-				<button type="button" id="but_download" class="btn btn-secondary">Télécharger</button>
+				<button type="button" id="but_download" class="btn btn-sm btn-primary">Télécharger</button>
 			</div>
 			<div class="col-6 col-md-3">
-				<button type="button" id="but_supprime" class="btn btn-secondary">Supprimer</button>
+				<button type="button" id="but_supprime" class="btn btn-sm btn-primary">Supprimer</button>
 			</div>
 		</div>
 	</div>

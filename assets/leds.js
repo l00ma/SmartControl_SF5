@@ -12,7 +12,10 @@ function loadDatas() {
 			return response.json();
 		})
 		.then(data => {
-			parseAndDisplay(data);
+			[red, green, blue] = data[0].split(',').map(Number);
+			[etat, debut_time, fin_time, email, effet] = data.slice(1);
+			InitTimerValues();
+			display();
 		})
 		.catch(error => {
 			console.error('Erreur:', error);
@@ -50,34 +53,31 @@ function saveDatas() {
 		});
 }
 
-function parseAndDisplay(data) {
+function display() {
 
-	[red, green, blue] = data[0].split(',').map(Number);
-	[etat, debut_time, fin_time, email, effet] = data.slice(1);
-
-	InitTimerValues();
-	document.getElementById("effet" + effet).checked = true;
-
-	if (debut_time !== '0') {
-		document.getElementById('heure_deb').innerHTML = debut_time;
-		document.getElementById('heure_fin').innerHTML = fin_time;
-
-		document.getElementById("email").checked = email;
-		document.getElementById("list-timer").style.visibility = 'visible';
-	}
-	else {
-		document.getElementById("list-timer").style.visibility = 'hidden';
-	}
 	document.getElementById("myonoffswitch").checked = etat;
 
 	document.getElementById("rSlider").value = red;
 	document.getElementById("gSlider").value = green;
 	document.getElementById("bSlider").value = blue;
-
 	rgbString = formRGB(red, green, blue);
 	document.getElementById( 'colorBox' ).style.backgroundColor = "rgb(" + rgbString + ")";
 
-	//$('#timepicker_fin').prop('disabled', false);
+	document.getElementById("effet" + effet).checked = true;
+
+	if (debut_time !== '0') {
+		document.getElementById('controlbtn').style.display = 'none';
+		document.getElementById("list-timer").style.display = '';
+		document.getElementById('heure_deb').innerHTML = debut_time;
+		document.getElementById('heure_fin').innerHTML = fin_time;
+		document.getElementById("email").checked = email;
+	}
+	else {
+		document.getElementById('controlbtn').style.display = '';
+		document.getElementById("list-timer").style.display = 'none';
+		document.getElementById('heure_deb').innerHTML = '';
+		document.getElementById('heure_fin').innerHTML = '';
+	}
 }
 
 function initiTimePicker() {
@@ -139,40 +139,33 @@ function storeTimer() {
 			'timer': true,
 			'email': false
 		};
-		//on sauvegarde les valeurs
-		saveTimerData(data)
-
-		document.getElementById("list-timer").style.visibility = 'visible';
-		document.getElementById("heure_deb").innerHTML = debut_time;
-		document.getElementById("heure_fin").innerHTML = fin_time;
-
-		document.getElementById("email").checked = email;
-		InitTimerValues();
+		saveTimerData(data);
 	}
 	else {
 		alert('Le format saisi n\'est pas valide!');
-		InitTimerValues();
 	}
+	display();
 }
 
 function InitTimerValues() {
-	document.getElementById('debut_time').value = '';
-	document.getElementById('fin_time').value = '';
 	document.getElementsByClassName('timepicker_deb').disabled = false;
 	document.getElementsByClassName('timepicker_fin').disabled = true;
 }
 
 function eraseTimer() {
-	document.getElementById("list-timer").style.visibility = 'hidden';
 	// on initialise les valeurs
+	debut_time = '0';
+	fin_time = '0';
+	email = false;
 	let data = {
-		'h_on': '0',
-		'h_off': '0',
+		'h_on': debut_time,
+		'h_off': fin_time,
 		'timer': false,
-		'email': false
+		'email': email
 	};
 	//on sauvegarde les valeurs
 	saveTimerData(data);
+	display();
 }
 
 function formRGB(r, g, b) {
@@ -183,11 +176,6 @@ function refreshOnoff() {
 	etat =  document.getElementById("myonoffswitch").checked;
 	rgbString = formRGB(red, green, blue);
 	saveDatas();
-}
-
-function refreshSwatch() {
-	rgbString = formRGB(red, green, blue);
-	document.getElementById( 'colorBox' ).style.backgroundColor = "rgb(" + rgbString + ")";
 }
 
 function refreshAll() {
@@ -211,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			red = document.getElementById('rSlider').value;
 			green = document.getElementById('gSlider').value;
 			blue = document.getElementById('bSlider').value;
-			refreshSwatch();
+			display();
 		});
 		// Apres le deplacement du curseur
 		slider.addEventListener('change', function () {
@@ -249,7 +237,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//action button eraser (efface l'enregistrement)
 	document.getElementById('icon_eraser').addEventListener('click', function () {
-		email = false;
 		eraseTimer();
 	});
 });
