@@ -56,7 +56,7 @@ function parseAndDisplay(data) {
 	videoHistory.length === 0 ? videoDisplay = 'aucun' : videoDisplay = videoHistory.join('<br>');
 	emailHistory.length === 0 ? emailDisplay = 'aucun' : emailDisplay = emailHistory.join('<br>');
 
-	document.getElementById("histo").innerHTML = '<table><tr><td>enregistrements vidéo:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>emails envoyés:</td></tr><tr><td>' + videoDisplay + '</td><td></td><td>' + emailDisplay + '</td></tr></table>';
+	document.getElementById("histo").innerHTML = '<div class="container text-center"> <div class="row"> <div class="col"> enregistrements vidéo: </div> <div class="col"> emails envoyés: </div> </div> <div class="row"> <div class="col"> ' + videoDisplay + '</div> <div class="col"> ' + emailDisplay + '</div> </div> </div>';
 
 	setTimeout(loadValues, 10000)
 }
