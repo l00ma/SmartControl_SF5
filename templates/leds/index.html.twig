@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ledstrip control
+{% block title %}Eclairage
 {% endblock %}
 
 {% block stylesheets %}
@@ -113,10 +113,12 @@
 				<!-- 3eme onglet -->
 				<div id="c" class="tab-pane fade">
 					<div class="container text-secondary">
-						<div class="mt-2 mb-2 ms-2">Placer un timer:
-						</div>
+
 						<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+							<span id="controlbtn">
+								<div class="mt-2 mb-2 ms-2">Placer un timer:
+						</div>
 							<div class="row justify-content-evenly mt-2">
 								<div class="col-3 col-md-3 col-lg-2 col-xl-1">
 									<label for="timepicker_deb">Début:</label>
@@ -150,7 +152,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row justify-content-evenly mt-4">
+							<div class="row justify-content-evenly mt-4 ">
 								<div class="col-4">
 									<button class="btn btn-primary" id="but_efface">Effacer</button>
 								</div>
@@ -158,6 +160,7 @@
 									<button class="btn btn-primary" id="but_enregistre">Enregistrer</button>
 								</div>
 							</div>
+							</span>
 							<div class="row justify-content-evenly mt-4" id="list-timer">
 								<div class="col-3 col-sm-2 col-lg-1">
 									Début
@@ -175,7 +178,6 @@
 								</div>
 								<div class="col-3 col-sm-2 col-lg-1">
 									Suppr
-									<div id="heure_deb"></div>
 									<button class="btn btn-primary btn-sm" id="icon_eraser">
 										<i class="bi bi-trash"></i>
 									</button>
