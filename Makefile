@@ -1,2 +1,0 @@
-fixture: ## joue les fixtures pour la table security uniquement
-	php bin/console doctrine:fixtures:load --purge-exclusions=leds-strip --purge-exclusions=members --purge-exclusions=meteo --purge-exclusions=mouvement_pir
