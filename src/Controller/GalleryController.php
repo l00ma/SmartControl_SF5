@@ -21,7 +21,13 @@ class GalleryController extends AbstractController
             $videoPath = basename(dirname($val['filename'])) . '/' . $videoFilename;
             $imageName = preg_replace("/_event\d+.mp4$/", '', $videoFilename);
             $imagePath = preg_replace("/.mp4$/", '.jpg', $videoPath);
-            $video[] = ['videoId' => $videoId, 'videoFilename' => $videoFilename, 'videoPath' => $videoPath, 'imageName' => $imageName, 'imagePath' => $imagePath];
+            $video[] = [
+                'videoId' => $videoId,
+                'videoFilename' => $videoFilename,
+                'videoPath' => $videoPath,
+                'imageName' => $imageName,
+                'imagePath' => $imagePath
+            ];
         }
         return $this->render('gallery/index.html.twig', ['video' => $video]);
     }
