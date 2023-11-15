@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ledstrip control
+{% block title %}Eclairage
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block body %}
-	{% include 'main/_bar.html.twig' %}
+	{% include '_bar.html.twig' %}
 
 	<div class="ms-2 text-secondary">
 		<h3>Controle éclairage</h3>
@@ -95,8 +95,8 @@
 								<input type="radio" name="effets" id="effet5" num="5" class="form-check-input"/>
 								<label for="effet5" class="form-check-label ms-1">Effet 5</label>
 								<div class="mt-4"></div>
-								<input type="radio" name="effets" id="effetstop" num="0" class="form-check-input"/>
-								<label for="effetstop" class="form-check-label ms-1">Stop</label>
+								<input type="radio" name="effets" id="effet0" num="0" class="form-check-input"/>
+								<label for="effet0" class="form-check-label ms-1">Stop</label>
 							</div>
 							<div class="col-4 col-md-2 col-lg-1 offset-lg-1">
 								<input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/>
@@ -113,10 +113,12 @@
 				<!-- 3eme onglet -->
 				<div id="c" class="tab-pane fade">
 					<div class="container text-secondary">
-						<div class="mt-2 mb-2 ms-2">Placer un timer:
-						</div>
+
 						<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+							<span id="controlbtn">
+								<div class="mt-2 mb-2 ms-2">Placer un timer:
+						</div>
 							<div class="row justify-content-evenly mt-2">
 								<div class="col-3 col-md-3 col-lg-2 col-xl-1">
 									<label for="timepicker_deb">Début:</label>
@@ -150,7 +152,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row justify-content-evenly mt-4">
+							<div class="row justify-content-evenly mt-4 ">
 								<div class="col-4">
 									<button class="btn btn-primary" id="but_efface">Effacer</button>
 								</div>
@@ -158,28 +160,28 @@
 									<button class="btn btn-primary" id="but_enregistre">Enregistrer</button>
 								</div>
 							</div>
-						</div>
-						<div class="row mt-4" id="list-timer">
-							<div class="col-3 col-sm-2 col-lg-1">
-								Début
-								<div id="heure_deb"></div>
-							</div>
-							<div class="col-3 col-sm-2 col-lg-1">
-								Fin
-								<div id="heure_fin"></div>
-							</div>
-							<div class="col-3 col-sm-2 col-lg-1 offset-lg-1">
-								E-mail
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" name="email" id="email"/>
+							</span>
+							<div class="row justify-content-evenly mt-4" id="list-timer">
+								<div class="col-3 col-sm-2 col-lg-1">
+									Début
+									<div id="heure_deb"></div>
 								</div>
-							</div>
-							<div class="col-3 col-sm-2 col-lg-1">
-								Suppr
-								<div id="heure_deb"></div>
-								<button class="btn btn-primary btn-sm" id="icon_eraser">
-									<i class="bi bi-trash"></i>
-								</button>
+								<div class="col-3 col-sm-2 col-lg-1">
+									Fin
+									<div id="heure_fin"></div>
+								</div>
+								<div class="col-3 col-sm-2 col-lg-2 offset-lg-1">
+									E-mail
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" name="email" id="email"/>
+									</div>
+								</div>
+								<div class="col-3 col-sm-2 col-lg-1">
+									Suppr
+									<button class="btn btn-primary btn-sm" id="icon_eraser">
+										<i class="bi bi-trash"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>

@@ -48,7 +48,7 @@ class SecurityRepository extends ServiceEntityRepository
             ->select('s.time_stamp')
             ->andWhere('s.file_type = :type')
             ->setParameter('type', $value)
-            ->orderBy('s.id', 'DESC')
+            ->orderBy('s.time_stamp', 'DESC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
@@ -60,7 +60,7 @@ class SecurityRepository extends ServiceEntityRepository
             ->select('s.filename, s.id')
             ->andWhere('s.file_type = :type')
             ->setParameter('type', $value)
-            ->orderBy('s.id', 'DESC')
+            ->orderBy('s.time_stamp', 'DESC')
             ->getQuery()
             ->getResult();
     }

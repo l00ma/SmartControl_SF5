@@ -14,14 +14,7 @@ class LedsController extends AbstractController
     #[Route('/leds', name: 'leds')]
     public function leds(): Response
     {
-        // if (file_exists($this->getParameter('data_directory') . '/pir_sensor.data')) {
-        //     $motion_stat = file_get_contents($this->getParameter('data_directory') . '/pir_sensor.data');
-
-        //     return $this->render('main/index.html.twig', [
-        //         'motion_stat' => $motion_stat
-        //     ]);
-        // }
-        return $this->render('leds/index.html.twig');
+         return $this->render('leds/index.html.twig');
     }
 
     #[Route('/leds/load', name: 'leds_load')]
@@ -40,15 +33,18 @@ class LedsController extends AbstractController
     #[Route('/leds/save', name: 'leds_save', methods: 'POST')]
     public function l_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
-        if ($request->isXmlHttpRequest()) {
+        $contentType = $request->headers->get('Content-Type');
+        // on vérifie que la requete est bien du JSON
+        if (str_starts_with($contentType, 'application/json')) {
+            $incomingLedsData = json_decode($request->getContent(), true);
             $user = $this->getUser();
-            $datas = $user->getLedsStrip();
-            $datas->setRgb($request->get('rgb'));
-            $datas->setEtat($request->get('etat'));
-            $datas->setEmail($request->get('email'));
-            $datas->setEffet($request->get('effet'));
+            $dataToSave = $user->getLedsStrip();
+            $dataToSave->setRgb($incomingLedsData['rgb']);
+            $dataToSave->setEtat($incomingLedsData['etat']);
+            $dataToSave->setEmail($incomingLedsData['email']);
+            $dataToSave->setEffet($incomingLedsData['effet']);
 
-            $user->setLedsStrip($datas);
+            $user->setLedsStrip($dataToSave);
             $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
@@ -60,14 +56,16 @@ class LedsController extends AbstractController
     #[Route('/leds/timer', name: 'leds_timer', methods: 'POST')]
     public function l_timer(Request $request, MembersRepository $membersRepository): JsonResponse
     {
-        if ($request->isXmlHttpRequest()) {
+        $contentType = $request->headers->get('Content-Type');
+        // on vérifie que la requete est bien du JSON
+        if (str_starts_with($contentType, 'application/json')) {
+            $incomingLedsData = json_decode($request->getContent(), true);
             $user = $this->getUser();
             $datas = $user->getLedsStrip();
-            // if ($request->getHOn('h_on')) =  'null' or ($request->getHOn('h_off')) =  'null' {
-
-            // }
-            $datas->setHOn($request->get('h_on'));
-            $datas->setHOff($request->get('h_off'));
+            $datas->setHOn($incomingLedsData['h_on']);
+            $datas->setHOff($incomingLedsData['h_off']);
+            $datas->setTimer($incomingLedsData['timer']);
+            $datas->setEmail($incomingLedsData['email']);
 
             $user->setLedsStrip($datas);
             $membersRepository->add($user, true);

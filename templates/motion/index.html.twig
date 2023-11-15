@@ -1,65 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Motion detection
+{% block title %}Détection
 {% endblock %}
 
 {% block body %}
-	{% include 'main/_bar.html.twig' %}
+    {% include '_bar.html.twig' %}
 
-	{% block javascripts %}
-		{{ parent() }}
-		{{ encore_entry_script_tags('mouv') }}
-	{% endblock %}
-	<style>
-		.form-check-input {
-			transform: scale(1.4);
-		}
-	</style>
-	<div class="ms-2 text-secondary">
-		<h3>Détection de mouvements</h3>
-		<p>Activité enregistrée par le capteur:</p>
-	</div>
-	<div class="d-flex flex-column align-items-center">
-		<div id="container_chart" style="width: 80%; height: 475px;"></div>
-		<br>
-		<div class="container col col-md-10 col-lg-9">
-			<div class="row justify-content-center text-secondary">
-				<div class="col-9 col-md-5">
-					Declencher enregistrement vidéo :
-				</div>
-				<div class="col-3 col-md-1">
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="myenr_switch">
-						<label class="form-check-label" for="myenr_switch"></label>
-					</div>
-				</div>
-			</div>
-			<div class="row justify-content-center mt-2 text-secondary">
-				<div class="col-9 col-md-5">
-					Declencher alerte e-mail avec photo :
-				</div>
-				<div class="col-3 col-md-1">
-					<div class="alrt_switch">
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="myalrt_switch">
-							<label class="form-check-label" for="myalrt_switch"></label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row justify-content-center mt-2 mb-4 text-secondary">
-				<div class="col-9 col-md-5">
-					Rafraichissement du graph :
-				</div>
-				<div class="col-3 col-md-1">
-					<select class="form-select form-select-sm" aria-label=".form-select-sm example" id="refresh">
-						<option>5</option>
-						<option>10</option>
-						<option>15</option>
-					</select>
-				</div>
-				minutes.
-			</div>
-		</div>
-	</div>
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('mouv') }}
+    {% endblock %}
+    <div class="ms-2 text-secondary">
+        <h3>Détection de mouvements</h3>
+        <p>Activité enregistrée par le capteur:</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+        <div id="container_chart" style="width: 85%; height: 475px;"></div>
+    </div>
+    <br>
+    <div class="container text-center">
+        <div class="row d-flex justify-content-center text-secondary">
+            <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="form-check form-switch ms-2">
+                    <input class="form-check-input" type="checkbox" id="myenr_switch">
+                    <label class="form-check-label ms-2" for="myenr_switch">Déclencher enregistrement vidéo</label>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center text-secondary mt-2">
+            <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="form-check form-switch ms-2">
+                    <input class="form-check-input" type="checkbox" id="myalrt_switch">
+                    <label class="form-check-label ms-2" for="myalrt_switch">Déclencher alerte email (photo)</label>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center text-secondary mt-2">
+            <div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm" id="refresh">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                </select>
+            </div>
+            <div class="col-9 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                Rafraichissement du graph (min)
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center text-secondary my-5"></div>
+    </div>
 {% endblock %}

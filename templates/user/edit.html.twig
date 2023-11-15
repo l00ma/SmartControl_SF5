@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
-{% block title %}Edit your credentials
+{% block title %}Changement d'identifiants
 {% endblock %}
 
 {% block body%}
-	{% include 'main/_bar.html.twig' %}
+	{% include '_bar.html.twig' %}
 	{% for message in app.flashes('error') %}
 		<div class="alert alert-danger">
 			{{ message }}

@@ -13,10 +13,11 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
+    //logo dans la navbar et icon:
     .copyFiles({
-        from: './assets/icon',
-        to: 'icon/[path][name].[ext]',
-        pattern: /\.(ico)$/
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+        pattern: /\.(png)$/
     })
     /*
      * ENTRY CONFIG
@@ -29,7 +30,9 @@ Encore
     .addEntry('temp', './assets/temp.js')
     .addEntry('mouv', './assets/mouv.js')
     .addEntry('leds', './assets/leds.js')
-
+    .addEntry('gallery', './assets/gallery.js')
+    .addEntry('player', './assets/player.js')
+    .addEntry('login', './assets/styles/login.scss')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

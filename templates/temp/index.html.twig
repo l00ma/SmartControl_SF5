@@ -4,17 +4,17 @@
 		{{ encore_entry_script_tags('temp') }}
 	{% endblock %}
 
-{% block title %}Temperature sensors
+{% block title %}Suivi température
 {% endblock %}
 
 
 {% block body %}
-	{% include 'main/_bar.html.twig' %}
+	{% include '_bar.html.twig' %}
 	<div class="ms-2 text-secondary">
 		<h3>Suivi des températures</h3>
 		<p>Temperatures enregistrées:</p>
 	</div>
 	<div class="d-flex flex-column justify-content-center align-items-center">
-		<div id="container_chart" style="width: 80%; height: 475px;"></div>
+		<div id="container_chart" style="width: 85%; height: 475px;"></div>
 	</div>
 {% endblock %}

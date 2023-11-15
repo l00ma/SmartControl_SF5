@@ -1,46 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in
+{% block title %}Identification
 {% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+
+
 {% block body %}
-	<form method="post">
-		{% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %}
-		<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="container text-center text-secondary">
+            <img src="{{ asset('build/images/raspberry_fond_light.jpg') }}" alt="logo" id="logo" class="my-3">
+            <div class="row">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <h1 class="h4 font-weight-normal">Identification</h1>
+                    <div class="col-8 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+                        <label for="inputUsername">Nom d'utilisateur</label>
+                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                               class="form-control" autocomplete="username" required autofocus>
+                    </div>
+                    <div class="col-8 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+                        <label for="inputPassword">Mot de passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control"
+                               autocomplete="current-password" required>
 
-			<h1 class="h4 font-weight-normal">Sign in</h1>
-			<div class="col-10 col-md-5 col-lg-3">
-				<label for="inputUsername">Username</label>
-				<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-			</div>
-			<div class="col-10 col-md-5 col-lg-3">
-				<label for="inputPassword">Password</label>
-				<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me">
+                            Se souvenir de moi
+                        </label>
+                    </div>
 
-				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-			</div>
-			<div class="checkbox mb-3">
-				<label>
-					<input type="checkbox" name="_remember_me">
-					Remember me
-				</label>
-			</div>
-
-			{% if app.user %}
-				<div class="mb-3">
-					<small>
-						You are already logged in as
-						<a href="{{ path('welcome') }}">{{ app.user.userIdentifier }}</a>
-					</small>
-				</div>
-			{% endif %}
-			<button class="btn btn-primary mt-2" type="submit">
-				Go !
-			</button>
-			<a href="{{ path('app_forgot_password_request') }}" class="btn btn-secondary mt-2" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Forgotten password</a>
-
-		</div>
-	</form>
+                    {% if app.user %}
+                        <div class="mb-3">
+                            <small>
+                                Vous êtes déjà connecté comme
+                                <a href="{{ path('welcome') }}">{{ app.user.userIdentifier }}</a>
+                            </small>
+                        </div>
+                    {% endif %}
+                    <button class="btn btn-primary mt-2" type="submit">
+                        Se connecter
+                    </button>
+                    <a href="{{ path('app_forgot_password_request') }}" class="btn btn-secondary mt-2"
+                       style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Mot de
+                        passe oublié</a>
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}

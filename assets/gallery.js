@@ -1,6 +1,8 @@
-//fonctions
+import JSZip from "jszip";
+import JSZipUtils from "jszip-utils";
 
-var espace_total, espace_dispo, taux_utilisation;
+
+let espace_total, espace_dispo, taux_utilisation;
 
 function loadValues() {
 	$.ajax({
@@ -17,11 +19,49 @@ function loadValues() {
 	});
 }
 
+//fonction zip
+function deferredAddZip(url, filename, zip) {
+	var deferred = $.Deferred();
+	JSZipUtils.getBinaryContent(url, function (err, data) {
+		if (err) {
+			deferred.reject(err);
+		} else {
+			zip.file(filename, data, { binary: true });
+			deferred.resolve(data);
+		}
+	});
+	return deferred;
+}
 function traiteEtAffiche(data) {
 	espace_total = data[0];
 	espace_dispo = data[1];
 	taux_utilisation = data[2];
-	$("#bar").html('<div><meter value="' + taux_utilisation + '" min="0" max="100" high="85" title="Espace disque total: ' + espace_total + ' Go,&#10;Espace disque dispo: ' + espace_dispo + ' Go"></meter><div class="xpetite">Disque: ' + taux_utilisation + '% utilisé</div></div>');
+	$("#bar").html('<div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="' + taux_utilisation + '" aria-valuemin="0" aria-valuemax="100" style="height: 15px" title="Espace disque total: ' + espace_total + ' Go,&#10;Espace disque dispo: ' + espace_dispo + ' Go"> <div class="progress-bar bg-success overflow-visible text-light petite" style="width: ' + taux_utilisation + '%">' + taux_utilisation + '%</div></div> <div class="xpetite">Espace disque utilisé</div> ');
+
+
+
+	if (!JSZip.support.blob) {
+		alert('Installez une version plus récente de votre navigateur car il est trop ancien pour supporter cette fonction !');
+		return;
+	}
+}
+
+//actions=====================================
+//action au chargement de la page
+$(document).ready(function () {
+	//$('#cadre_foreground').append('<div class="foreground"></div>');
+	loadValues();
+
+	//action button tout selectionner
+	$('#but_all').click(function () {
+		$('#tableau div').find('input:checkbox').prop('checked', true);
+	});
+
+	//action button tout déselectionner
+	$('#but_none').click(function () {
+		$('#tableau div').find('input:checkbox').prop('checked', false);
+	});
+
 	//fonction supprimer
 	$('#but_supprime').on('click', function () {
 		var checked_values = [];
@@ -65,24 +105,6 @@ function traiteEtAffiche(data) {
 		$('.foreground').remove();
 	});
 
-	//fonction zip
-	function deferredAddZip(url, filename, zip) {
-		var deferred = $.Deferred();
-		JSZipUtils.getBinaryContent(url, function (err, data) {
-			if (err) {
-				deferred.reject(err);
-			} else {
-				zip.file(filename, data, { binary: true });
-				deferred.resolve(data);
-			}
-		});
-		return deferred;
-	}
-	if (!JSZip.support.blob) {
-		alert('Installez une version plus récente de votre navigateur car il est trop ancien pour supporter cette fonction !');
-		return;
-	}
-
 	//fonction telecharger
 	$('#but_download').on('click', function () {
 		var zip = new JSZip();
@@ -118,21 +140,5 @@ function traiteEtAffiche(data) {
 			alert('Veuillez sélectionner au moins une video.');
 		}
 	});
-}
 
-//actions=====================================
-//action au chargement de la page
-$(document).ready(function () {
-	//$('#cadre_foreground').append('<div class="foreground"></div>');
-	loadValues();
-
-	//action button tout selectionner
-	$('#but_all').click(function () {
-		$('#tableau div').find('input:checkbox').prop('checked', true);
-	});
-
-	//action button tout déselectionner
-	$('#but_none').click(function () {
-		$('#tableau div').find('input:checkbox').prop('checked', false);
-	});
 });

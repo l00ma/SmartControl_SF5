@@ -83,7 +83,7 @@ function graph() {
 			},
 			yAxis: {
 				tickPositioner: function () {
-					var positions = [],
+					let positions = [],
 						tick = Math.floor(this.dataMin),
 						increment = Math.ceil((this.dataMax - this.dataMin) / 6);
 					for (tick; tick - increment <= this.dataMax; tick += increment) {
@@ -209,7 +209,6 @@ function graph() {
 			}
 		})
 	};
-
 }
 
 // actions
