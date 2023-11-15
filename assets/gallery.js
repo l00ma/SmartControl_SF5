@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 
 
-var espace_total, espace_dispo, taux_utilisation;
+let espace_total, espace_dispo, taux_utilisation;
 
 function loadValues() {
 	$.ajax({

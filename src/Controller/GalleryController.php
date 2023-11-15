@@ -38,7 +38,7 @@ class GalleryController extends AbstractController
         $video = $request->query->get('event');
         $id = $request->query->get('id');
 
-        return $this->render('main/player.html.twig', ['video' => $video, 'id' => $id]);
+        return $this->render('gallery/player.html.twig', ['video' => $video, 'id' => $id]);
     }
 
     #[Route('/gallery/erase', name: 'erase')]
@@ -54,7 +54,6 @@ class GalleryController extends AbstractController
 
                     $security_rep = $securityRepository->find($values[0]);
                     $securityRepository->remove($security_rep, true);
-                    //$securityRepository->flush($security_rep);
 
                     unlink('images/' . $values[1]);
                     unlink('images/' . $image);

@@ -32,6 +32,7 @@ Encore
     .addEntry('leds', './assets/leds.js')
     .addEntry('gallery', './assets/gallery.js')
     .addEntry('player', './assets/player.js')
+    .addEntry('login', './assets/styles/login.scss')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
