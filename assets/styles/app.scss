@@ -14,7 +14,10 @@ body {
 .font-color{
     color: $secondary;
 }
-// for navbar only
+.icon-menu{
+    font-size: 0.75em;
+}
+    // for navbar only
 #my_navbar .active {
     color: $danger !important;
 }
