@@ -3,36 +3,49 @@ $progress-bg: rgba(0, 0, 0, 0.65);
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
+$danger: rgba(187, 17, 66, 0.65);
+
 body {
 }
+
 .background {
-    background-image: url('../images/raspberry_fond_light.jpg');
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
+  background-image: url('../images/raspberry_fond_light.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
-.font-color{
-    color: $secondary;
+
+.font-color {
+  color: $secondary;
 }
-.icon-menu{
-    font-size: 0.75em;
-}
-    // for navbar only
-#my_navbar .active {
+
+#my_navbar {
+  .active {
+    scale: 1.5;
     color: $danger !important;
+  }
 }
+
+.icon-menu {
+  font-size: 0.75em;
+}
+
 .form-check-input {
-    transform: scale(1.4) !important;
+  transform: scale(1.4) !important;
 }
+
 .xpetite {
-    font-size: 0.5em;
+  font-size: 0.5em;
 }
+
 .petite {
-    font-size: 0.7em;
+  font-size: 0.7em;
 }
+
 .moyenne {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
+
 .grande {
-    font-size: 2.2em;
+  font-size: 2.2em;
 }

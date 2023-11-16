@@ -4,36 +4,35 @@
 
 			<a class="navbar-brand" href="{{ path ('welcome') }}">
 				<img src="{{ asset('build/images/raspberry_petit.png') }}" alt="Logo" width="29" class="d-inline-block align-text-bottom">
-				<span class="fs-4 fw-bolder ms-1 text-secondary">Smart Control</span>
+				<span class="fs-4 fw-bolder ms-1 font-color ">Smart Control</span>
 			</a>
 			<span id="bar"></span>
-
 
 			<div class="navbar-collapse" id="my_navbar">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row fs-2 font-color">
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'welcome' %}active{% endif %}" title="Dashboard" href="{{ path ('welcome') }}"><i class="bi bi-house-fill"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'welcome' %}active{% endif %}" title="Dashboard" href="{{ path ('welcome') }}"><i class="fa-solid fa-house-chimney"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'motion' %}active{% endif %}" title="Détection" href="{{ path ('motion') }}"><i class="fa-solid fa-house-signal"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'motion' %}active{% endif %}" title="Détection" href="{{ path ('motion') }}"><i class="fa-solid fa-house-signal"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'gallery' %}active{% endif %}" title="Enregistrements" href="{{ path ('gallery') }}"><i class="bi bi-film"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'gallery' %}active{% endif %}" title="Enregistrements" href="{{ path ('gallery') }}"><i class="fa-solid fa-film"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == '#' %}active{% endif %}" title="Caméra" href='#'><i class="bi bi-camera-reels-fill"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == '#' %}active{% endif %}" title="Caméra" href='#'><i class="fa-solid fa-video"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'temp' %}active{% endif %}" title="Température" href="{{ path ('temp') }}"><i class="bi bi-thermometer-half"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'temp' %}active{% endif %}" title="Température" href="{{ path ('temp') }}"><i class="fa-solid fa-temperature-half"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'leds' %}active{% endif %}" title="Eclairage" href="{{ path ('leds') }}"><i class="bi bi-lamp-fill"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'leds' %}active{% endif %}" title="Eclairage" href="{{ path ('leds') }}"><i class="fa-solid fa-lightbulb"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'user.edit' %}active{% endif %}" title="Modifier identifiants" href="{{ path ('user.edit') }}"><i class="bi bi-person-fill-gear"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'user.edit' %}active{% endif %}" title="Modifier identifiants" href="{{ path ('user.edit') }}"><i class="fa-solid fa-user-gear"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" title="Sortir" href="{{ path ('app_logout') }}"><i class="fa-solid fa-person-walking-arrow-right"></i></a>
+						<a class="nav-link font-color" title="Sortir" href="{{ path ('app_logout') }}"><i class="fa-solid fa-person-walking-arrow-right"></i></a>
 					</li>
 				</ul>
 			</div>
