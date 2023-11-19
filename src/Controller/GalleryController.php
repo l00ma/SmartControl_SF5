@@ -46,32 +46,21 @@ class GalleryController extends AbstractController
         $contentType = $request->headers->get('Content-Type');
         if (str_starts_with($contentType, 'application/json')) {
             $data = json_decode($request->getContent(), true);
-            if (true) {
-                return $this->json(['status' => 'success', 'message' => $data]);
-            } else {
-                return $this->json(['status' => 'error', 'message' => 'not valid json']);
-            }
-        }
-        $single_value = preg_split("/,/", $request->query->get('value'));
-        foreach ($single_value as $i) {
-            if (isset($i)) {
-                $values = preg_split("/#/", $i);
-                $image = preg_replace('/mp4/i', 'jpg', $values[1]);
-                if ((isset($values[0])) && (isset($values[1]) && (preg_match('/^\d+$/', $values[0])) && (preg_match('/\d{2}-\d{2}-\d{4}_\d{2}h\d{2}m\d{2}s_event\d+\.mp4$/', $values[1])))) {
+            foreach ($data as $idToDelete) {
+                $video = $securityRepository->find($idToDelete);
+                $videoFile = basename($video->getFilename());
+                $imageFile = preg_replace('/mp4/i', 'jpg', $videoFile);
 
-                    $security_rep = $securityRepository->find($values[0]);
-                    $securityRepository->remove($security_rep, true);
+                unlink('images/' . $videoFile);
+                unlink('images/' . $imageFile);
 
-                    unlink('images/' . $values[1]);
-                    unlink('images/' . $image);
-                } else {
-                    $retour = "error";
-                }
-            } else {
-                $retour = "error";
+                $securityRepository->remove($video, true);
             }
+            return new JsonResponse(['redirect' => $this->generateUrl('gallery')], Response::HTTP_SEE_OTHER);
         }
-        return $this->redirectToRoute('gallery');
+        else {
+           return $this->json(['status' => 'error', 'message' => 'not valid json']);
+       }
     }
 
     #[Route(['/download', '/gallery/player/download'], name: 'download', methods: 'POST')]
