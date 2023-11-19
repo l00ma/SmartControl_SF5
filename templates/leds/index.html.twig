@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
     {{ encore_entry_link_tags('leds') }}
 {% endblock %}
 
@@ -20,8 +19,7 @@
         <h3>Controle éclairage</h3>
     </div>
     <div class="container my-4">
-
-        <div class="row mb-4 ms-2 justify-content-center">
+        <div class="row mb-4 justify-content-center">
             <div class="col-3 col-md-2 col-lg-1 text-secondary">Allumer:</div>
             <!-- checkbox on/off -->
             <div class="col-2 col-md-2 col-lg-1">
@@ -30,26 +28,22 @@
                 </div>
             </div>
         </div>
-        <div
-                class="row">
+        <div class="row">
             <!-- Onglets -->
             <ul class="nav nav-pills justify-content-center flex-column flex-sm-row text-center">
-                <li class="nav-item mx-sm-3">
+                <li class="nav-item mx-sm-3 ms-2 ms-sm-0">
                     <a class="nav-link active" data-bs-toggle="tab" aria-current="page" href="#a">Couleur</a>
                 </li>
-                <li class="nav-item mx-sm-3">
+                <li class="nav-item mx-sm-3 my-1 my-sm-0 ms-2 ms-sm-0">
                     <a class="nav-link" data-bs-toggle="tab" href="#b">Effet</a>
                 </li>
-                <li class="nav-item mx-sm-3">
+                <li class="nav-item mx-sm-3 ms-2 ms-sm-0">
                     <a class="nav-link" data-bs-toggle="tab" href="#c">Timer</a>
                 </li>
             </ul>
-            <div
-                    class="tab-content text-center">
-
+            <div class="tab-content text-center">
                 <!-- 1er onglet -->
-                <div
-                        id="a" class="tab-pane fade show active">
+                <div id="a" class="tab-pane fade show active">
                     <!-- sliders -->
                     <div class="container text-secondary">
                         <div class="my-2 ms-2">
@@ -81,29 +75,37 @@
                             Sélectionner un effet:
                         </div>
                         <div class="row mt-4 justify-content-center">
-                            <div class="col-4 col-md-2 col-lg-1">
+                            <div class="col-4 col-md-2 col-xxl-1">
                                 <input type="radio" name="effets" id="effet1" num="1" class="form-check-input"/>
                                 <label for="effet1" class="form-check-label ms-1">Effet 1</label>
-                                <div class="mt-4"></div>
+                            </div>
+                            <div class="col-4 col-md-2 col-xxl-1">
+                                <input type="radio" name="effets" id="effet2" num="2" class="form-check-input"/>
+                                <label for="effet2" class="form-check-label ms-1">Effet 2</label>
+                            </div>
+                            <div class="col-4 col-md-2 col-xxl-1">
+                                <input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/>
+                                <label for="effet3" class="form-check-label ms-1">Effet 3</label>
+                            </div>
+                        </div>
+                        <div class="row mt-4 justify-content-center">
+                            <div class="col-4 col-md-2 col-xxl-1">
                                 <input type="radio" name="effets" id="effet4" num="4" class="form-check-input"/>
                                 <label for="effet4" class="form-check-label ms-1">Effet 4</label>
                             </div>
-                            <div class="col-4 col-md-2 col-lg-1 offset-lg-1">
-                                <input type="radio" name="effets" id="effet2" num="2" class="form-check-input"/>
-                                <label for="effet2" class="form-check-label ms-1">Effet 2</label>
-                                <div class="mt-4"></div>
+                            <div class="col-4 col-md-2 col-xxl-1">
                                 <input type="radio" name="effets" id="effet5" num="5" class="form-check-input"/>
                                 <label for="effet5" class="form-check-label ms-1">Effet 5</label>
-                                <div class="mt-4"></div>
-                                <input type="radio" name="effets" id="effet0" num="0" class="form-check-input"/>
-                                <label for="effet0" class="form-check-label ms-1">Stop</label>
                             </div>
-                            <div class="col-4 col-md-2 col-lg-1 offset-lg-1">
-                                <input type="radio" name="effets" id="effet3" num="3" class="form-check-input"/>
-                                <label for="effet3" class="form-check-label ms-1">Effet 3</label>
-                                <div class="mt-4"></div>
+                            <div class="col-4 col-md-2 col-xxl-1">
                                 <input type="radio" name="effets" id="effet6" num="6" class="form-check-input"/>
                                 <label for="effet6" class="form-check-label ms-1">Effet 6</label>
+                            </div>
+                        </div>
+                        <div class="row mt-4 justify-content-center">
+                            <div class="col-4 col-md-2 col-xxl-1">
+                                <input type="radio" name="effets" id="effet0" num="0" class="form-check-input"/>
+                                <label for="effet0" class="form-check-label ms-1">Stop</label>
                             </div>
                         </div>
                     </div>
@@ -113,7 +115,6 @@
                 <!-- 3eme onglet -->
                 <div id="c" class="tab-pane fade">
                     <div class="container text-secondary">
-
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                                 <div id="controlbtn">
@@ -144,12 +145,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-evenly mt-4 ">
+                                    <div class="row justify-content-center mt-4 ">
                                         <div class="col-4">
-                                            <button class="btn btn-primary" id="but_efface">Effacer</button>
+                                            <button class="btn btn-secondary btn-sm" id="but_efface">Effacer</button>
                                         </div>
                                         <div class="col-4">
-                                            <button class="btn btn-primary" id="but_enregistre">Enregistrer</button>
+                                            <button class="btn btn-secondary btn-sm" id="but_enregistre">Enregistrer</button>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +175,7 @@
                                     <div class="col-3 col-sm-2 col-lg-1">
                                         <div class="row justify-content-center">Suppr</div>
                                         <div class="row-cols-auto d-flex justify-content-center">
-                                            <button class="btn btn-primary btn-sm" id="icon_eraser">
+                                            <button class="btn btn-secondary btn-sm" id="icon_eraser">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
@@ -185,7 +186,6 @@
                     </div>
                 </div>
                 <!-- fin du 3eme onglet -->
-
             </div>
         </div>
     </div>

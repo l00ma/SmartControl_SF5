@@ -36,6 +36,8 @@ class Security
     private ?\DateTimeInterface $even_time_stamp = null;
     //ou juste private $time_stamp (voir entity property de masuperagence)
 
+    private ?string $relativeFilename = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,6 +111,18 @@ class Security
     public function setEvenTimeStamp(\DateTimeInterface $even_time_stamp): self
     {
         $this->even_time_stamp = $even_time_stamp;
+
+        return $this;
+    }
+
+    public function getRelativeFilename(): ?string
+    {
+        return $this->relativeFilename;
+    }
+
+    public function setRelativeFilename(string $relativeFilename ): self
+    {
+        $this->relativeFilename = $relativeFilename;
 
         return $this;
     }
