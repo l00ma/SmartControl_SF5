@@ -1,11 +1,40 @@
-$progress-bg: rgba(0, 0, 0, 0.65);
-
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
-$danger: rgba(187, 17, 66, 0.65);
+$danger: rgba(187, 17, 66, 1);
+$danger-light : rgba($danger, 0.65);
 
 body {
+}
+
+.container {
+  .form-range {
+    &::-webkit-slider-runnable-track {
+      background-color: rgba($secondary, 0.4);
+    }
+
+    &::-webkit-slider-thumb {
+      background-color: $danger-light;
+      box-shadow: 0 0 2px 3px rgba($dark, 0.4);
+    }
+  }
+
+  .form-check-input, .form-control, .form-select {
+    &:checked {
+      background-color: $danger-light;
+      border-color: $dark;
+    }
+
+    &:focus {
+      border-color: $dark;
+      box-shadow: 0 0 2px 3px rgba($dark, 0.4);
+    }
+  }
+
+  option:checked {
+    display: none;
+  }
+
 }
 
 .background {
@@ -22,7 +51,13 @@ body {
 #my_navbar {
   .active {
     scale: 1.5;
-    color: $danger !important;
+    color: $danger-light !important;
+  }
+}
+
+#bar {
+  .progress{
+    background-color: $secondary;
   }
 }
 
