@@ -17,7 +17,7 @@
 						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'motion' %}active{% endif %}" title="Détection" href="{{ path ('motion') }}"><i class="fa-solid fa-house-signal"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
-						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'gallery' %}active{% endif %}" title="Enregistrements" href="{{ path ('gallery') }}"><i class="fa-solid fa-film"></i></a>
+						<a class="nav-link font-color {% if app.request.attributes.get('_route') == 'gallery' or app.request.attributes.get('_route') == 'player' %}active{% endif %}" title="Enregistrements" href="{{ path ('gallery') }}"><i class="fa-solid fa-film"></i></a>
 					</li>
 					<li class="nav-item mx-auto me-lg-0 icon-menu">
 						<a class="nav-link font-color {% if app.request.attributes.get('_route') == '#' %}active{% endif %}" title="Caméra" href='#'><i class="fa-solid fa-video"></i></a>
