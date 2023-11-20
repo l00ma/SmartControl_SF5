@@ -1,5 +1,5 @@
 function sendVideo(videoIds, action) {
-    fetch(action, {
+    fetch( action, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -11,8 +11,27 @@ function sendVideo(videoIds, action) {
             if (data.redirect) {
                 window.location.href = data.redirect;
             }
+            if (data.zip_file) {
+                window.location.href = window.location.origin + '/' + data.zip_file;
+                deleteZipFile();
+            }
         })
         .catch(error => console.error("Erreur :", error))
+}
+
+function deleteZipFile() {
+    fetch( '/gallery/clean')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {})
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la suppression du contenu du répértoire temporaire');
+        });
 }
 
 function getSelection() {
@@ -47,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("but_download").addEventListener("click", function () {
         const videoIds = getSelection();
         if (validateSelection(videoIds, 'le téléchargement')) {
-            sendVideo(videoIds, 'download');
+            sendVideo(videoIds, '/gallery/download');
         }
     });
 
@@ -55,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("but_delete").addEventListener("click", function () {
         const videoIds = getSelection();
         if (validateSelection(videoIds, 'la suppression')) {
-            sendVideo(videoIds, 'delete');
+            sendVideo(videoIds, '/gallery/delete');
         }
     });
 });

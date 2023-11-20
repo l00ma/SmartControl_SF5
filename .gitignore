@@ -12,6 +12,7 @@ public/images
 /.vscode/
 /.idea/
 /public/adminer.php
+/public/temp/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
