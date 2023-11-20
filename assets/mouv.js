@@ -57,33 +57,22 @@ function allowAlert() {
 }
 
 //fonction sauvegarde dans bdd
-function saveDatas() {
-	fetch('motion/save', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			'refresh': Number(refresh_graph),
-			'cam': Number(allow_cam),
-			'alert': Number(allow_alert)
-		}),
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
-			}
-			return response.json();
-		})
-		.then(data => {
-			if (data.status === 'error') {
-				alert(data.message);
-			}
-		})
-		.catch(error => {
-			console.error('Erreur:', error);
-			alert('Erreur lors de la sauvegarde des données');
+async function saveDatas(){
+	try {
+		await fetch( 'motion/save', {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+					'refresh': Number(refresh_graph),
+					'cam': Number(allow_cam),
+					'alert': Number(allow_alert)
+			}),
 		});
+	} catch (error) {
+		console.error("Erreur :", error);
+	}
 }
 
 //fonction trace le graph

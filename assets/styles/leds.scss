@@ -1,12 +1,32 @@
 @import "~clockpicker/dist/bootstrap-clockpicker.css";
 @import "~clockpicker/dist/jquery-clockpicker.css";
+@import "./app.scss";
+
+$input-focus-border-color: $dark;
 
 .form-check-input {
     transform: scale(1.4);
 }
+
 #colorBox {
     height: 104px;
     background: #ffffff;
     border: 1px solid #999999;
     border-radius: 6px;
+}
+
+.container {
+    .nav {
+        .nav-link {
+            background-color: $secondary !important;
+            color: $light !important;
+            &:hover {
+                background-color: $dark !important;
+            }
+        }
+        .nav-link.active {
+            background-color: $danger-light !important;
+            color: $light !important;
+        }
+    }
 }

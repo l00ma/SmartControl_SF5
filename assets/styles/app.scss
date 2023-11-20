@@ -1,35 +1,86 @@
-$progress-bg: rgba(0, 0, 0, 0.65);
-
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
+$danger: rgba(187, 17, 66, 1);
+$danger-light : rgba($danger, 0.65);
+
 body {
 }
+
+.container {
+  .form-range {
+    &::-webkit-slider-runnable-track {
+      background-color: rgba($secondary, 0.4);
+    }
+
+    &::-webkit-slider-thumb {
+      background-color: $danger-light;
+      box-shadow: 0 0 2px 3px rgba($dark, 0.4);
+    }
+  }
+
+  .form-check-input, .form-control, .form-select {
+    &:checked {
+      background-color: $danger-light;
+      border-color: $dark;
+    }
+
+    &:focus {
+      border-color: $dark;
+      box-shadow: 0 0 2px 3px rgba($dark, 0.4);
+    }
+  }
+
+  option:checked {
+    display: none;
+  }
+
+}
+
 .background {
-    background-image: url('../images/raspberry_fond_light.jpg');
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
+  background-image: url('../images/raspberry_fond_light.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
-.font-color{
-    color: $secondary;
+
+.font-color {
+  color: $secondary;
 }
-// for navbar only
-#my_navbar .active {
-    color: $danger !important;
+
+#my_navbar {
+  .active {
+    scale: 1.5;
+    color: $danger-light !important;
+  }
 }
+
+#bar {
+  .progress{
+    background-color: $secondary;
+  }
+}
+
+.icon-menu {
+  font-size: 0.75em;
+}
+
 .form-check-input {
-    transform: scale(1.4) !important;
+  transform: scale(1.4) !important;
 }
+
 .xpetite {
-    font-size: 0.5em;
+  font-size: 0.5em;
 }
+
 .petite {
-    font-size: 0.7em;
+  font-size: 0.7em;
 }
+
 .moyenne {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
+
 .grande {
-    font-size: 2.2em;
+  font-size: 2.2em;
 }

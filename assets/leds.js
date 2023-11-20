@@ -3,6 +3,9 @@ import './styles/leds.scss';
 
 let red, green, blue, etat, rgbString, debut_time, fin_time, effet;
 let email = false;
+const leds = 'leds/save';
+const timer = 'leds/timer';
+
 function loadDatas() {
 	fetch('leds/load')
 		.then(response => {
@@ -23,34 +26,19 @@ function loadDatas() {
 		});
 }
 
-function saveDatas() {
-	fetch('leds/save', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			'rgb': rgbString,
-			'etat': etat,
-			'email': email,
-			'effet': Number(effet)
-		}),
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
-			}
-			return response.json();
-		})
-		.then(data => {
-			if (data.status === 'error') {
-				alert(data.message);
-			}
-		})
-		.catch(error => {
-			console.error('Erreur:', error);
-			alert('Erreur lors de la sauvegarde des données');
+async function saveDatas(url, data){
+	try {
+		await fetch( url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
 		});
+
+	} catch (error) {
+		console.error("Erreur :", error);
+	}
 }
 
 function display() {
@@ -100,31 +88,6 @@ function initiTimePicker() {
 	});
 }
 
-function saveTimerData(data){
-	fetch('leds/timer', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(data),
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
-			}
-			return response.json();
-		})
-		.then(data => {
-			if (data.status === 'error') {
-				alert(data.message);
-			}
-		})
-		.catch(error => {
-			console.error('Erreur:', error);
-			alert('Erreur lors de la sauvegarde des données');
-		});
-}
-
 function storeTimer() {
 	//on verifie le format de l'heure et minutes
 	var regexTime = /^([01]\d|2[0-3]):([0-5]\d)$/;
@@ -133,13 +96,13 @@ function storeTimer() {
 		debut_time = document.getElementById('debut_time').value;
 		fin_time = document.getElementById('fin_time').value;
 		// on initialise les valeurs
-		let data = {
+		const data = {
 			'h_on': debut_time,
 			'h_off': fin_time,
 			'timer': true,
 			'email': false
 		};
-		saveTimerData(data);
+		saveDatas(timer, data);
 	}
 	else {
 		alert('Le format saisi n\'est pas valide!');
@@ -157,14 +120,14 @@ function eraseTimer() {
 	debut_time = '0';
 	fin_time = '0';
 	email = false;
-	let data = {
+	const data = {
 		'h_on': debut_time,
 		'h_off': fin_time,
 		'timer': false,
 		'email': email
 	};
 	//on sauvegarde les valeurs
-	saveTimerData(data);
+	saveDatas(timer, data);
 	display();
 }
 
@@ -175,12 +138,22 @@ function formRGB(r, g, b) {
 function refreshOnoff() {
 	etat =  document.getElementById("myonoffswitch").checked;
 	rgbString = formRGB(red, green, blue);
-	saveDatas();
+	saveDatas(leds, {
+		'rgb': rgbString,
+		'etat': etat,
+		'email': email,
+		'effet': Number(effet)
+	});
 }
 
 function refreshAll() {
 	etat = document.getElementById("myonoffswitch").checked;
-	saveDatas();
+	saveDatas(leds, {
+		'rgb': rgbString,
+		'etat': etat,
+		'email': email,
+		'effet': Number(effet)
+	});
 }
 
 //action au chargement de la page
@@ -217,7 +190,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			if(this.checked) {
 				effet = this.getAttribute('num');
 				rgbString = formRGB(red, green, blue);
-				saveDatas();
+				saveDatas(leds, {
+					'rgb': rgbString,
+					'etat': etat,
+					'email': email,
+					'effet': Number(effet)
+				});
 			}
 		});
 	});
@@ -226,7 +204,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById('email').addEventListener('click', function () {
 		email = document.getElementById('email').checked;
 		rgbString = formRGB(red, green, blue);
-		saveDatas();
+		saveDatas(leds, {
+			'rgb': rgbString,
+			'etat': etat,
+			'email': email,
+			'effet': Number(effet)
+		});
 	});
 
 	//action button effacer

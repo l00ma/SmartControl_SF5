@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Security;
 use App\Repository\SecurityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use ZipArchive;
 
 class GalleryController extends AbstractController
 {
@@ -32,48 +34,92 @@ class GalleryController extends AbstractController
         return $this->render('gallery/index.html.twig', ['video' => $video]);
     }
 
-    #[Route('/gallery/player', name: 'player')]
-    public function play(Request $request): Response
+    #[Route('/gallery/player/{id<^[0-9]+$>}', name: 'player', methods: ['GET'])]
+    public function play(Security $security): Response
     {
-        $video = $request->query->get('event');
-        $id = $request->query->get('id');
-
-        return $this->render('gallery/player.html.twig', ['video' => $video, 'id' => $id]);
+        $security->setRelativeFilename(basename($security->getFilename()));
+        return $this->render('gallery/player.html.twig', ['video' => $security]);
     }
 
-    #[Route('/gallery/erase', name: 'erase')]
-    public function erase(Request $request, SecurityRepository $securityRepository): Response
+    #[Route('/gallery/delete', name: 'delete', methods: 'POST')]
+    public function delete(Request $request, SecurityRepository $securityRepository): JsonResponse
     {
-
-        $single_value = preg_split("/,/", $request->query->get('value'));
-        foreach ($single_value as $i) {
-            if (isset($i)) {
-                $values = preg_split("/#/", $i);
-                $image = preg_replace('/mp4/i', 'jpg', $values[1]);
-                if ((isset($values[0])) && (isset($values[1]) && (preg_match('/^\d+$/', $values[0])) && (preg_match('/\d{2}-\d{2}-\d{4}_\d{2}h\d{2}m\d{2}s_event\d+\.mp4$/', $values[1])))) {
-
-                    $security_rep = $securityRepository->find($values[0]);
-                    $securityRepository->remove($security_rep, true);
-
-                    unlink('images/' . $values[1]);
-                    unlink('images/' . $image);
-                } else {
-                    $retour = "error";
+        $contentType = $request->headers->get('Content-Type');
+        if (str_starts_with($contentType, 'application/json')) {
+            $data = json_decode($request->getContent(), true);
+            if(isset($data)){
+                foreach ($data as $idToDelete) {
+                    $video = $securityRepository->find($idToDelete);
+                    $videoFile = basename($video->getFilename());
+                    $imageFile = preg_replace('/mp4/i', 'jpg', $videoFile);
+                    if ( file_exists('images/' . $videoFile) && file_exists('images/' . $imageFile)) {
+                        if (unlink('images/' . $videoFile) && unlink('images/' . $imageFile)) {
+                            $securityRepository->remove($video, true);
+                        }
+                    }
                 }
-            } else {
-                $retour = "error";
+                return new JsonResponse(['redirect' => $this->generateUrl('gallery')], Response::HTTP_SEE_OTHER);
+            }
+            else {
+                return $this->json(['status' => 'error', 'message' => 'not valid video']);
             }
         }
-        return $this->redirectToRoute('gallery');
+        else {
+           return $this->json(['status' => 'error', 'message' => 'not valid json']);
+       }
+    }
+
+    #[Route('/gallery/download', name: 'download', methods: 'POST')]
+    public function download(Request $request, SecurityRepository $securityRepository): JsonResponse
+    {
+        $contentType = $request->headers->get('Content-Type');
+        if (str_starts_with($contentType, 'application/json')) {
+            $data = json_decode($request->getContent(), true);
+
+            if(isset($data)) {
+                $zip = new ZipArchive();
+                $tempZipFilePath = $this->getParameter('temp_directory') . '/video.zip';
+                if ($zip->open($tempZipFilePath, ZipArchive::CREATE) === TRUE) {
+                    foreach ($data as $idToZipFile) {
+                        $video = $securityRepository->find($idToZipFile);
+                        $videoFile = basename($video->getFilename());
+                        $zip->addFile('images/' . $videoFile, $videoFile);
+                    }
+                }
+                $zip->close();
+                return $this->json(['zip_file' => 'temp/' . basename($tempZipFilePath)]);
+            }
+            else {
+                return $this->json(['status' => 'error', 'message' => 'not valid video']);
+            }
+        }
+        else {
+            return $this->json(['status' => 'error', 'message' => 'not valid json']);
+        }
+    }
+
+    #[Route('/gallery/clean', name: 'clean', methods: 'GET')]
+    public function deleteZip(): JsonResponse
+    {
+        $path = $this->getParameter('temp_directory');
+        if ($tempDir = opendir( $path )) {
+            while (false !== ($file = readdir($tempDir))) {
+                if ($file != "." && $file != "..") {
+                    unlink($path . '/' . $file);
+                }
+            }
+            closedir($tempDir);
+        }
+        return new JsonResponse();
     }
 
     #[Route('/gallery/discusage', name: 'discusage')]
     public function du_load(): JsonResponse
     {
-        $espace_total = $this->getUser()->getMouvementPir()->getEspaceTotal();
-        $espace_dispo = $this->getUser()->getMouvementPir()->getEspaceDispo();
-        $taux_utilisation = $this->getUser()->getMouvementPir()->getTauxUtilisation();
+        $totalSpace = $this->getUser()->getMouvementPir()->getEspaceTotal();
+        $freeSpace = $this->getUser()->getMouvementPir()->getEspaceDispo();
+        $usedRate = $this->getUser()->getMouvementPir()->getTauxUtilisation();
 
-        return $this->json(['0' => $espace_total, '1' => $espace_dispo, '2' => $taux_utilisation]);
+        return $this->json(['0' => $totalSpace, '1' => $freeSpace, '2' => $usedRate]);
     }
 }

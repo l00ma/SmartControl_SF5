@@ -19,23 +19,23 @@
     {% endfor %}
 
     {% if video is empty %}
-        <div class="container text-center">
+        <div class="container text-center text-secondary mt-4">
             Il n'y a aucun enregistrement.
         </div>
     {% else %}
         <div class="container text-center">
             <div class="row my-4 d-flex justify-content-center">
                 <div class="col-6 col-sm-3 mb-2">
-                    <button type="button" id="but_all" class="btn btn-sm btn-primary">Toutes</button>
+                    <button type="button" id="but_all" class="btn btn-sm btn-secondary">Toutes</button>
                 </div>
                 <div class="col-6 col-sm-3">
-                    <button type="button" id="but_none" class="btn btn-sm btn-primary">Aucune</button>
+                    <button type="button" id="but_none" class="btn btn-sm btn-secondary">Aucune</button>
                 </div>
                 <div class="col-6 col-sm-3">
-                    <button type="button" id="but_download" class="btn btn-sm btn-primary">Télécharger</button>
+                    <button type="button" id="but_download" class="btn btn-sm btn-secondary">Télécharger</button>
                 </div>
                 <div class="col-6 col-sm-3">
-                    <button type="button" id="but_supprime" class="btn btn-sm btn-primary">Supprimer</button>
+                    <button type="button" id="but_delete" class="btn btn-sm btn-secondary">Supprimer</button>
                 </div>
             </div>
         </div>
@@ -43,18 +43,18 @@
             <div class="row justify-content-around">
                 {% for uniqueVideo in video %}
                     <div class="col-12 col-sm-6 col-lg-3">
-                        <a href="/gallery/player?event={{ uniqueVideo.videoFilename }}&id={{ uniqueVideo.videoId }}">
-                            <img src="{{ uniqueVideo.imagePath }}" alt="Vidéo en cours de création...">
-                        </a>
-                        <div class="row justify-content-center mt-1">
-                            <div class="col-8 text-end petite nom mt-1">
-                                {{ uniqueVideo.imageName }}
-                            </div>
-                            <div class="col-4 text-start d-flex align-items-center">
-                                <div class="form-check">
-                                    <input class="form-check-input video_select" type="checkbox" data-url="../{{ uniqueVideo.videoPath }}"
-                                        data-id_nb="{{ uniqueVideo.videoId }}"
-                                        data-name="{{ uniqueVideo.videoFilename }}">
+                        <div class="videoId" value="{{ uniqueVideo.videoId  }}">
+                            <a href="{{ path('player', { id: uniqueVideo.videoId }) }}">
+                                <img src="{{ uniqueVideo.imagePath }}" alt="Vidéo en cours de création...">
+                            </a>
+                            <div class="row justify-content-center mt-1">
+                                <div class="col-8 text-end petite nom mt-1">
+                                    {{ uniqueVideo.imageName }}
+                                </div>
+                                <div class="col-4 text-start d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input video_select" type="checkbox">
+                                    </div>
                                 </div>
                             </div>
                         </div>
