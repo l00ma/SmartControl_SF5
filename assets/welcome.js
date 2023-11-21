@@ -36,7 +36,7 @@ function parseAndDisplay(data) {
 
 	data.weather = decodeURIComponent(encodeURIComponent(data.weather));
 
-	data.etat === true ? document.getElementById("etat_leds").innerHTML = '<span class="gadget_allume">Leds allumées</span>' : document.getElementById("etat_leds").innerHTML = 'Leds éteintes';
+	data.etat ? document.getElementById("etat_leds").innerHTML = '<span class="gadget_allume">Leds allumées</span>' : document.getElementById("etat_leds").innerHTML = 'Leds éteintes';
 
 	if (data.enreg === 1 || data.alert === 1) {
 		document.getElementById("etat_detection").innerHTML = '<span class="gadget_allume">Détection activée</span>';
