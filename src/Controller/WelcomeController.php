@@ -13,7 +13,7 @@ class WelcomeController extends AbstractController
     #[Route('/welcome', name: 'welcome')]
     public function index(): Response
     {
-        return $this->render('main/welcome.html.twig');
+        return $this->render('main/index.html.twig');
     }
 
     #[Route('/welcome/load', name: 'welcome_load')]

@@ -30,7 +30,6 @@ class TempController extends AbstractController
 
         // on convertit le tout en JSON
         $json_data = json_encode($data);
-
         return new Response($json_data);
     }
 }

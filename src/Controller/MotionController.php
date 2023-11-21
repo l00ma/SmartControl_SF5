@@ -35,7 +35,6 @@ class MotionController extends AbstractController
 
         // on convertit le tout en JSON
         $json_data = json_encode($data);
-
         return new Response($json_data);
     }
 
@@ -43,13 +42,10 @@ class MotionController extends AbstractController
     public function m_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         $contentType = $request->headers->get('Content-Type');
-        // on vérifie que la requete est bien du JSON
         if (str_starts_with($contentType, 'application/json')) {
-            // on décode le JSON => array
             $incomingMouvData = json_decode($request->getContent(), true);
             $user = $this->getUser();
             $dataToSave = $user->getMouvementPir();
-            // on vérifie les valeurs et on sauvegarde
             $camAndAlertTest = [0,1];
             $refreshTest = [5,10,15];
             if(in_array($incomingMouvData['refresh'],$refreshTest)) $dataToSave->setGraphRafraich($incomingMouvData['refresh']);
@@ -60,8 +56,7 @@ class MotionController extends AbstractController
             $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
-        } else {
-            return $this->json(['status' => 'error', 'message' => 'not valid json']);
         }
+        return $this->json(['status' => 'error', 'message' => 'not valid json']);
     }
 }

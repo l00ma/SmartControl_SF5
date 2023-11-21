@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Caméra
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% include '_bar.html.twig' %}
+<div class="ms-2 text-secondary">
+    <h3>Caméra en direct</h3>
+</div>
+<div class="container mt-4 text-secondary">
+</div>
+{% endblock %}
