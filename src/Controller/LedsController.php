@@ -34,7 +34,6 @@ class LedsController extends AbstractController
     public function l_save(Request $request, MembersRepository $membersRepository): JsonResponse
     {
         $contentType = $request->headers->get('Content-Type');
-        // on vérifie que la requete est bien du JSON
         if (str_starts_with($contentType, 'application/json')) {
             $incomingLedsData = json_decode($request->getContent(), true);
             $user = $this->getUser();
@@ -48,9 +47,8 @@ class LedsController extends AbstractController
             $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
-        } else {
-            return $this->json(['status' => 'error', 'message' => 'not valid json']);
         }
+        return $this->json(['status' => 'error', 'message' => 'not valid json']);
     }
 
     #[Route('/leds/timer', name: 'leds_timer', methods: 'POST')]
@@ -71,8 +69,7 @@ class LedsController extends AbstractController
             $membersRepository->add($user, true);
 
             return $this->json(['status' => 'success', 'message' => 'success message']);
-        } else {
-            return $this->json(['status' => 'error', 'message' => 'not valid json']);
         }
+        return $this->json(['status' => 'error', 'message' => 'not valid json']);
     }
 }

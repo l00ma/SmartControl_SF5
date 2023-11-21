@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Security;
 use App\Repository\SecurityRepository;
+use App\Service\deleteService;
+use App\Service\downloadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use ZipArchive;
 
 class GalleryController extends AbstractController
 {
@@ -42,60 +43,30 @@ class GalleryController extends AbstractController
     }
 
     #[Route('/gallery/delete', name: 'delete', methods: 'POST')]
-    public function delete(Request $request, SecurityRepository $securityRepository): JsonResponse
+    public function delete(Request $request, deleteService $deleteService): JsonResponse
     {
         $contentType = $request->headers->get('Content-Type');
         if (str_starts_with($contentType, 'application/json')) {
             $data = json_decode($request->getContent(), true);
-            if(isset($data)){
-                foreach ($data as $idToDelete) {
-                    $video = $securityRepository->find($idToDelete);
-                    $videoFile = basename($video->getFilename());
-                    $imageFile = preg_replace('/mp4/i', 'jpg', $videoFile);
-                    if ( file_exists('images/' . $videoFile) && file_exists('images/' . $imageFile)) {
-                        if (unlink('images/' . $videoFile) && unlink('images/' . $imageFile)) {
-                            $securityRepository->remove($video, true);
-                        }
-                    }
-                }
+            if(isset($data) && $deleteService->deleteFile($data)){
                 return new JsonResponse(['redirect' => $this->generateUrl('gallery')], Response::HTTP_SEE_OTHER);
             }
-            else {
-                return $this->json(['status' => 'error', 'message' => 'not valid video']);
-            }
         }
-        else {
-           return $this->json(['status' => 'error', 'message' => 'not valid json']);
-       }
+        return $this->json(['status' => 'error', 'message' => 'not valid json']);
     }
 
     #[Route('/gallery/download', name: 'download', methods: 'POST')]
-    public function download(Request $request, SecurityRepository $securityRepository): JsonResponse
+    public function download(Request $request, downloadService $downloadService): JsonResponse
     {
         $contentType = $request->headers->get('Content-Type');
         if (str_starts_with($contentType, 'application/json')) {
             $data = json_decode($request->getContent(), true);
-
             if(isset($data)) {
-                $zip = new ZipArchive();
-                $tempZipFilePath = $this->getParameter('temp_directory') . '/video.zip';
-                if ($zip->open($tempZipFilePath, ZipArchive::CREATE) === TRUE) {
-                    foreach ($data as $idToZipFile) {
-                        $video = $securityRepository->find($idToZipFile);
-                        $videoFile = basename($video->getFilename());
-                        $zip->addFile('images/' . $videoFile, $videoFile);
-                    }
-                }
-                $zip->close();
+                $tempZipFilePath = $downloadService->zipFile($data);
                 return $this->json(['zip_file' => 'temp/' . basename($tempZipFilePath)]);
             }
-            else {
-                return $this->json(['status' => 'error', 'message' => 'not valid video']);
-            }
         }
-        else {
-            return $this->json(['status' => 'error', 'message' => 'not valid json']);
-        }
+        return $this->json(['status' => 'error', 'message' => 'not valid json']);
     }
 
     #[Route('/gallery/clean', name: 'clean', methods: 'GET')]
