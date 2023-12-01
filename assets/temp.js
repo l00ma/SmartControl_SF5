@@ -7,6 +7,9 @@ let data_temp;
 function loadTemp() {
 	fetch('temp/load')
 		.then(response => {
+			if (response.redirected) {
+				window.location.href = response.url;
+			}
 			if (!response.ok) {
 				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
 			}

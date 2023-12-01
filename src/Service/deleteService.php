@@ -11,6 +11,7 @@ class deleteService{
     }
     public function deleteFile(array $idList): bool
     {
+
         foreach ($idList as $idToDelete) {
             $video = $this->securityRepository->find($idToDelete);
             $videoFile = basename($video->getFilename());
@@ -18,10 +19,12 @@ class deleteService{
             if ( file_exists('images/' . $videoFile) && file_exists('images/' . $imageFile)) {
                 if (unlink('images/' . $videoFile) && unlink('images/' . $imageFile)) {
                     $this->securityRepository->remove($video, true);
-                    return true;
                 }
             }
-            return false;
+            else {
+                return false;
+            }
         }
+        return true;
     }
 }

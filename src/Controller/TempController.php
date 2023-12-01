@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TempController extends AbstractController
 {
-    #[Route('/temp', name: 'temp')]
+    #[Route('/thermo', name: 'temp')]
     public function temp(): Response
     {
         return $this->render('temp/index.html.twig');

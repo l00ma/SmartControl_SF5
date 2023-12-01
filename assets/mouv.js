@@ -10,6 +10,9 @@ let allow_alert = 0;
 function loadDatas() {
 	fetch('motion/load')
 		.then(response => {
+			if (response.redirected) {
+				window.location.href = response.url;
+			}
 			if (!response.ok) {
 				throw new Error('Erreur lors de la requête: HTTP code ' + response.status);
 			}
