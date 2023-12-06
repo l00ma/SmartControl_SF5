@@ -3,7 +3,6 @@
 {% endblock %}
 
 {% block body %}
-    {% include '_bar.html.twig' %}
     {% for message in app.flashes('error') %}
         <div id="alertMsg" class="alert alert-danger">
             {{ message }}
