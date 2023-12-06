@@ -14,9 +14,6 @@ class Meteo
     private ?int $id = null;
 
     #[ORM\Column(length: 4)]
-    private ?string $temp_ext = null;
-
-    #[ORM\Column(length: 4)]
     private ?string $pression = null;
 
     #[ORM\Column(length: 5)]
@@ -86,18 +83,6 @@ class Meteo
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTempExt(): ?string
-    {
-        return $this->temp_ext;
-    }
-
-    public function setTempExt(string $temp_ext): self
-    {
-        $this->temp_ext = $temp_ext;
-
-        return $this;
     }
 
     public function getPression(): ?string
