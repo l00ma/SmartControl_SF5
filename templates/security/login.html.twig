@@ -12,7 +12,7 @@
 {% block body %}
     <form method="post">
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div id="alertMsg" class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
         <div class="container text-center text-secondary">
             <img src="{{ asset('build/images/raspberry_fond_light.jpg') }}" alt="logo" id="logo" class="my-3">
