@@ -4,8 +4,6 @@
 {% endblock %}
 
 {% block body %}
-    {% include '_bar.html.twig' %}
-
     {% block javascripts %}
         {{ parent() }}
         {{ encore_entry_script_tags('mouv') }}

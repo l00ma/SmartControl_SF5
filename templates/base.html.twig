@@ -19,6 +19,11 @@
 		{% endblock %}
 	</head>
 	<body>
-		{% block body %}{% endblock %}
+	{% include '_bar.html.twig' %}
+	<div class="container">
+		{% block body %}
+
+		{% endblock %}
+	</div>
 	</body>
 </html>

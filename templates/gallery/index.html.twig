@@ -10,8 +10,6 @@
 
 
 {% block body %}
-    {% include '_bar.html.twig' %}
-
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
