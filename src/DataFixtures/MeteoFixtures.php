@@ -14,7 +14,6 @@ class MeteoFixtures extends Fixture implements DependentFixtureInterface
         $meteo = new Meteo();
         $meteo
             ->setOwner($this->getReference('user_1'))
-            ->setTempExt('28.0')
             ->setPression('1015')
             ->setVitesseVent('6')
             ->setDirectionVent('N')
