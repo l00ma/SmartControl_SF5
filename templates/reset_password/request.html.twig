@@ -7,7 +7,7 @@
 	{% for flash_error in app.flashes('reset_password_error') %}
 		<div id="alertMsg" class="alert alert-danger" role="alert">{{ flash_error }}</div>
 	{% endfor %}
-	<div class="container-fluid mt-4">
+	<div class="container-fluid mt-4 pt-5 pt-md-0">
 		<h1 class="h3 mb-3 font-weight-normal ">Reset your password</h1>
 		<div class="col-md-3">
 			{{ form_start(requestForm) }}
