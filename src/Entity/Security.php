@@ -21,19 +21,11 @@ class Security
     private ?string $filename = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $frame = null;
-
-    #[ORM\Column(nullable: true)]
     private ?int $file_type = null;
 
     //#[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[ORM\Column(type: 'datetime', nullable: false)]
     private ?\DateTimeInterface $time_stamp = null;
-    //ou juste private $time_stamp (voir entity property de masuperagence)
-
-    //#[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[ORM\Column(type: 'datetime', nullable: false)]
-    private ?\DateTimeInterface $even_time_stamp = null;
     //ou juste private $time_stamp (voir entity property de masuperagence)
 
     private ?string $relativeFilename = null;
@@ -67,18 +59,6 @@ class Security
         return $this;
     }
 
-    public function getFrame(): ?int
-    {
-        return $this->frame;
-    }
-
-    public function setFrame(?int $frame): self
-    {
-        $this->frame = $frame;
-
-        return $this;
-    }
-
     public function getFileType(): ?int
     {
         return $this->file_type;
@@ -99,18 +79,6 @@ class Security
     public function setTimeStamp(\DateTimeInterface $time_stamp): self
     {
         $this->time_stamp = $time_stamp;
-
-        return $this;
-    }
-
-    public function getEvenTimeStamp(): ?\DateTimeInterface
-    {
-        return $this->even_time_stamp;
-    }
-
-    public function setEvenTimeStamp(\DateTimeInterface $even_time_stamp): self
-    {
-        $this->even_time_stamp = $even_time_stamp;
 
         return $this;
     }

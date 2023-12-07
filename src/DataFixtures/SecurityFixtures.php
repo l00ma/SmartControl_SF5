@@ -34,9 +34,7 @@ class SecurityFixtures extends Fixture
             $security
                 ->setCamera(0)
                 ->setFilename($uniqAlert)
-                ->setFrame($faker->randomDigit())
-                ->setTimeStamp($dateTime)
-                ->setEvenTimeStamp($dateTime);
+                ->setTimeStamp($dateTime);
 
             str_ends_with($uniqAlert, 'mp4') ? $security->setFileType(8) : $security->setFileType(2);
             $manager->persist($security);
