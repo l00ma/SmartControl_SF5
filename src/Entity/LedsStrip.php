@@ -37,15 +37,6 @@ class LedsStrip
     #[ORM\Column]
     private ?int $effet = null;
 
-    #[ORM\Column(length: 5)]
-    private ?string $temp = null;
-
-    #[ORM\Column(length: 5)]
-    private ?string $temp_ext = null;
-
-    #[ORM\Column(length: 5)]
-    private ?string $temp_bas = null;
-
     #[ORM\OneToOne(targetEntity: Members::class, inversedBy: 'ledsStrip', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Members $owner = null;
@@ -147,42 +138,6 @@ class LedsStrip
     public function setEffet(int $effet): self
     {
         $this->effet = $effet;
-
-        return $this;
-    }
-
-    public function getTemp(): ?string
-    {
-        return $this->temp;
-    }
-
-    public function setTemp(string $temp): self
-    {
-        $this->temp = $temp;
-
-        return $this;
-    }
-
-    public function getTempExt(): ?string
-    {
-        return $this->temp_ext;
-    }
-
-    public function setTempExt(string $temp_ext): self
-    {
-        $this->temp_ext = $temp_ext;
-
-        return $this;
-    }
-
-    public function getTempBas(): ?string
-    {
-        return $this->temp_bas;
-    }
-
-    public function setTempBas(string $temp_bas): self
-    {
-        $this->temp_bas = $temp_bas;
 
         return $this;
     }
