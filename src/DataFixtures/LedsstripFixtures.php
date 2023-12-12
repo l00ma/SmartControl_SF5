@@ -21,10 +21,7 @@ class LedsstripFixtures extends Fixture implements DependentFixtureInterface
             ->setHOff('23h00')
             ->setTimer(1)
             ->setEmail(0)
-            ->setEffet(1)
-            ->setTemp('21.0')
-            ->setTempBas('19.2')
-            ->setTempExt('14.8');
+            ->setEffet(1);
         $manager->persist($ledstrip);
         $manager->flush();
     }
