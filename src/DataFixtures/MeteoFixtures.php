@@ -34,7 +34,10 @@ class MeteoFixtures extends Fixture implements DependentFixtureInterface
             ->setWeatherF3('couvert')
             ->setIconF1('wi-owm-day-804')
             ->setIconF2('wi-owm-day-804')
-            ->setIconF3('wi-owm-day-804');
+            ->setIconF3('wi-owm-day-804')
+            ->setTempInt('21.0')
+            ->setTempBas('19.2')
+            ->setTempExt('14.8');
         $manager->persist($meteo);
         $manager->flush();
     }

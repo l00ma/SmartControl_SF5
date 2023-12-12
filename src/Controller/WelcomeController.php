@@ -21,9 +21,9 @@ class WelcomeController extends AbstractController
     {
         $user = $this->getUser();
         $etat = $user->getLedsStrip()->getEtat();
-        $temp_int = $user->getLedsStrip()->getTemp();
-        $temp_ext = $user->getLedsStrip()->getTempExt();
-        $temp_bas = $user->getLedsStrip()->getTempBas();
+        $temp_int = $user->getMeteo()->getTempInt();
+        $temp_ext = $user->getMeteo()->getTempExt();
+        $temp_bas = $user->getMeteo()->getTempBas();
 
         $enreg = $user->getMouvementPir()->getEnreg();
         $enreg_detect = $user->getMouvementPir()->getEnregDetect();

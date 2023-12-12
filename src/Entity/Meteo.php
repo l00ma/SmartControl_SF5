@@ -80,6 +80,15 @@ class Meteo
     #[ORM\JoinColumn(nullable: false)]
     private ?Members $owner = null;
 
+    #[ORM\Column(length: 5)]
+    private ?string $temp_int = null;
+
+    #[ORM\Column(length: 5)]
+    private ?string $temp_ext = null;
+
+    #[ORM\Column(length: 5)]
+    private ?string $temp_bas = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -345,6 +354,42 @@ class Meteo
     public function setOwner(Members $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getTempInt(): ?string
+    {
+        return $this->temp_int;
+    }
+
+    public function setTempInt(string $temp_int): static
+    {
+        $this->temp_int = $temp_int;
+
+        return $this;
+    }
+
+    public function getTempExt(): ?string
+    {
+        return $this->temp_ext;
+    }
+
+    public function setTempExt(string $temp_ext): static
+    {
+        $this->temp_ext = $temp_ext;
+
+        return $this;
+    }
+
+    public function getTempBas(): ?string
+    {
+        return $this->temp_bas;
+    }
+
+    public function setTempBas(string $temp_bas): static
+    {
+        $this->temp_bas = $temp_bas;
 
         return $this;
     }
