@@ -39,6 +39,9 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Meteo::class, mappedBy: 'owner', cascade: ['persist', 'remove'])]
     private ?Meteo $meteo = null;
 
+    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    private ?MeteoMemory $meteoMemory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -182,6 +185,28 @@ class Members implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->meteo = $meteo;
+
+        return $this;
+    }
+
+    public function getMeteoMemory(): ?MeteoMemory
+    {
+        return $this->meteoMemory;
+    }
+
+    public function setMeteoMemory(?MeteoMemory $meteoMemory): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($meteoMemory === null && $this->meteoMemory !== null) {
+            $this->meteoMemory->setOwner(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($meteoMemory !== null && $meteoMemory->getOwner() !== $this) {
+            $meteoMemory->setOwner($this);
+        }
+
+        $this->meteoMemory = $meteoMemory;
 
         return $this;
     }
