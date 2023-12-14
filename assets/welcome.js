@@ -61,6 +61,8 @@ function parseAndDisplay(data) {
 
 	document.getElementById("histo").innerHTML = '<div class="container text-center"> <div class="row"> <div class="col"> enregistrements vidéo: </div> <div class="col"> emails envoyés: </div> </div> <div class="row"> <div class="col"> ' + videoDisplay + '</div> <div class="col"> ' + emailDisplay + '</div> </div> </div>';
 
+	document.getElementById("record").innerHTML = '<div class="container text-center"> <div class="row"> <div class="col">Maximales</div> <div class="col">Minimales</div> </div> <div class="row"> <div class="col petite"> Intérieur <span title="' + data.temp_int_max_date + '" class="moyenne">' + data.temp_int_max + '</span> °c <br> Extérieur <span title="' + data.temp_ext_max_date + '" class="moyenne">' + data.temp_ext_max + '</span> °c <br> Bas <span title="' + data.temp_bas_max_date + '" class="moyenne">' + data.temp_bas_max + '</span> °c </div> <div class="col petite"> <span title="' + data.temp_int_min_date + '" class="moyenne">' + data.temp_int_min + '</span> °c <br> <span title="' + data.temp_ext_min_date + '" class="moyenne">' + data.temp_ext_min + '</span> °c <br> <span title="' + data.temp_bas_min_date + '" class="moyenne">' + data.temp_bas_min + '</span> °c </div> </div> </div>';
+
 	setTimeout(loadValues, 10000)
 }
 
