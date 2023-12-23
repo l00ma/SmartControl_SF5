@@ -64,14 +64,4 @@ class SecurityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    //    public function findOneBySomeField($value): ?Security
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
