@@ -1,5 +1,4 @@
 import './styles/welcome.scss';
-import {forEach} from "core-js/stable/dom-collections";
 
 let videoHistory = [];
 let emailHistory = [];
