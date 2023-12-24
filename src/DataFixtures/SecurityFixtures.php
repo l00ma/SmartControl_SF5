@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Security;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
